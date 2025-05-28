@@ -1,0 +1,31 @@
+<template>
+  <div class="w-full mb-[5px]">
+     <div>
+       <span class="font-bold"> {{  hoggarinput.hogarDataLabels[props.cle]}}</span>
+     </div>
+     
+     <div>
+        <input class="w-full  bg-[#E8E8E8] h-[50px]
+      border-[darkblue] border-[1px] "
+         type="text" v-model="hoggarinput.hogarDataValues[props.cle]">
+     </div>
+    
+    <div v-if="hoggarinput.errors[cle]" class="text-[red]">{{ hoggarinput.errors[cle] }}</div>
+    
+ </div>
+ </template>
+<script setup>
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
+
+const props = defineProps({
+  cle : {
+    type :  String
+  },
+});
+
+
+const hoggarinput = HoggarInput();
+
+
+</script>
+

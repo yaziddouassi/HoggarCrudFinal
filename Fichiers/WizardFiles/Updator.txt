@@ -1,0 +1,295 @@
+<template>
+<div class="min-[800px]:flex w-full text-black">
+  <Sidebarre/>
+    <div class="min-h-[100vh] w-full  overflow-x-auto  bg-[#DFDFDF]">
+      <Navbarre/>
+      <div> <FormTop/> </div>
+      <div> <WizardStep/> </div>
+      
+      <div>
+        <form @submit.prevent="submit('save')">
+          <div>
+            <Conteneur/>
+          </div>
+          
+          <div class="p-[10px] max-w-[700px] m-auto pt-[0px] flex gap-[5px]">
+
+<button  v-if="(hoggarinput.wizardCurrent == hoggarinput.wizardCount) ||
+    hoggarinput.wizardStop.includes(hoggarinput.wizardCurrent)"
+
+class="bg-[blue] w-[100px] text-white p-[9px] rounded-[2px]" type="submit">
+  Update
+</button>
+
+<button  v-if="(hoggarinput.wizardCurrent != 1)" @click="reculer()"
+class="bg-[black] w-[100px] text-white p-[9px] rounded-[2px]" type="button">
+  Previous
+</button>
+
+<button v-if="(hoggarinput.wizardCurrent != hoggarinput.wizardCount)"
+class="bg-[black] w-[100px] text-white p-[9px] rounded-[2px]" type="button"
+@click="submit('next')">
+  Next
+</button>
+
+
+</div>   
+        
+        </form>
+      </div>
+
+
+
+
+    </div>
+</div>
+</template>
+
+<script setup>
+import Sidebarre from '@/HoggarLibs/Sidebarre.vue';
+import Navbarre from '@/HoggarLibs/Navbarre.vue'
+import Conteneur from '@/HoggarLibs/WizardUpdate/Conteneur.vue';
+import FormTop from '@/HoggarLibs/WizardUpdate/FormTop.vue';
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
+import { WizardUpdate } from '@/HoggarLibs/stores/wizardupdate';
+import { router } from '@inertiajs/vue3';
+import { ref, onMounted } from 'vue';
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+import WizardStep from '@/HoggarLibs/WizardUpdate/WizardStep.vue';
+import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting'
+
+const props = defineProps({
+  routes: {
+    type: Object,
+    required: true
+  }, 
+  user: {
+    type: Object,
+    required: true
+  },
+  hogarInputs: {
+    type: Object,
+    required: true
+  },
+  hogarSettings: {
+    type: Object,
+    required: true
+  },
+  hogarRecordInput: {
+    type: Object,
+    required: true
+  },
+  wizardForm: {
+    type: Object,
+    required: true
+  },
+  wizardLabel: {
+    type: Object,
+    required: true
+  },
+  wizardStop: {
+    type: Object,
+    required: true
+  },
+  wizardCount: {
+    type: Number,
+    required: true
+  },
+});
+
+const hoggarinfo = HoggarInfo();
+hoggarinfo.setRoutes(props.routes)
+const hoggarinput = HoggarInput();
+const wizardupdate = WizardUpdate();
+const hoggarlisting = HoggarListing()
+const existingAudios = ref([]); // ✅ Define existingAudios to fix the error
+hoggarlisting.resetActionIds()
+// Initialize form values
+hoggarinput.hogarRecordInput = props.hogarRecordInput;
+hoggarinput.hogarDataUrlStorage = props.hogarInputs.hogarDataUrlStorage;
+hoggarinput.hogarDataDefaultValues = props.hogarInputs.hogarDataDefaultValues;
+hoggarinput.hogarDataValues = props.hogarInputs.hogarDataValues;
+hoggarinput.hogarDataFields = props.hogarInputs.hogarDataFields;
+hoggarinput.hogarDataTypes = props.hogarInputs.hogarDataTypes;
+hoggarinput.hogarDataOptions = props.hogarInputs.hogarDataOptions;
+hoggarinput.hogarDataLabels = props.hogarInputs.hogarDataLabels;
+hoggarinput.hogarDataNullables = props.hogarInputs.hogarDataNullables;
+hoggarinput.hogarNoDatabases = props.hogarInputs.hogarNoDatabases;
+hoggarinput.wizardForm = props.wizardForm
+hoggarinput.wizardLabel = props.wizardLabel
+hoggarinput.wizardStop = props.wizardStop
+hoggarinput.wizardCount = props.wizardCount
+hoggarinput.wizardCurrent = 1
+
+hoggarinput.setRepeaterLines2(props.hogarInputs.hogarRepeaters,
+                           props.hogarInputs.hogarDataValues,props.hogarInputs.hogarRepeaterFields);
+
+hoggarinput.initTempUrls();
+
+wizardupdate.setSettings(props.hogarSettings);
+
+let currentRoute = hoggarinfo.routes.find(item => item.model === props.hogarSettings.hogarModelClassName)?.route;
+if(currentRoute == undefined) {
+  currentRoute = props.hogarSettings.hogarDataRouteListe
+}
+//console.log(hoggarinput.hogarDataNullables,hoggarinput.wizardForm[hoggarinput.wizardCurrent])
+
+
+function checkNullable() {
+  let temoin = 0;
+
+  const currentStepFields = hoggarinput.wizardForm[hoggarinput.wizardCurrent];
+
+  Object.values(currentStepFields).forEach((champ) => {
+    // Si ce champ est nullable
+    if (hoggarinput.hogarDataNullables[champ]) {
+      const existing = hoggarinput.existingFiles[champ] || [];
+      const temps = hoggarinput.tempUrlTabs[champ] || [];
+
+      if (existing.length === 0 && temps.length === 0) {
+        temoin++;
+        console.log(`Champ requis vide : ${champ}`);
+      }
+    }
+  });
+
+  return temoin;
+}
+
+
+
+
+
+
+function cleanQuillContent(html) {
+  if (typeof html !== 'string') return html;
+  return html.replace(/<p>\s*<\/p>/g, '').replace(/<p><br><\/p>/g, '').trim();
+}
+
+function reculer() {
+  hoggarinput.wizardCurrent =  hoggarinput.wizardCurrent - 1
+}
+
+
+function nextValidate() {
+  hoggarinput.wizardCurrent =  hoggarinput.wizardCurrent + 1
+}
+
+function aftersave() {
+  hoggarinput.wizardCurrent = 1 ;
+  const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+  notyf.success('Record updated');
+  router.get(currentRoute);
+}
+
+
+
+// Function to prepare and submit form data
+function saver(action) {
+ 
+  const temoin = checkNullable();
+
+if (temoin > 0) {
+  const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+  notyf.error(`${temoin} fields(s) required are missing(s).`);
+  return;
+}
+
+  
+
+  
+  const formData = new FormData();
+
+  if (action == 'next') {
+    formData.append('saveActive', 'no');
+  }
+  if (action != 'next') {
+    formData.append('saveActive', 'yes');
+  }
+  
+  formData.append('wizardStep',hoggarinput.wizardCurrent);
+
+  Object.keys(hoggarinput.hogarDataValues).forEach((key) => {
+    const value = hoggarinput.hogarDataValues[key];
+    
+   const tab1 = ['MultipleFileEdit','MultipleImageEdit','MultipleVideoEdit','MultipleAudioEdit']
+    if (tab1.includes(hoggarinput.hogarDataTypes[key])) {
+    if(!value || value.length === 0) {
+      formData.append(key, '');
+    }
+    else if (Array.isArray(value)) {
+      value.forEach((file, index) => {
+        formData.append(`${key}[]`, file);
+      });
+    }
+     const  temp = JSON.parse(hoggarinput.hogarRecordInput[key] || '[]');
+     const index = key + '_newtab'
+      formData.append(index, JSON.stringify(temp));
+    } 
+    
+
+    const tab2 = ['FileEdit','ImageEdit','VideoEdit','AudioEdit'];
+    if(tab2.includes(hoggarinput.hogarDataTypes[key])) {
+      formData.append(key, value);
+    }
+
+    const tab3 = ['Text','Date','Hidden','Select','Number','Radio','Checkbox','CheckboxList','Password','Textarea'];
+    if(tab3.includes(hoggarinput.hogarDataTypes[key])) {
+      formData.append(key, value);
+    }
+
+     const tab4 = ['Quill'];
+    if(tab4.includes(hoggarinput.hogarDataTypes[key])) {
+      formData.append(key, cleanQuillContent(value || ''));
+    }
+
+
+     if (hoggarinput.hogarDataTypes[key] === 'Repeater' && Array.isArray(value)) {
+  value.forEach((item, i) => {
+    Object.entries(item).forEach(([subKey, subValue]) => {
+
+
+      if(hoggarinput.repeaterLines[key][i][subKey]['type'] == 'Quill') {
+          subValue  = cleanQuillContent(subValue || '')
+      }
+
+      formData.append(`${key}[${i}][${subKey}]`, subValue);
+    });
+  });
+}
+
+ 
+    
+  });
+  
+  router.post(wizardupdate.settings.hogarValidationUrl, formData, {
+    forceFormData: true,
+    onError: (errors) => {
+      hoggarinput.setError(errors);
+      console.error('Validation Errors:', hoggarinput.errors);
+    },
+    onSuccess: () => {
+      if (action === 'save') {
+        aftersave();
+      } 
+     else if (action === 'next') {
+       nextValidate();
+       hoggarinput.resetError();
+      }
+    }
+  });
+
+  
+}
+
+// Submit function
+function submit(action) {
+  saver(action);
+}
+
+
+
+
+
+
+</script>

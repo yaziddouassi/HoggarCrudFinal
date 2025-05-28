@@ -1,0 +1,51 @@
+<template>
+      <button  class="bg-[red] text-white min-w-[34px] rounded-[4px] pt-[5px]"
+      @click="deleteRecord()">
+        <span class="material-icons">
+          delete
+        </span>
+      </button>
+  </template>
+
+<script setup>
+import { useForm } from '@inertiajs/vue3'
+import { usePage } from '@inertiajs/vue3';
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+
+const props = defineProps({
+  ide : {
+    type: Number,
+    required: true
+  },
+})
+
+const hoggarinfo = HoggarInfo();
+const Page = usePage()
+
+const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+function deleteRecord() {
+
+  if (confirm('Are you sure to delete this Record?')) {
+
+  const form = useForm({
+         id:  props.ide,
+     })
+    
+    form.post('/admin/route-generator/delete', {
+     preserveScroll: true,
+     preserveState: true,
+     onSuccess: () => {
+      hoggarinfo.setRoutes(Page.props.routes)
+      notyf.success('Record deleted');
+    }
+
+     })
+    }
+
+}
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

@@ -1,0 +1,45 @@
+<template>
+    <div class="w-[500px] grid 
+     grid-cols-2 p-[10px] gap-[10px]">
+      
+        <div v-for="(item, index) in hoggarinfo.customFilters.Fields" :key="index">
+
+            <div v-if="hoggarinfo.customFilters.Types[index] == 'Text'">
+                <FilterText :cle="index" />
+            </div>
+            <div v-if="hoggarinfo.customFilters.Types[index] == 'Date'">
+                <FilterDate :cle="index" />
+            </div>
+            <div v-if="hoggarinfo.customFilters.Types[index] == 'Number'">
+                <FilterNumber :cle="index" />
+            </div>
+            <div v-if="hoggarinfo.customFilters.Types[index] == 'Select'">
+                <FilterSelect :cle="index" />
+            </div>
+            <div v-if="hoggarinfo.customFilters.Types[index] == 'Checkbox'">
+                <FilterCheckbox :cle="index" />
+            </div>
+
+
+        </div>
+       
+
+    </div>
+</template>
+
+<script setup>
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo'
+import FilterText from './FilterText.vue';
+import FilterDate from './FilterDate.vue';
+import FilterNumber from './FilterNumber.vue';
+import FilterSelect from './FilterSelect.vue';
+import FilterCheckbox from './FilterCheckbox.vue';
+
+const hoggarinfo = HoggarInfo()
+
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

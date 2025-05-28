@@ -1,0 +1,45 @@
+<template>
+    <div class="flex w-full justify-between p-[5px] ">
+            <div> 
+              <Link :href="hoggarupdate.settings.hogarDataUrlCreate" @click="hoggarinput.resetError()">
+                <button class="bg-[darkblue] w-[100px] text-white p-[9px] rounded-[2px]">
+                New
+               </button>
+            </Link>
+            </div>
+            <div>
+              <Link :href="currentRoute" >
+            <button class="bg-[black] min-w-[100px] text-white p-[9px] rounded-[2px]">
+                {{ hoggarupdate.settings.hogarDataModelLabel }}
+              </button>
+            </Link>
+            </div>
+        </div>
+
+        <div class="p-[10px] text-[24px] font-bold">
+         {{ hoggarupdate.settings.hogarDataModelTitle }}
+         <span class="text-[darkblue]">>></span> 
+        </div>
+</template>
+
+<script setup>
+import { HoggarUpdate } from '../stores/hoggarupdate';
+import { Link } from '@inertiajs/vue3'
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+import { HoggarInput } from '../stores/hoggarinput';
+import { usePage } from '@inertiajs/vue3'
+
+const hoggarupdate = HoggarUpdate();
+const hoggarinfo = HoggarInfo();
+const hoggarinput = HoggarInput();
+const page = usePage()
+
+let currentRoute = hoggarinfo.routes.find(item => item.model === page.props.hogarSettings.hogarModelClassName)?.route;
+if(currentRoute == undefined) {
+  currentRoute = page.props.hogarSettings.hogarDataRouteListe
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>

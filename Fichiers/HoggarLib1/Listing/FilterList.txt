@@ -1,0 +1,29 @@
+<template>
+   <div class="bg-[black] text-white p-[5px] rounded-[2px] 
+               grid grid-cols-[300px_1fr] gap-4">
+     
+     <div class="bg-[#222] flex items-center justify-center">
+       <div class="bg-[#222] text-[22px] font-bold p-4 rounded">
+         Filters
+       </div>
+     </div>
+ 
+     <div class="bg-[#222] flex justify-end items-center" id="monprojet">
+       <div class="w-[500px]">
+        <FilterConteneur2/>
+         <FilterConteneur/>
+       </div>
+     </div>
+     
+   </div>
+ </template>
+
+<script setup>
+import FilterConteneur from './FilterConteneur.vue';
+import FilterConteneur2 from './FilterConteneur2.vue';
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

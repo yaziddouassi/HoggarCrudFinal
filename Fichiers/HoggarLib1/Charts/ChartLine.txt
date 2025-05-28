@@ -1,0 +1,104 @@
+<template>
+    <div class="pb-[10px] bg-[#DDD] min-h-[calc(50vh-46px)] flex items-center">
+      <div class="w-full">
+        <!-- Chart Wrapper (responsive padding trick) -->
+        <div style="position: relative; width: 100%; padding-top: 85%;">
+          <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+            <Line
+              id="my-line-chart"
+              :data="chartData"
+              :options="chartOptions"
+            />
+          </div>
+        </div>
+  
+        <!-- Refresh Button -->
+        <div class="text-center mt-[10px]">
+          <button @click="changer" class="border-[1px] text-black border-black p-[8px]">Update</button>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref, watch } from 'vue'
+  import { router } from '@inertiajs/vue3'
+  import { Line } from 'vue-chartjs'
+  import {
+    Chart as ChartJS,
+    Title,
+    Tooltip,
+    Legend,
+    LineElement,
+    PointElement,
+    CategoryScale,
+    LinearScale
+  } from 'chart.js'
+  
+  // Register the needed modules for Line chart
+  ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale)
+  
+  // Props
+  const props = defineProps({
+    Myprops: {
+      type: Object,
+      required: true
+    },
+    Namechart: {
+      type: String,
+      required: true
+    }
+  })
+  
+  // Colors
+  const colors = [
+    'blue',
+    'black',
+    'lime',
+    'rgb(75, 192, 192)',
+    'rgb(153, 102, 255)',
+    'rgb(255, 159, 64)'
+  ]
+  
+  // Chart Data
+  const chartData = ref({
+    labels: props.Myprops.labels,
+    datasets: [
+      {
+        label: props.Myprops.label || 'Data',
+        data: props.Myprops.datas,
+        borderColor: colors[0],
+        backgroundColor: 'rgba(255,255,255,0)',
+        tension: 0.3,
+        pointBackgroundColor: colors[0],
+        fill: false
+      }
+    ]
+  })
+  
+  // Chart Options
+  const chartOptions = ref({
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true
+      }
+    }
+  })
+  
+  // Watch for props updates
+  watch(() => props.Myprops, (newVal) => {
+    chartData.value.labels = newVal.labels
+    chartData.value.datasets[0].data = newVal.datas
+  }, { deep: true })
+  
+  // Refresh handler
+  function changer() {
+    router.visit(location.href, {
+      only: [props.Namechart],
+      preserveState: false,
+      preserveScroll: true
+    })
+  }
+  </script>

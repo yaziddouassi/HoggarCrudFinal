@@ -1,0 +1,68 @@
+<template>
+  <div :class="props.class">
+    <div 
+      v-for="([key, field], index) in Object.entries(hoggarinput.hogarDataFields).filter(([k, _]) => hoggarinput.hogarDataTypes[k] !== 'Hidden')" 
+      :key="key"
+    >
+      <InputText v-if="hoggarinput.hogarDataTypes[key] === 'Text'" :cle="key" />
+      <Password v-else-if="hoggarinput.hogarDataTypes[key] === 'Password'" :cle="key" />
+      <InputRadio v-else-if="hoggarinput.hogarDataTypes[key] === 'Radio'" :cle="key" />
+      <Textarea v-else-if="hoggarinput.hogarDataTypes[key] === 'Textarea'" :cle="key" />
+      <CheckBox v-else-if="hoggarinput.hogarDataTypes[key] === 'Checkbox'" :cle="key" />
+      <CheckBoxMultiple v-else-if="hoggarinput.hogarDataTypes[key] === 'CheckboxList'" :cle="key" />
+      <InputSelect v-else-if="hoggarinput.hogarDataTypes[key] === 'Select'" :cle="key" />
+      <InputDate v-else-if="hoggarinput.hogarDataTypes[key] === 'Date'" :cle="key" />
+      <InputNumber v-else-if="hoggarinput.hogarDataTypes[key] === 'Number'" :cle="key" />
+      <Editeur v-else-if="hoggarinput.hogarDataTypes[key] === 'Quill'" :cle="key" />
+      <InputFile v-else-if="hoggarinput.hogarDataTypes[key] === 'File'" :cle="key" />
+      <InputImage v-else-if="hoggarinput.hogarDataTypes[key] === 'Image'" :cle="key" />
+      <InputVideo v-else-if="hoggarinput.hogarDataTypes[key] === 'Video'" :cle="key" />
+      <InputAudio v-else-if="hoggarinput.hogarDataTypes[key] === 'Audio'" :cle="key" />
+      <MultipleFile v-else-if="hoggarinput.hogarDataTypes[key] === 'MultipleFile'" :cle="key" />
+      <MultipleAudio v-else-if="hoggarinput.hogarDataTypes[key] === 'MultipleAudio'" :cle="key" />
+      <MultipleImage v-else-if="hoggarinput.hogarDataTypes[key] === 'MultipleImage'" :cle="key" />
+      <MultipleVideo v-else-if="hoggarinput.hogarDataTypes[key] === 'MultipleVideo'" :cle="key" />
+      <Repeater v-else-if="hoggarinput.hogarDataTypes[key] === 'Repeater'" :cle="key" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+import InputText from '../Inputs/InputText.vue';
+import InputSelect from '../Inputs/InputSelect.vue';
+import Password from '../Inputs/Password.vue';
+import InputRadio from '../Inputs/InputRadio.vue';
+import InputDate from '../Inputs/InputDate.vue';
+import InputNumber from '../Inputs/InputNumber.vue';
+import CheckBox from '../Inputs/CheckBox.vue';
+import CheckBoxMultiple from '../Inputs/CheckBoxMultiple.vue';
+import Textarea from '../Inputs/Textarea.vue';
+import Editeur from '../Inputs/Editeur.vue';
+import InputFile from '../Inputs/InputFile.vue';
+import InputImage from '../Inputs/InputImage.vue';
+import InputVideo from '../Inputs/InputVideo.vue';
+import InputAudio from '../Inputs/InputAudio.vue';
+import MultipleFile from '../Inputs/MultipleFile.vue';
+import MultipleAudio from '../Inputs/MultipleAudio.vue';
+import MultipleImage from '../Inputs/MultipleImage.vue';
+import MultipleVideo from '../Inputs/MultipleVideo.vue';
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
+import Repeater from '../Repeater/Repeater.vue';
+
+
+const props = defineProps({
+    class: {
+      type: String,
+      required: true
+    }
+  })
+
+
+const hoggarinput = HoggarInput();
+  
+
+</script>
+
+<style lang="css" scoped>
+
+</style>

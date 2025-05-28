@@ -1,0 +1,32 @@
+<template>
+    <div>
+      <Link :href="page.props.hogarSettings.hogarDataRouteListe+'/update/'+props.ide" @click="hoggarinput.resetError()">
+      <button class="bg-[blue] text-white p-2 rounded-[3px] h-[40px] flex items-center justify-center ">
+        <span class="material-icons text-[20px] leading-none">
+          edit
+        </span>
+      </button>
+    </Link>
+    </div>
+  </template>
+
+<script setup>
+import { Link } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
+import { HoggarInput } from '../stores/hoggarinput';
+
+const props = defineProps({
+  ide : {
+    type: Number,
+    required: true
+  },
+})
+
+const hoggarinput = HoggarInput();
+const page = usePage()
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

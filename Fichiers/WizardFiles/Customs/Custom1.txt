@@ -1,0 +1,163 @@
+<template>
+  <div>
+    <div>
+      <button
+        class="bg-[darkblue] text-white p-2 rounded-[3px] h-[40px] flex items-center justify-center"
+        @click="openForm"
+      >
+        <span class="material-icons text-[20px] leading-none">
+          edit
+        </span>
+        <span>
+          Qte
+        </span>
+      </button>
+    </div>
+
+    <div
+      v-show="show" style="z-index: 500;"
+      class="fixed inset-0 h-screen w-screen overflow-y-auto bg-[#222] text-white">
+      <div class="flex items-center justify-center p-[4px]">
+        <div>
+          <svg @click="closeForm()" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg" >
+                   <circle cx="20" cy="20" r="19.5" stroke="white" stroke-width="1" />
+                   <line x1="11" y1="11" x2="29" y2="29" stroke="white" stroke-width="1" />
+                   <line x1="29" y1="11" x2="11" y2="29" stroke="white" stroke-width="1" />
+          </svg>
+        </div>
+      </div>
+
+
+      <form @submit.prevent="updateForm()">
+           <div class="max-w-[700px] p-[10px] m-auto mt-[40px] text-left">
+            
+              <div class="text-white">Name</div>
+              <div class="text-black">
+                <input type="text" class="w-full text-white bg-black h-[50px]" v-model="form.name">
+              </div>
+              <div class="text-[red]" v-if="form.errors.name">
+                  {{ form.errors.name }}
+              </div>
+ 
+              <div class="text-center">
+                <button type="submit" class="bg-[blue] p-[8px] w-[140px] rounded-[3px] mt-[10px]"
+                 :disabled="form.processing">Validate</button>
+              </div>
+
+           </div>   
+       </form>
+
+
+
+
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3'
+
+const props = defineProps({
+  record: {
+    type: Object,
+    required: true
+  },
+  cle: {
+    type: String,
+    required: true
+  },
+});
+
+
+const form = useForm({
+  id : props.record.id ,
+  name: null,
+})
+
+function changeForm(record) {
+  form.name = record.name
+}
+
+
+
+
+
+
+
+
+
+
+
+const Page = usePage();
+const show = ref(false);
+const loading = ref(true);
+
+
+
+const fetchRecord = async () => {
+  try {
+    const url = Page.props.hogarDataUrlCheckRecord;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      },
+      body: JSON.stringify({
+        id: props.record.id,
+      })
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    if (data.success == false) {
+      const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+      notyf.error('Record dont exist');
+      show.value = false;
+      return;
+    }
+
+    if (data.success == true) {
+      changeForm(data.data)
+      show.value = true;
+    }
+   
+
+
+  } catch (error) {
+    console.error('Erreur lors du fetch :', error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+function openForm() {
+  fetchRecord();
+}
+
+function closeForm() {
+  show.value = false;
+}
+
+function updateForm() {
+  
+  form.post(Page.props.customs[props.cle], {
+      preserveScroll: true,
+      onSuccess: () => {
+        const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+        notyf.success('Record Updated');
+        show.value = false;
+    }
+    })
+
+}
+
+</script>
+
+<style lang="scss" scoped>
+</style>

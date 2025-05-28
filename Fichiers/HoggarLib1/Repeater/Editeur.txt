@@ -1,0 +1,146 @@
+<template>
+  <div class="space-y-2">
+    <!-- Label -->
+    <div>
+      <span class="font-bold">
+         {{hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['label'] }}
+      </span>
+    </div>
+
+    <!-- Éditeur Quill -->
+    <div class="bg-white border border-gray-300 rounded-ls shadow-sm p-2">
+      <div ref="editorContainer" class="w-full min-h-[120px]"></div>
+    </div>
+
+    <!-- Message d'erreur -->
+     <div v-if="hoggarinput.errors[`${props.cle}.${props.cle2}.${props.cle3}`]" class="text-[red]">
+      {{ hoggarinput.errors[`${props.cle}.${props.cle2}.${props.cle3}`] }}
+    </div>
+
+
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted, watch } from "vue";
+import Quill from "quill";
+import "quill/dist/quill.snow.css";
+import { HoggarInput } from "@/HoggarLibs/stores/hoggarinput";
+
+const props = defineProps({
+  cle: {
+    type: String,
+    required: true,
+  },
+  cle2 : {
+    type :  Number
+  },
+  cle3 : {
+    type :  String
+  },
+});
+
+const hoggarinput = HoggarInput();
+const editorContainer = ref(null);
+const content = ref(hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]);
+let quill = null;
+
+// Couleurs personnalisées
+const COLORS = [
+  "#000000", "#e60000", "#ff9900", "#ffff00", "#008a00",
+  "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc",
+  "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb",
+  "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0"
+];
+
+const quillOptions = {
+  theme: "snow",
+  modules: {
+    toolbar: [
+      // Fonts, Headers, Sizes
+      [{ font: [] }],
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      [{ size: ["small", false, "large", "huge"] }],
+      
+      // Text styles
+      ["bold", "italic", "underline", "strike"],
+
+      // Colors
+      [{ color: COLORS }, { background: COLORS }],
+
+      // Scripts (exposant/indice)
+      [{ script: "sub" }, { script: "super" }],
+
+      // Lists
+      [{ list: "ordered" }, { list: "bullet" }],
+
+      // Indentation
+      [{ indent: "-1" }, { indent: "+1" }],
+
+      // Alignment
+      [{ align: [] }],
+
+      // Direction
+      [{ direction: "rtl" }],
+
+      // Block elements
+      ["blockquote", "code-block"],
+
+      // Links and media
+      ["link", "image", "video"],
+
+      // Clean
+      ["clean"]
+    ],
+  },
+};
+
+const adjustEditorHeight = () => {
+  const qlContent = editorContainer.value.querySelector(".ql-editor");
+  if (qlContent) {
+    const scrollHeight = qlContent.scrollHeight;
+    const container = editorContainer.value.querySelector(".ql-container");
+    if (container) {
+      container.style.height = scrollHeight + 20 + "px";
+    }
+  }
+};
+
+onMounted(() => {
+  quill = new Quill(editorContainer.value, quillOptions);
+  quill.root.innerHTML = content.value || "";
+
+  setTimeout(adjustEditorHeight, 100);
+
+  quill.on("text-change", () => {
+    const html = quill.root.innerHTML.trim();
+    content.value = html === "<p><br></p>" ? "" : html;
+    hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = content.value;
+    adjustEditorHeight();
+  });
+});
+
+watch(
+  () => hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3],
+  (newValue) => {
+    if (quill && newValue !== quill.root.innerHTML) {
+      content.value = newValue;
+      quill.clipboard.dangerouslyPasteHTML(newValue);
+      adjustEditorHeight();
+    }
+  }
+);
+</script>
+
+<style scoped>
+::v-deep(.ql-container) {
+  border: none !important;
+  padding: 0 !important;
+  transition: height 0.15s ease;
+}
+
+::v-deep(.ql-toolbar) {
+  border: none !important;
+  margin-bottom: 0.5rem;
+}
+</style>

@@ -1,0 +1,61 @@
+<template>
+    <div class="p-[10px]">
+    <div class="bg-[#EEE] flex flex-wrap justify-evenly">
+      <div
+        v-for="(item, key) in hoggarinput.wizardForm"
+        :key="key"
+        class="w-1/3 min-[1000px]:w-1/6 min-w-[100px] pt-[10px] pb-[10px]"
+      >
+        <div class="w-[48px] m-auto">
+          <svg
+            v-if="hoggarinput.wizardCurrent > key"
+            width="48"
+            height="48"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="24" cy="24" r="24" fill="green" />
+            <path
+              d="M17 24.586L21.293 28.879L33.879 16.293L36 18.414L21.293 33.121L15.879 27.707L17 24.586Z"
+              fill="white"
+            />
+          </svg>
+          <svg
+            v-else
+            width="48"
+            height="48"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="24" cy="24" r="22" stroke="darkblue" stroke-width="2" fill="none" />
+            <text
+              x="50%"
+              y="50%"
+              text-anchor="middle"
+              dy=".35em"
+              font-size="18"
+              font-family="Arial"
+              fill="darkblue"
+            >
+              {{ key }}
+            </text>
+          </svg>
+        </div>
+        <div class="text-center">
+          {{ hoggarinput.wizardLabel[key]}} 
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
+
+const hoggarinput = HoggarInput();
+console.log(hoggarinput.wizardLabel)
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

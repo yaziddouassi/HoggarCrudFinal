@@ -1,0 +1,45 @@
+<template>
+    <div class="w-full mb-[5px]">
+      <div>
+        <span class="font-bold">{{hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['label']  }} </span>
+      </div>
+  
+      <div class="flex items-center gap-2">
+        <input
+          type="checkbox"
+          v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
+          class="w-5 h-5"
+        />
+        
+      </div>
+  
+   
+
+<div v-if="hoggarinput.errors[`${props.cle}.${props.cle2}.${props.cle3}`]" class="text-[red]">
+  {{ hoggarinput.errors[`${props.cle}.${props.cle2}.${props.cle3}`] }}
+</div>
+
+
+    </div>
+  </template>
+  
+  <script setup>
+  import { watch } from 'vue'
+  import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput'
+  
+  const props = defineProps({
+    cle: {
+      type: String,
+      required: true
+    },
+  cle2 : {
+    type :  Number
+  },
+  cle3 : {
+    type :  String
+  },
+  })
+  
+  const hoggarinput = HoggarInput()
+  
+  </script>

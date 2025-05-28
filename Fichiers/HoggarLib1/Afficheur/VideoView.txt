@@ -1,0 +1,30 @@
+<template>
+    <div class="flex justify-center">
+           <video controls :src="page.props.hogarSettings.hogarDataUrlStorage+props.path" type="video/mp4"
+           :width="props.width">
+           </video>
+    </div>
+</template>
+
+<script setup>
+import { usePage } from '@inertiajs/vue3';
+
+const props = defineProps({
+  path: {
+    type: String,
+    required: true,
+  },
+  width: {
+    type: String,
+    required: true,
+  },
+});
+
+const page = usePage()
+console.log(page.props.hogarSettings.hogarDataUrlStorage)
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

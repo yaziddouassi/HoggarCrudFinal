@@ -1,0 +1,140 @@
+<template>
+  <div>
+    <div>
+      {{ capitalizeFirstLetter(props.cle) }}
+    </div>
+
+    <div class="relative w-full text-black max-w-sm">
+      <input
+        type="number"
+        v-model.number="myInput"
+        @input="replaceQuery"
+        :min="hoggarinfo.customFilters.Options[props.cle].min !== 'infinite' ? 
+              hoggarinfo.customFilters.Options[props.cle].min : null"
+        :max="hoggarinfo.customFilters.Options[props.cle].max !== 'infinite' ? 
+              hoggarinfo.customFilters.Options[props.cle].max : null"
+        :step="hoggarinfo.customFilters.Options[props.cle].step"
+        placeholder="Enter your number..."
+        class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+
+      <button
+        v-if="myInput !== null && myInput !== ''"
+        @click="rezetInput"
+        type="button"
+        class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 
+               1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 
+               1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 
+               10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { router, usePage } from '@inertiajs/vue3'
+import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting'
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo'
+
+const hoggarlisting = HoggarListing()
+const hoggarinfo = HoggarInfo()
+
+const props = defineProps({
+  cle: {
+    type: String,
+    required: true
+  },
+})
+
+const myInput = ref(null)
+const page = usePage()
+const url = new URL(window.location.href)
+const params = new URLSearchParams(url.search)
+
+onMounted(() => {
+  if (params.has(props.cle)) {
+    const val = Number(params.get(props.cle))
+    myInput.value = isNaN(val) ? null : val
+  }
+})
+
+let timeout = null
+
+function replaceQuery() {
+
+  hoggarlisting.actionIds = []
+  hoggarinfo.show2 = false
+
+  clearTimeout(timeout)
+
+  timeout = setTimeout(() => {
+    const hoggar = JSON.parse(localStorage.getItem('hoggar'))
+    const isValue = Object.values(hoggarinfo.sessionFilter).includes(props.cle)
+    const hasValue = myInput.value !== null && myInput.value !== ''
+
+    if (hasValue) {
+      if (isValue) {
+        hoggar[hoggarlisting.settings.hogarModelClassName][props.cle] = myInput.value
+      } else {
+        delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+      }
+    } else {
+      delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+    }
+
+    localStorage.setItem('hoggar', JSON.stringify(hoggar))
+    hoggarinfo.setRoutes(page.props.routes)
+
+    const url = new URL(window.location.href)
+    const params = new URLSearchParams(url.search)
+
+    params.delete('page')
+
+    if (hasValue) {
+      params.set(props.cle, myInput.value)
+    } else {
+      params.delete(props.cle)
+    }
+
+    router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  }, 1000)
+}
+
+function rezetInput() {
+  const hoggar = JSON.parse(localStorage.getItem('hoggar'))
+
+  myInput.value = null
+  delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+
+  localStorage.setItem('hoggar', JSON.stringify(hoggar))
+  hoggarinfo.setRoutes(page.props.routes)
+
+  const url = new URL(window.location.href)
+  const params = new URLSearchParams(url.search)
+
+  params.delete('page')
+  params.delete(props.cle)
+
+  router.visit(`${url.pathname}?${params.toString()}`, {
+    method: 'get',
+    preserveState: true,
+  })
+}
+
+const capitalizeFirstLetter = (str) => {
+  if (!str) return ''
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+</script>

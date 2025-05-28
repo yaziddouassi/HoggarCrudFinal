@@ -1,0 +1,94 @@
+<template>
+  <div class="pb-[10px] bg-[#DDD] min-h-[calc(50vh-46px)] flex items-center">
+    <div class="w-full">
+      <div style="position: relative; width: 100%; padding-top: 85%;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; max-height: none;">
+          <Bar
+            id="my-chart-id"
+            :data="chartData"
+            :options="chartOptions"
+          />
+        </div>
+      </div>
+
+      <div class="text-center mt-[10px]">
+        <button @click="changer" class="border-[1px]  text-black border-black p-[8px]">Update</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, watch } from 'vue'
+import { router } from '@inertiajs/vue3'
+import { Bar } from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+} from 'chart.js'
+
+ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+
+const props = defineProps({
+  Myprops: {
+    type: Object,
+    required: true
+  },
+  Namechart: {
+    type: String,
+    required: true
+  }
+})
+
+const colors = [
+  'blue',
+  'black',
+  'green',
+  'rgb(75, 192, 192)',
+  'rgb(153, 102, 255)',
+  'rgb(255, 159, 64)'
+]
+
+// Initial chart setup
+const chartData = ref({
+  labels: props.Myprops.labels,
+  datasets: [
+    {
+      label: props.Myprops.label || 'Data',
+      data: props.Myprops.datas,
+      backgroundColor: colors,
+      borderRadius: 8
+    }
+  ]
+})
+
+const chartOptions = ref({
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: true
+    }
+  }
+})
+
+// Refresh chart when props update
+watch(() => props.Myprops, (newVal) => {
+  chartData.value.labels = newVal.labels
+  chartData.value.datasets[0].data = newVal.datas
+}, { deep: true })
+
+// Refresh handler
+function changer() {
+  router.visit(location.href, {
+    only: [props.Namechart],
+    preserveState: false,
+    preserveScroll: true
+  })
+}
+</script>

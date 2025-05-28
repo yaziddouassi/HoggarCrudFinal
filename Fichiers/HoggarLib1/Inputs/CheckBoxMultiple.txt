@@ -1,0 +1,67 @@
+<template>
+  <div class="w-full mb-[5px]">
+    <div>
+      <span class="font-bold">
+        {{ hoggarinput.hogarDataLabels[props.cle] }}
+      </span>
+    </div>
+
+    <div class="space-y-2 mt-2">
+      <div
+        v-for="(option, index) in options"
+        :key="option"
+        class="flex items-center space-x-2"
+      >
+        <input
+          type="checkbox"
+          class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+          :value="option"
+          v-model="hoggarinput.hogarDataValues[props.cle]"
+        />
+        <label class="text-sm">
+          {{ labels[index] }}
+        </label>
+      </div>
+    </div>
+
+    <div v-if="hoggarinput.errors[props.cle]" class="text-[red] text-sm mt-1">
+      {{ hoggarinput.errors[props.cle] }}
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput'
+import { onMounted } from 'vue'
+
+const props = defineProps({
+  cle: {
+    type: String,
+    required: true
+  }
+})
+
+const hoggarinput = HoggarInput()
+
+const options = hoggarinput.hogarDataOptions[props.cle]?.contents || []
+const labels = hoggarinput.hogarDataOptions[props.cle]?.labels || []
+
+// 🛠️ Corrige les données mal castées (ex: string JSON au lieu de tableau)
+onMounted(() => {
+  const currentValue = hoggarinput.hogarDataValues[props.cle]
+  if (typeof currentValue === 'string') {
+    try {
+      const parsed = JSON.parse(currentValue)
+
+      if (Array.isArray(parsed)) {
+        hoggarinput.hogarDataValues[props.cle] = parsed
+        
+      }
+    } catch {
+      hoggarinput.hogarDataValues[props.cle] = []
+    }
+  }
+
+ 
+})
+</script>

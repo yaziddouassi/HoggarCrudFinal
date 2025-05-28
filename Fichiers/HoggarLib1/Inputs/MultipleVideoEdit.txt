@@ -1,0 +1,215 @@
+<template>
+  <div class="w-full mb-5">
+    <div>
+      <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+    </div>
+
+
+
+    <div class="w-full flex items-center justify-center">
+      <label class="w-full">
+        <input type="file" ref="fileInputRef" @change="handleFileSelection"  accept="video/*"   multiple hidden />
+        <div class="flex w-full h-[50px] px-2 bg-[blue] rounded-full text-white text-sm font-semibold items-center justify-center cursor-pointer">
+          Choose Videos
+        </div>
+      </label>
+    </div>
+
+    <div v-if="!hoggarinput.existingFiles[props.cle].length &&
+      !hoggarinput.tempUrlTabs[props.cle].length &&
+      Object.values(hoggarinput.hogarDataNullables).includes(props.cle)
+      "
+     class="text-[red]">
+ 
+      the field is required
+    </div>
+
+    <div v-if="hoggarinput.errors[props.cle]" class="text-red-500 text-sm mt-1">
+      {{ hoggarinput.errors[props.cle] }}
+    </div>
+    
+
+    <div v-if="hoggarinput.existingFiles[props.cle].length" class="mt-3 grid grid-cols-2 gap-4">
+      <div v-for="(file, index) in hoggarinput.existingFiles[props.cle]" :key="file" class="relative">
+        
+        <div v-if="!UnionExtensions.
+      some(ext => file?.toLowerCase().endsWith(ext))"
+    class="mt-2 text-gray-700 text-sm">
+      <span class="font-semibold">{{ file }}  </span>
+    </div>
+
+
+    <div v-if="audioExtensions.
+      some(ext => file?.toLowerCase().endsWith(ext))" 
+    class="flex justify-center mt-2">
+       <audio controls class="w-[250px]" :src="hoggarinput.hogarDataUrlStorage+ file" type="audio/mpeg">
+        Your browser does not support the audio element.
+     </audio>
+   </div>
+
+   <div v-if="imageExtensions.
+      some(ext => file?.toLowerCase().endsWith(ext))"
+     class="mt-3 flex justify-center">
+        <img :src="hoggarinput.hogarDataUrlStorage+file" alt="Selected Image" class="w-32 h-32 object-cover rounded-lg shadow" />
+   </div>
+
+   <div v-if="videoExtensions.
+      some(ext => file?.toLowerCase().endsWith(ext))" 
+   class="mt-3">
+        <video controls :src="hoggarinput.hogarDataUrlStorage+ file" type="video/mp4"
+          class="w-full h-auto rounded-md">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+        <!-- Bouton de suppression -->
+        <button
+          type="button"
+          @click="removeExistingFile(file)"
+          class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs"
+        >
+          X
+        </button>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+  
+
+    <!-- Aperçu des fichiers sélectionnés -->
+    <div v-if="hoggarinput.tempUrlTabs[props.cle].length" class="mt-3 grid grid-cols-2 gap-4">
+      <div v-for="(preview, index) in hoggarinput.tempUrlTabs[props.cle]" :key="preview.url" class="relative">
+        <!-- Aperçu Image -->
+        <img v-if="isImage(preview.file)" :src="preview.url" class="w-[100px] h-[100px] object-cover rounded" />
+
+        <!-- Aperçu Audio -->
+        <audio v-else-if="isAudio(preview.file)" controls class="w-[250px]">
+          <source :src="preview.url" :type="preview.file.type" />
+          Your browser does not support the audio element.
+        </audio>
+
+        <!-- Aperçu Vidéo -->
+        <video v-else-if="isVideo(preview.file)" controls class="w-[250px] h-[150px]">
+          <source :src="preview.url" :type="preview.file.type" />
+          Your browser does not support the video element.
+        </video>
+
+        <!-- Affichage des documents -->
+        <a v-else :href="preview.url" target="_blank" class="text-blue-500 underline">
+          {{ preview.file.name }}
+        </a>
+
+        <!-- Bouton de suppression -->
+        <button
+          type="button"
+          @click="removeFile(index)"
+          class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs"
+        >
+          X
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, watch, onUnmounted, onMounted } from 'vue';
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
+
+const props = defineProps({ cle: { type: String, required: true } });
+const hoggarinput = HoggarInput();
+const fileInputRef = ref(null);
+const filePreviews = ref([]);
+const existingFiles = ref([]); 
+const removedFiles = ref([]); 
+
+// Formats de fichiers acceptés
+const acceptedFormats = 'image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt';
+
+
+onMounted(() => {
+  if (hoggarinput.hogarRecordInput[props.cle]) {
+    hoggarinput.existingFiles[props.cle] = JSON.parse(hoggarinput.hogarRecordInput[props.cle] || '[]');
+  }
+
+  console.log(hoggarinput.existingFiles[props.cle]);
+});
+
+
+// Vérification si la clé contient bien un tableau
+if (!Array.isArray(hoggarinput.hogarDataValues[props.cle])) {
+  hoggarinput.hogarDataValues[props.cle] = [];
+}
+
+
+const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv', '.flv', '.wmv', '.m4v'];
+const audioExtensions = ['.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a', '.wma', '.aiff', '.alac'];
+const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp', '.tiff', '.ico'];
+
+const UnionExtensions = [...videoExtensions,...audioExtensions,...imageExtensions];
+console.log(UnionExtensions) ;
+
+
+// Détecte le type de fichier pour l'affichage
+const isImage = (file) => file.type.startsWith('image/');
+const isAudio = (file) => file.type.startsWith('audio/');
+const isVideo = (file) => file.type.startsWith('video/');
+
+// Gestion de la sélection des fichiers
+const handleFileSelection = (event) => {
+  const files = Array.from(event.target.files);
+
+  files.forEach((file) => {
+    if (!hoggarinput.hogarDataValues[props.cle].some(existingFile => existingFile.name === file.name)) {
+      const preview = { file, url: URL.createObjectURL(file) };
+      hoggarinput.tempUrlTabs[props.cle].push(preview);
+      hoggarinput.hogarDataValues[props.cle].push(file);
+    }
+  });
+
+  console.log("Fichiers sélectionnés :", hoggarinput.hogarDataValues[props.cle]);
+};
+
+
+const removeExistingFile = (filePath) => {
+  const index = hoggarinput.existingFiles[props.cle].indexOf(filePath);
+  if (index !== -1) {
+    hoggarinput.existingFiles[props.cle].splice(index, 1);
+    hoggarinput.removedFiles[props.cle].push(filePath);
+
+    let recordInputArray = JSON.parse(hoggarinput.hogarRecordInput[props.cle] || '[]');
+    recordInputArray = recordInputArray.filter(file => file !== filePath);
+    hoggarinput.hogarRecordInput[props.cle] = JSON.stringify(recordInputArray);
+    console.log(hoggarinput.hogarRecordInput[props.cle]);
+  }
+};
+
+
+// Suppression d'un fichier
+const removeFile = (index) => {
+  URL.revokeObjectURL(hoggarinput.tempUrlTabs[props.cle][index].url);
+  hoggarinput.tempUrlTabs[props.cle].splice(index, 1);
+  hoggarinput.hogarDataValues[props.cle].splice(index, 1);
+};
+
+// Réinitialisation automatique si les données sont vidées
+watch(() => hoggarinput.hogarDataValues[props.cle], (newValue) => {
+  if (Array.isArray(newValue) && newValue.length === 0) {
+     hoggarinput.tempUrlTabs[props.cle]= [];
+    if (fileInputRef.value) {
+      fileInputRef.value.value = '';
+    }
+  }
+}, { deep: true });
+
+// Nettoyage des URLs pour éviter les fuites mémoire
+onUnmounted(() => {
+  filePreviews.value.forEach(preview => URL.revokeObjectURL(preview.url));
+});
+</script>

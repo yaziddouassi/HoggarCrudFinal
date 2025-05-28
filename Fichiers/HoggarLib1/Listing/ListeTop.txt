@@ -1,0 +1,169 @@
+<template>
+  <div class="flex justify-between pt-[5px] pr-[5px] pl-[5px]">
+    <!-- Barre de recherche -->
+    <div class="flex w-[230px] bg-[#E8E8E8] h-[50px] rounded-[25px] pl-[12px]">
+      <div class="w-full pt-[4px] rounded-[25px]">
+        <input
+          v-model="search" @keyup="replaceQuery"
+          placeholder="Search ..."
+          class="w-full bg-[#E8E8E8] h-[42px] border-[0px] border-transparent focus:border-transparent focus:ring-0"
+        />
+      </div>
+      <div class="pr-[6px] pt-[12px]">
+        <svg
+          @click="rezetInput()"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle cx="12" cy="12" r="11" stroke="black" stroke-width="1" />
+          <line x1="7" y1="7" x2="17" y2="17" stroke="black" stroke-width="1" />
+          <line x1="7" y1="17" x2="17" y2="7" stroke="black" stroke-width="1" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Boutons -->
+    <div class="flex gap-[5px]">
+      <button class="bg-[black] pr-[16px] pl-[16px] p-[8px] text-white h-[44px]">
+        {{ hoggarlisting.settings.hogarDataModelLabel }}
+      </button>
+      <Link :href="hoggarlisting.settings.hogarDataUrlCreate" @click="hoggarinput.resetError()" class="block">
+        <button class="bg-[blue] pr-[16px] pl-[16px] p-[8px] text-white h-[44px]">
+          New
+        </button>
+      </Link>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting'
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+import { HoggarInput } from '../stores/hoggarinput';
+import { usePage } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
+import { ref } from 'vue'
+
+const hoggarlisting = HoggarListing()
+const hoggarinfo = HoggarInfo()
+const hoggarinput = HoggarInput();
+const page = usePage()
+const search = ref('')
+
+// Récupérer la valeur de "search" à partir des query params si elle existe
+const url = new URL(window.location.href)
+const params = new URLSearchParams(url.search)
+
+
+
+if (params.has('search')) {
+  search.value = params.get('search')
+}
+let timeout = null
+// Met à jour les query params et navigue
+function replaceQuery() {
+
+   hoggarlisting.actionIds = []
+   hoggarinfo.show = false
+   hoggarinfo.show2 = false
+
+  clearTimeout(timeout)
+
+  const hoggar = JSON.parse(localStorage.getItem('hoggar'))
+  const isValue = Object.values(hoggarinfo.sessionFilter).includes('search');
+
+
+timeout = setTimeout(() => {
+
+if(search.value != '') {
+
+   if(isValue) {
+
+       hoggar[hoggarlisting.settings.hogarModelClassName].search = search.value
+       localStorage.setItem('hoggar', JSON.stringify(hoggar))
+       hoggarinfo.setRoutes(page.props.routes)
+  
+     }
+
+     else if(!isValue) {
+
+      delete  hoggar[hoggarlisting.settings.hogarModelClassName].search 
+          localStorage.setItem('hoggar', JSON.stringify(hoggar))
+          hoggarinfo.setRoutes(page.props.routes)
+
+       }
+
+     const url = new URL(window.location.href)
+     const params = new URLSearchParams(url.search)
+
+     params.delete('page') // reset pagination
+     params.set('search', search.value)
+
+     router.visit(`${url.pathname}?${params.toString()}`, {
+         method: 'get',
+       preserveState: true,
+     })
+
+  }
+
+
+else if(search.value == '') {
+
+          delete  hoggar[hoggarlisting.settings.hogarModelClassName].search 
+          localStorage.setItem('hoggar', JSON.stringify(hoggar))
+          hoggarinfo.setRoutes(page.props.routes)
+
+      
+
+       const url = new URL(window.location.href)
+       const params = new URLSearchParams(url.search)
+
+       params.delete('page') // reset pagination
+       params.delete('search')
+
+      router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  
+}
+
+
+}, 1000)
+
+}
+
+function rezetInput() {
+
+  const hoggar = JSON.parse(localStorage.getItem('hoggar'))
+  const isValue = Object.values(hoggarinfo.sessionFilter).includes('search');
+
+  search.value = ''
+  delete  hoggar[hoggarlisting.settings.hogarModelClassName].search 
+          localStorage.setItem('hoggar', JSON.stringify(hoggar))
+          hoggarinfo.setRoutes(page.props.routes)
+
+      
+
+       const url = new URL(window.location.href)
+       const params = new URLSearchParams(url.search)
+
+       params.delete('page') // reset pagination
+       params.delete('search')
+
+      router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  
+}
+
+
+
+</script>
+
+<style scoped>
+</style>

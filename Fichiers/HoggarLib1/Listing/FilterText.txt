@@ -1,0 +1,186 @@
+<template>
+    <div>
+      <div>
+        {{ capitalizeFirstLetter(props.cle) }}
+      </div>
+  
+      <div class="relative w-full text-black max-w-sm">
+        <input
+          type="text"
+          v-model="myInput"
+          @keyup="replaceQuery"
+          placeholder="search..."
+          class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+  
+        <button
+          v-if="myInput"
+           @click="rezetInput()"
+          type="button"
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+        >
+          <!-- Croix SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 
+                 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 
+                 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 
+                 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue'
+  import { router } from '@inertiajs/vue3'
+  import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting'
+  import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+  import { usePage } from '@inertiajs/vue3'
+
+  const hoggarlisting = HoggarListing()
+  const hoggarinfo = HoggarInfo()
+  // Déclaration des props
+  const props = defineProps({
+    cle: {
+      type: String,
+      required: true
+    },
+  })
+  
+  // État local pour la recherche
+  const myInput= ref('')
+  const page = usePage()
+  const url = new URL(window.location.href)
+  const params = new URLSearchParams(url.search)
+
+  if (params.has(props.cle)) {
+    myInput.value = params.get(props.cle)
+}
+
+
+let timeout = null
+// Met à jour les query params et navigue
+function replaceQuery() {
+
+  hoggarlisting.actionIds = []
+  hoggarinfo.show2 = false
+
+  clearTimeout(timeout)
+
+  const hoggar = JSON.parse(localStorage.getItem('hoggar'))
+  const isValue = Object.values(hoggarinfo.sessionFilter).includes(props.cle);
+
+
+timeout = setTimeout(() => {
+
+if(myInput.value != '') {
+
+   if(isValue) {
+
+       hoggar[hoggarlisting.settings.hogarModelClassName][props.cle] = myInput.value
+       localStorage.setItem('hoggar', JSON.stringify(hoggar))
+       hoggarinfo.setRoutes(page.props.routes)
+  
+     }
+
+     else if(!isValue) {
+
+      delete  hoggar[hoggarlisting.settings.hogarModelClassName][props.cle] 
+          localStorage.setItem('hoggar', JSON.stringify(hoggar))
+          hoggarinfo.setRoutes(page.props.routes)
+
+       }
+
+     const url = new URL(window.location.href)
+     const params = new URLSearchParams(url.search)
+
+     params.delete('page') // reset pagination
+     params.set(props.cle, myInput.value)
+
+     router.visit(`${url.pathname}?${params.toString()}`, {
+         method: 'get',
+       preserveState: true,
+     })
+
+  }
+
+
+else if(myInput.value == '') {
+
+          delete  hoggar[hoggarlisting.settings.hogarModelClassName][props.cle] 
+          localStorage.setItem('hoggar', JSON.stringify(hoggar))
+          hoggarinfo.setRoutes(page.props.routes)
+
+      
+
+       const url = new URL(window.location.href)
+       const params = new URLSearchParams(url.search)
+
+       params.delete('page') // reset pagination
+       params.delete(props.cle)
+
+      router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  
+}
+
+
+}, 1000)
+
+}
+
+function rezetInput() {
+
+  const hoggar = JSON.parse(localStorage.getItem('hoggar'))
+  const isValue = Object.values(hoggarinfo.sessionFilter).includes(props.cle);
+
+  myInput.value = ''
+  delete  hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+          localStorage.setItem('hoggar', JSON.stringify(hoggar))
+          hoggarinfo.setRoutes(page.props.routes)
+
+      
+
+       const url = new URL(window.location.href)
+       const params = new URLSearchParams(url.search)
+
+       params.delete('page') // reset pagination
+       params.delete(props.cle)
+
+      router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  // Fonction pour vider le champ de recherche
+  const clearSearch = () => {
+    myInput.value = ''
+  }
+  
+  // Fonction utilitaire pour capitaliser la première lettre d'une chaîne
+  const capitalizeFirstLetter = (str) => {
+    if (!str) return ''
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  }
+  </script>

@@ -1,0 +1,112 @@
+<template>
+    <div class="min-[800px]:flex w-full text-black">
+      <Sidebarre/>
+        <div class="min-h-[100vh] w-full min-w-[900px]  overflow-x-auto  bg-[#DFDFDF]">
+          <Navbarre/>
+          <div class="text-center h-[60px] pt-[10px] bg-[#D5D5D5] text-[darkblue] font-bold text-[28px] ">
+            ROUTER LIST
+        </div>
+        
+        <div class="text-right p-[5px]">
+            <Link href="/admin/route-generator/create" >
+            <button class="bg-[blue] w-[100px] text-white rounded-[3px] p-[9px]">
+                New
+            </button>
+            </Link>
+        </div>
+
+
+ 
+        <div class="overflow-x-auto p-[10px] pt-[10px]">
+            <table class="min-w-full bg-[#DDD] text-center  border ">
+              <thead>
+                <tr class="border-[darkblue]   border-b-[0px] border-t-[0px] text-[darkblue]">
+                  <th class="py-3 px-[10px]  font-medium">Id</th>
+                  <th class="py-3 px-[10px]  font-medium ">Model</th>
+                  <th class="py-3 px-[10px]  font-medium ">Route</th>
+                  <th class="py-3 px-[10px]  font-medium ">Label</th>
+                  <th class="py-3 px-[10px]  font-medium ">Icon</th>
+                  <th class="py-3 px-[10px]  font-medium ">Active</th>
+                  <th class="py-3 px-[10px]  font-medium ">Modal</th>
+                </tr>
+              </thead>
+              
+
+
+
+                <tbody v-if="allRoutes.length">
+            <tr v-for="item in allRoutes" :key="item.id"
+              class="border-b even:bg-[#ddd] odd:bg-[#e4e4e4]">
+              
+              <td class="py-3 px-4">{{item.id}}</td>
+                  <td class="py-3 px-4">{{item.model}}
+                  </td>
+                  <td class="py-3 px-4">{{item.route}}
+                  </td>
+                  <td class="py-3 px-4">{{item.label}}
+                </td>
+                <td class="py-3 px-4">{{item.icon}}
+                </td>
+                <td class="py-3 px-4">
+                  <BtnUpdate :record="item" />
+                  
+                </td>
+                <td class="py-3 px-4">
+                    <Link :href="'/admin/route-generator/edit/'+item.id">
+                    <button class="bg-[blue] text-white min-w-[34px] rounded-[4px] pt-[5px]">
+                        <span class="material-icons">
+                            edit
+                            </span>
+                    </button>
+                  </Link>
+                  &nbsp;
+                    <BtnDelete :ide="item.id"/>
+                </td>
+              
+            </tr>
+          </tbody>
+               
+    
+                
+                
+              
+            </table>
+          </div>
+
+
+
+
+        </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import Sidebarre from '@/HoggarLibs/Sidebarre.vue';
+  import Navbarre from '@/HoggarLibs/Navbarre.vue'
+  import BtnDelete from '@/HoggarLibs/DevGenerator/BtnDelete.vue';
+  import BtnUpdate from '@/HoggarLibs/DevGenerator/BtnUpdate.vue';
+  import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+  import { Link } from '@inertiajs/vue3';
+
+  const props = defineProps({
+    routes: {
+    type: Object,
+    required: true
+  }, 
+  user: {
+    type: Object,
+    required: true
+  },
+  allRoutes: {
+    type: Object,
+    required: true
+  }, 
+});
+
+const hoggarinfo = HoggarInfo();
+hoggarinfo.setRoutes(props.routes)
+  </script>
+  
+  <style lang="css" scoped>
+  
+  </style>

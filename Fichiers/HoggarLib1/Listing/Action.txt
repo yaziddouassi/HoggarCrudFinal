@@ -1,0 +1,58 @@
+<template>
+    <div class="flex items-center space-x-1" 
+    @click="handleClick"
+    :class="[hoggarlisting.groupActions[props.cle].class]">
+      <span class="material-icons text-[15px] relative top-[1px]">
+        {{ hoggarlisting.groupActions[props.cle].icon }} 
+      </span> 
+      <span>
+        {{ hoggarlisting.groupActions[props.cle].label }}
+      </span>
+    </div>
+  </template>
+
+<script setup>
+import { HoggarListing } from '../stores/hoggarlisting';
+import { HoggarInfo } from '../stores/hoggarinfo';
+import { useForm } from '@inertiajs/vue3'
+
+const props = defineProps({
+    cle: {
+      type: String,
+      required: true
+    },
+  })
+
+const hoggarlisting = HoggarListing()
+const hoggarinfo = HoggarInfo()
+
+const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+  const handleClick = () => {
+  if (confirm(hoggarlisting.groupActions[props.cle].confirmation)) {
+
+    const form = useForm({
+         actionIds:  hoggarlisting.actionIds,
+     })
+    
+    form.post(hoggarlisting.groupActions[props.cle].url, {
+     preserveScroll: true,
+     preserveState: true,
+     onSuccess: () => {
+      hoggarinfo.show = false
+      hoggarinfo.show2 = false
+      hoggarlisting.actionIds = []
+      notyf.success(hoggarlisting.groupActions[props.cle].message);
+    }
+
+     })
+
+  } else {
+    console.log( hoggarlisting.actionIds);
+  }
+}
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

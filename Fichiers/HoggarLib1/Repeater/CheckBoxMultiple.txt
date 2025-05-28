@@ -1,0 +1,90 @@
+<template>
+  <div class="w-full mb-[5px]">
+    <div>
+      <span class="font-bold">
+        {{ hoggarinput.repeaterLines?.[props.cle]?.[props.cle2]?.[props.cle3]?.label || '' }}
+      </span>
+    </div>
+
+    <div class="space-y-2 mt-2">
+      <div
+        v-for="(option, index) in options"
+        :key="`${option}-${index}`"
+        class="flex items-center space-x-2"
+      >
+        <input
+          type="checkbox"
+          class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+          :value="option"
+          v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
+        />
+        <label class="text-sm">
+          {{ labels[index] }}
+        </label>
+      </div>
+    </div>
+
+    <div
+      v-if="hoggarinput.errors?.[`${props.cle}.${props.cle2}.${props.cle3}`]"
+      class="text-[red]"
+    >
+      {{ hoggarinput.errors[`${props.cle}.${props.cle2}.${props.cle3}`] }}
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput'
+import { onMounted, watch, computed } from 'vue'
+
+const props = defineProps({
+  cle: {
+    type: String,
+    required: true
+  },
+  cle2: {
+    type: Number,
+    required: true
+  },
+  cle3: {
+    type: String,
+    required: true
+  }
+})
+
+const hoggarinput = HoggarInput()
+
+// 🔄 computed pour options et labels, en toute sécurité
+const options = computed(() => 
+  hoggarinput.repeaterLines?.[props.cle]?.[props.cle2]?.[props.cle3]?.contents || []
+)
+
+const labels = computed(() => 
+  hoggarinput.repeaterLines?.[props.cle]?.[props.cle2]?.[props.cle3]?.labels || []
+)
+
+// 🛠️ Corrige les données mal castées
+onMounted(() => {
+  const currentValue = hoggarinput.hogarDataValues?.[props.cle]?.[props.cle2]?.[props.cle3]
+  if (typeof currentValue === 'string') {
+    try {
+      const parsed = JSON.parse(currentValue)
+      if (Array.isArray(parsed)) {
+        hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = parsed
+      }
+    } catch {
+      hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = []
+    }
+  }
+})
+
+// 🧼 Vide si string vide
+watch(
+  () => hoggarinput.hogarDataValues?.[props.cle]?.[props.cle2]?.[props.cle3],
+  (newValue) => {
+    if (newValue === '') {
+      hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = []
+    }
+  }
+)
+</script>

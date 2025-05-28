@@ -1,0 +1,43 @@
+<template>
+    <div class="w-full mb-[5px]">
+      <div>
+        <span class="font-bold"> {{hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['label']  }} </span>
+      </div>
+  
+      <div>
+        <textarea
+          class="w-full bg-[#E8E8E8] border-[darkblue] border-[1px]"
+          :rows="hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['rows']"
+          v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
+        ></textarea>
+      </div>
+  
+  <div v-if="hoggarinput.errors[`${props.cle}.${props.cle2}.${props.cle3}`]" class="text-[red]">
+  {{ hoggarinput.errors[`${props.cle}.${props.cle2}.${props.cle3}`] }}
+</div>
+
+
+
+    </div>
+  </template>
+  
+  <script setup>
+  import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
+  
+  const props = defineProps({
+    cle: {
+      type: String,
+      required: true,
+    },
+  cle2 : {
+    type :  Number
+  },
+  cle3 : {
+    type :  String
+  },
+
+  });
+  
+  const hoggarinput = HoggarInput();
+  </script>
+

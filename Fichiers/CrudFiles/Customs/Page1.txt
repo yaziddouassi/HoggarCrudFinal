@@ -1,0 +1,39 @@
+<template>
+  <div class="min-[800px]:flex w-full text-black">
+    <Sidebarre />
+    <div class="min-h-[100vh] w-full  overflow-x-auto bg-[#DFDFDF]">
+      <Navbarre/>
+      
+        <div class="min-h-[100vh] w-full bg-[#DFDFDF]">
+
+        </div>
+
+
+    </div>
+  </div>
+</template>
+
+<script setup>
+import Sidebarre from '@/HoggarLibs/Sidebarre.vue';
+import Navbarre from '@/HoggarLibs/Navbarre.vue'
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+
+
+const props = defineProps({
+  routes: {
+    type: Object,
+    required: true
+  }, 
+  user: {
+    type: Object,
+    required: true
+  },
+  
+});
+
+const hoggarinfo = HoggarInfo();
+hoggarinfo.setRoutes(props.routes)
+
+
+
+</script>

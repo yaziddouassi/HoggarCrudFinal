@@ -1,0 +1,50 @@
+<template>
+    <div>
+      <button class="bg-red-500 text-white p-2 rounded-[3px] h-[40px] flex items-center justify-center "
+      @click="deleteRecord()">
+        <span class="material-icons text-[20px] leading-none">
+          delete
+        </span>
+      </button>
+    </div>
+  </template>
+
+<script setup>
+import { useForm } from '@inertiajs/vue3'
+import { usePage } from '@inertiajs/vue3';
+
+const props = defineProps({
+  ide : {
+    type: Number,
+    required: true
+  },
+})
+
+const Page = usePage()
+//console.log(Page.props.hogarSettings.urlDelete)
+const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+function deleteRecord() {
+
+  if (confirm('Are you sure to delete this Record?')) {
+
+  const form = useForm({
+         id:  props.ide,
+     })
+    
+    form.post(Page.props.hogarSettings.urlDelete, {
+     preserveScroll: true,
+     preserveState: true,
+     onSuccess: () => {
+      notyf.success('Record deleted');
+    }
+
+     })
+    }
+
+}
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

@@ -1,0 +1,61 @@
+<template>
+    <div class="pb-[15px] pt-[15px]
+ bg-[#DDD]   flex
+ items-center justify-center" style="color: black;">
+
+
+ <div>
+    <div class="flex justify-center text-[darkblue]">
+      <span class="block pr-[3px]">
+        {{ props.Myprops.title }}
+      </span>
+      
+        <span class="material-icons block text-[blue]">
+          {{ props.Myprops.icon }}
+         </span>
+     </div>
+
+     <div class="text-center font-bold text-[24px]">
+      {{ props.Myprops.value }}
+      </div>
+
+     
+
+     <div class="text-center mt-[5px]">
+       <button class=" w-[140px] border-[1px] border-black p-[8px]"
+       @click="changer()" >
+           Update  </button>
+      </div>
+   </div>
+   
+</div>
+</template>
+
+<script setup>
+import { router } from '@inertiajs/vue3'
+const props = defineProps({
+  Myprops: {
+    type: Object,
+    required: true
+  },
+  NameWidget: {
+    type: String,
+    required: true
+  }
+})
+
+function changer() {
+  router.visit(location.href, {
+    only: [props.NameWidget],
+    preserveState: false,
+    preserveScroll: true
+  })
+}
+
+
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

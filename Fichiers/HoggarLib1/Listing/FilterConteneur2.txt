@@ -1,0 +1,28 @@
+<template>
+    <div class="w-[500px] grid 
+     grid-cols-2 p-[10px] gap-[10px]">
+      
+      <div>         
+        <FilterSelect3 :cle="'orderByField'"  :cle2="'orderByFieldList'"  /> 
+      </div>
+       
+      <div>         
+        <FilterSelect3 :cle="'orderDirection'"  :cle2="'orderDirectionList'"  /> 
+      </div>
+      
+    </div>
+</template>
+
+<script setup>
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo'
+
+import FilterSelect3 from './FilterSelect3.vue';
+
+const hoggarinfo = HoggarInfo()
+
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

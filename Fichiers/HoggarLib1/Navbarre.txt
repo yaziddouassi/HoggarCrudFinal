@@ -1,0 +1,223 @@
+<template>
+    <div class="min-[800px]:hidden h-[60px]">
+
+    <div class="fixed w-full top-0 right-0 left-0 bottom-0 z-[50]
+    text-[white] min-[800px]:hidden bg-black h-[60px] text-center flex">
+        <div class="w-[60px] pt-[15px]"  @click="showNavbar=true">
+         <span class="material-icons text-[30px]">
+            menu
+            </span>
+        </div>
+        <div class="h-[60px] w-full font-bold text-[26px] pt-[10px] ">
+            DASHBOARD
+         </div>
+         <div class="h-[60px] w-[60px] pt-[14px]" @click="showNavbar2=true">
+        <span class="material-icons text-[30px]">
+         account_circle
+         </span>
+         </div>
+
+    </div>
+     
+    <div v-show="showNavbar" class="fixed w-full top-0 right-0 left-0 bottom-0 z-[100] 
+    min-h-[100vh]  pb-[40px]
+    bg-black text-white overflow-y-scroll">
+         <div class="flex p-[5px] justify-end">
+            <div>
+            <svg @click="showNavbar=false"
+               width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+               <circle cx="20" cy="20" r="19" stroke="white" stroke-width="2" fill="none" />
+               <line x1="12" y1="12" x2="28" y2="28" stroke="white" stroke-width="2" />
+               <line x1="28" y1="12" x2="12" y2="28" stroke="white" stroke-width="2" />
+             </svg>
+            </div>
+         </div>
+
+         <div class="max-w-[300px] m-auto  p-[20px] pt-[20px]">
+           
+          
+
+          <div class="p-[4px] bg-[blue] text-center border-[1px] font-bold border-white text-[22px] rounded-[2px] mb-[10px]">
+                 <Link href="/admin">DASHBOARD</Link>
+          </div>
+
+          
+
+      <Link
+        v-for="(item, index) in hoggarinfo.routes"
+        :key="index"
+        :href="item.route"
+        @click="hoggarlisting.resetActionIds()"
+      >
+        <div
+          :class="currentPath.startsWith(item.route.split('?')[0])
+            ? 'mt-[10px] flex mb-[10px] p-[5px] bg-[#8A2BE2] pl-[3px] pt-[10px] pb-[10px] text-[18px] rounded-r-[18px]'
+            : 'pl-[3px] text-[18px] flex'"
+        >
+          <div class="pt-[2px]">
+            <span class="material-icons text-[18px]">
+              {{ item.icon }} 
+            </span>
+          </div>
+          <div class="pl-[5px]">
+            <span>{{ item.label }}</span>
+          </div>
+        </div>
+      </Link>
+
+
+      <div class="flex mt-[15px]" @click="open = !open">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="19" stroke="blue" stroke-width="2" fill="none" />
+            <line x1="20" y1="12" x2="20" y2="28" stroke="blue" stroke-width="2" />
+            <line x1="12" y1="20" x2="28" y2="20" stroke="blue" stroke-width="2" />
+          </svg>
+        </div>
+        <div class="pl-[15px] font-bold text-[24px] mt-[2px]">
+          DEV
+        </div>
+      </div>
+
+      <div class="p-[5px] pl-[15px] mt-[10px] bg-[#111]" v-show="open">
+        <div class="text-[20px]">
+          <Link href="/admin/crud-generator">
+            <span class="material-icons text-[16px]">auto_stories</span>
+            CRUD
+          </Link>
+        </div>
+
+        <div class="text-[20px]">
+          <Link href="/admin/wizard-generator">
+            <span class="material-icons text-[16px]">currency_rupee</span>
+            WIZARD
+          </Link>
+        </div>
+
+        <div class="text-[20px]">
+          <Link href="/admin/route-generator">
+            <span class="material-icons text-[18px]">local_car_wash</span>
+            ROUTER
+          </Link>
+        </div>
+      </div>
+
+
+
+      <div class="pl-[3px] mt-[10px] text-[18px] flex" 
+      @click="resetSession()">
+            <div class="pt-[2px]">
+            <span class="material-icons text-[18px]">
+                settings
+                </span>
+            </div>
+            <div class="pl-[5px]">
+            <span>Reset Session</span>
+           </div>
+          </div>
+
+
+        
+
+
+         
+         </div>  
+
+         
+
+    </div>
+
+
+    <div class="fixed w-full top-0 right-0 left-0 bottom-0 z-[100] 
+    min-h-[100vh]
+    bg-black text-white" v-show="showNavbar2">
+      <div class="flex p-[5px] justify-end">
+        <div>
+           <svg @click="showNavbar2=false"
+              width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+             <circle cx="20" cy="20" r="19" stroke="white" stroke-width="2" fill="none" />
+              <line x1="12" y1="12" x2="28" y2="28" stroke="white" stroke-width="2" />
+             <line x1="28" y1="12" x2="12" y2="28" stroke="white" stroke-width="2" />
+            </svg>
+        </div>
+      </div>
+
+      <div class="max-w-[300px] m-auto  p-[5px] pt-[20px]">
+         
+         <div class="pl-[3px] text-[18px] flex">
+            <div class="pt-[2px]">
+                <span class="material-icons text-[blue]">
+                  person
+                  </span>
+            </div>
+            <div class="pl-[5px]">
+            <span>
+               {{ page.props.user.name }}
+             </span>
+           </div>
+        </div>
+
+        <div class="pl-[3px] text-[18px] flex">
+         <div class="pt-[2px]" >
+            <span class="material-icons text-[red]" @click="logout()">
+               settings_power
+               </span>
+             
+         </div>
+         <div class="pl-[5px]" @click="logout()">
+         <span>Logout</span>
+        </div>
+     </div>
+
+      </div>
+
+    </div>
+
+
+
+
+</div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting';
+import { router } from '@inertiajs/vue3'
+
+const page = usePage();
+const currentPath = computed(() => page.url.split('?')[0]);
+
+const hoggarinfo = HoggarInfo();
+const hoggarlisting = HoggarListing();
+const  showNavbar = ref(false)
+const  showNavbar2 = ref(false)
+const open = ref(false);
+
+function logout() {
+  if (confirm('Do you want to logout ?')) {
+    router.post('/admin/logout', {}, {
+      preserveScroll: true,
+    })
+  }
+}
+
+function resetSession() {
+
+  if (confirm('Do you want reset session ?')) {
+    localStorage.removeItem('hoggar')
+    hoggarinfo.setRoutes(page.props.routes)
+    router.get('/admin',{} ,{
+      preserveScroll: false,
+    })
+  }
+
+}
+
+
+</script>
+
+<style lang="scss" scoped>
+
+</style>

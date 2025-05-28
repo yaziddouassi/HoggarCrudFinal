@@ -1,0 +1,115 @@
+<template>
+  <div class="grid grid-cols-2 w-full gap-4">
+    <!-- Colonne de gauche avec contenu aligné à gauche -->
+    <div class="text-left">
+      <div class="flex gap-2">
+        <div class="relative inline-block text-left">
+          <!-- Bouton du menu -->
+          <div
+            @click="ouvrir1()"
+            class="cursor-pointer px-4 py-2 bg-blue-600 text-white rounded-lg shadow"
+          >
+            Action
+          </div>
+
+          <!-- Menu déroulant -->
+          <div
+            v-show="hoggarinfo.show2 && hoggarlisting.actionIds.length"
+            class="absolute z-10 mt-2 w-48 bg-black text-white p-[5px] rounded-lg shadow-lg border border-gray-200">
+            <div v-for="(item, index) in hoggarlisting.groupActions" :key="index">
+              <Action :cle="index" />
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="cursor-pointer px-4 py-2 bg-black text-white rounded-lg shadow"
+          @click="rezetActionIds()"
+        >
+          Reset Tabs
+        </div>
+
+        <div class="p-2 rounded" v-if="hoggarlisting.actionIds.length">
+          {{ hoggarlisting.actionIds.length }} Selecteds
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne de droite avec contenu aligné à droite -->
+    <div class="text-right">
+      <div class="flex justify-end gap-2">
+        <div>
+          <FilterSelect2 :cle="'paginationPerPage'" :cle2="'paginationPerPageList'" />
+        </div>
+
+        <div
+          class="border-[1px] border-black p-2 rounded cursor-pointer"
+          @click="confirmRezetFilter"
+        >
+          Reset Filters
+        </div>
+
+        <div
+          class="border-[1px] border-black p-2 rounded cursor-pointer"
+          @click="ouvrir2()"
+        >
+          All Filters
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo'
+import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting'
+import Action from './Action.vue'
+import FilterSelect2 from './FilterSelect2.vue'
+import { router, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
+
+const hoggarlisting = HoggarListing()
+const hoggarinfo = HoggarInfo()
+const page = usePage()
+const open = ref(false)
+
+function rezetActionIds() {
+  hoggarinfo.show = false
+  hoggarinfo.show2 = false
+  hoggarlisting.actionIds = []
+}
+
+function ouvrir1() {
+  hoggarinfo.show = false
+  hoggarinfo.show2 = !hoggarinfo.show2
+}
+
+function ouvrir2() {
+  hoggarinfo.show2 = false
+  hoggarinfo.show = !hoggarinfo.show
+}
+
+function rezetFilter() {
+
+  const hoggar = JSON.parse(localStorage.getItem('hoggar'))
+  hoggar[hoggarlisting.settings.hogarModelClassName] = {}
+  hoggarlisting.actionIds = []
+  localStorage.setItem('hoggar', JSON.stringify(hoggar))
+
+  hoggarinfo.setRoutes(page.props.routes)
+
+  router.visit(hoggarlisting.settings.hogarDataRouteListe, {
+    method: 'get',
+    preserveState: false,
+  })
+}
+
+function confirmRezetFilter() {
+  if (confirm('Are you sure you want to reset all filters?')) {
+    rezetFilter()
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+</style>

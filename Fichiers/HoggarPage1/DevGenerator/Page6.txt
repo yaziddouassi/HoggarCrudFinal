@@ -1,0 +1,210 @@
+<template>
+  <div class="conteneur-global">
+    <div class="carte-connexion">
+      <h1 class="titre-entreprise">{{ props.company }}</h1>
+
+      <form @submit.prevent="soumettre" autocomplete="off">
+        <div class="groupe-champ">
+          <label for="email">Email</label>
+          <input
+            v-model="form.email"
+            type="email"
+            id="email"
+            :class="{ 'champ-erreur': form.errors.email }"
+            required
+            autofocus
+          />
+          <div v-if="form.errors.email" class="message-erreur">
+            {{ form.errors.email }}
+          </div>
+        </div>
+
+        <div class="groupe-champ">
+          <label for="motdepasse">Password</label>
+          <input
+            v-model="form.password"
+            type="password"
+            id="motdepasse"
+            :class="{ 'champ-erreur': form.errors.password }"
+            autocomplete="new-password"
+            required
+          />
+          <div v-if="form.errors.password" class="message-erreur">
+            {{ form.errors.password }}
+          </div>
+        </div>
+
+        <div class="case-memoire">
+          <input
+            v-model="form.remember"
+            type="checkbox"
+            id="se-souvenir"
+          />
+          <label for="se-souvenir">Remember me</label>
+        </div>
+
+        <div class="zone-bouton">
+          <button type="submit" :disabled="form.processing">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useForm } from '@inertiajs/vue3'
+
+const form = useForm({
+  email: '',
+  password: '',
+  remember: false,
+})
+
+const props = defineProps({
+  company: String
+})
+
+function soumettre() {
+  form.post('/admin/login')
+}
+</script>
+
+<style>
+/* Reset de base */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+}
+
+/* Inertia wrapper */
+#app {
+  height: 100%;
+  width: 100%;
+}
+
+/* Conteneur principal centré */
+.conteneur-global {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: #000;
+  color: white;
+}
+
+/* Boîte du formulaire */
+.carte-connexion {
+  width: 100%;
+  max-width: 400px;
+  background-color: #111;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Titre */
+.titre-entreprise {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #3b82f6;
+  text-align: center;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Groupe champ */
+.groupe-champ {
+  margin-bottom: 1rem;
+}
+
+.groupe-champ label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.groupe-champ input[type="email"],
+.groupe-champ input[type="password"] {
+  width: 100%;
+  height: 44px;
+  padding: 0.5rem 1rem;
+  background-color: #222;
+  border: 1px solid #4b5563;
+  color: #e5e7eb;
+  border-radius: 2px;
+  outline: none;
+}
+
+.groupe-champ input:focus {
+  box-shadow: 0 0 0 2px white;
+}
+
+/* Style champ en erreur */
+.champ-erreur {
+  border-color: #ef4444;
+}
+
+/* Message erreur */
+.message-erreur {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Case à cocher */
+.case-memoire {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.case-memoire input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #3b82f6;
+  background-color: #374151;
+  border: 1px solid #4b5563;
+}
+
+.case-memoire label {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Bouton */
+.zone-bouton {
+  display: flex;
+  justify-content: center;
+}
+
+.zone-bouton button {
+  background-color: blue;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 2px;
+  height: 44px;
+  width: 140px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.zone-bouton button:hover {
+  background-color: #2563eb;
+}
+
+.zone-bouton button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+</style>

@@ -1,0 +1,136 @@
+<template>
+  <div>
+    <div>
+      {{ capitalizeFirstLetter(props.cle) }}
+    </div>
+
+    <div class="flex items-center gap-2">
+      <input
+        type="checkbox"
+        :id="props.cle"
+        v-model="myInput"
+        @change="replaceQuery"
+        class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+      />
+      <label :for="props.cle" class="text-sm text-gray-700">
+        Activer le filtre
+      </label>
+
+      <button
+        v-if="myInput"
+        @click="rezetInput"
+        type="button"
+        class="text-gray-400 hover:text-gray-600"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 
+               1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 
+               1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 
+               10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { router, usePage } from '@inertiajs/vue3'
+import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting'
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo'
+
+const hoggarlisting = HoggarListing()
+const hoggarinfo = HoggarInfo()
+
+const props = defineProps({
+  cle: {
+    type: String,
+    required: true
+  },
+})
+
+const myInput = ref(false)
+const page = usePage()
+const url = new URL(window.location.href)
+const params = new URLSearchParams(url.search)
+
+if (params.has(props.cle)) {
+  const value = params.get(props.cle)
+  myInput.value = value === 'true' || value === '1'
+}
+
+function replaceQuery() {
+
+  hoggarlisting.actionIds = []
+  hoggarinfo.show2 = false
+
+  const hoggar = JSON.parse(localStorage.getItem('hoggar'))
+  const isValue = Object.values(hoggarinfo.sessionFilter).includes(props.cle)
+
+  if (myInput.value) {
+    if (isValue) {
+      hoggar[hoggarlisting.settings.hogarModelClassName][props.cle] = true
+    } else {
+      delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+    }
+
+    localStorage.setItem('hoggar', JSON.stringify(hoggar))
+    hoggarinfo.setRoutes(page.props.routes)
+
+    const url = new URL(window.location.href)
+    const params = new URLSearchParams(url.search)
+
+    params.delete('page')
+    params.set(props.cle, true)
+
+    router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  } else {
+    delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+    localStorage.setItem('hoggar', JSON.stringify(hoggar))
+    hoggarinfo.setRoutes(page.props.routes)
+
+    const url = new URL(window.location.href)
+    const params = new URLSearchParams(url.search)
+
+    params.delete('page')
+    // 👇 Nouvelle ligne : garder le filtre même à false
+    params.set(props.cle, false)
+
+    router.visit(`${url.pathname}?${params.toString()}`, {
+      method: 'get',
+      preserveState: true,
+    })
+  }
+}
+
+function rezetInput() {
+  const hoggar = JSON.parse(localStorage.getItem('hoggar'))
+  myInput.value = false
+  delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+  localStorage.setItem('hoggar', JSON.stringify(hoggar))
+  hoggarinfo.setRoutes(page.props.routes)
+
+  const url = new URL(window.location.href)
+  const params = new URLSearchParams(url.search)
+
+  params.delete('page')
+  params.set(props.cle, false) // 👈 même ici, garder la clé avec false
+
+  router.visit(`${url.pathname}?${params.toString()}`, {
+    method: 'get',
+    preserveState: true,
+  })
+}
+
+const capitalizeFirstLetter = (str) => {
+  if (!str) return ''
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+</script>

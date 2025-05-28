@@ -1,0 +1,120 @@
+<template>
+    <div class="min-[800px]:flex w-full text-black">
+      <Sidebarre/>
+        <div class="min-h-[100vh] w-full  overflow-x-auto  bg-[#D5D5D5] p-[3px]">
+          <Navbarre/>
+          <div class="text-center h-[60px] pt-[10px] bg-[#DFDFDF] text-[darkblue] font-bold text-[28px]">
+            Route Update
+        </div>
+
+
+        <div class="p-[10px] pt-[60px]">
+            
+            <div class="bg-[#DFDFDF] p-[10px] pt-[5px] max-w-[400px] m-auto"> 
+                
+                <div class="text-center">
+                    <span class="text-[20px]">Update Route:</span>
+                </div>
+
+                <form @submit.prevent="submit">
+    
+                  <div >Label</div>
+                  <div>
+                        <input type="text" class="w-full" v-model="form.label">
+                  </div>
+                  <div class="text-[red]" v-if="form.errors.label">
+                      {{ form.errors.label }}
+                  </div>
+        
+                  <div >Icon</div>
+                  <div>
+                        <input type="text" class="w-full" v-model="form.icon">
+                  </div>
+                  <div class="text-[red]" v-if="form.errors.icon">
+                      {{ form.errors.icon }}
+                  </div>
+
+                  <div >Active</div>
+
+                  <div>
+                    <select v-model="form.active">
+                      <option value="1">Active</option>
+                      <option value="0">Non Active</option>
+                    </select>
+                  </div>
+
+                  <div class="text-[red]" v-if="form.errors.active">
+                      {{ form.errors.active }}
+                  </div>
+
+
+                    <div class="pt-[15px] text-center">
+                    <button type="submit"
+                    class="bg-[blue] text-[24px] w-[150px] text-white p-[7px] rounded-[3px]">
+                        Update</button>
+                </div>
+
+                </form>
+  
+            </div>
+        </div>
+
+
+
+        </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import Sidebarre from '@/HoggarLibs/Sidebarre.vue';
+  import Navbarre from '@/HoggarLibs/Navbarre.vue'
+  import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+  import { useForm } from '@inertiajs/vue3';
+  import { router } from '@inertiajs/vue3';
+
+  const props = defineProps({
+    routes: {
+    type: Object,
+    required: true
+  }, 
+  user: {
+    type: Object,
+    required: true
+  },
+  record: {
+    type: Object,
+    required: true
+  }, 
+});
+
+const hoggarinfo = HoggarInfo();
+hoggarinfo.setRoutes(props.routes)
+
+const form = useForm({
+  id : props.record.id,
+  icon : props.record.icon,
+  label : props.record.label,
+  active : Number(props.record.active),
+})
+
+function submit() {
+  const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+  form.post('/admin/route-generator/edit/record', {
+     preserveScroll: true,
+     preserveState: true,
+     onSuccess: () => {
+      notyf.success('Record updated');
+      hoggarinfo.setRoutes(props.routes)
+      router.get('/admin/route-generator')
+    }
+   })
+
+
+}
+
+
+  </script>
+  
+  <style lang="css" scoped>
+  
+  </style>

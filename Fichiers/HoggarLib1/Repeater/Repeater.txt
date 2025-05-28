@@ -1,0 +1,238 @@
+<template>
+  <div class="w-full mb-[5px]">
+    <div>
+      <span class="font-bold">
+        {{ hoggarinput.hogarDataLabels[props.cle] }}
+      </span>
+    </div>
+
+    <div v-if="hoggarinput.errors[props.cle]" class="text-[red]">
+        {{ hoggarinput.errors[props.cle] }}
+    </div>
+
+    <div>
+      <!-- Boucle sur les lignes répétables -->
+      <div v-if="hoggarinput.repeaterLines[props.cle].length != 0"
+        v-for="(item, index) in hoggarinput.repeaterLines[props.cle]"
+        :key="index"
+        class="border border-gray-500 rounded-lg p-1.5 mb-[10px]"
+        :draggable="hoggarinput.hogarDataOptions[props.cle]['draggable'] === 'yes'"
+        @dragstart="onDragStart(index)"
+        @dragover.prevent
+        @drop="onDrop(index)"
+      > 
+        <div class="grid grid-cols-2 mb-2">
+          <div class="text-left text-gray-600"
+              :class="{ 'cursor-grab': hoggarinput.hogarDataOptions[props.cle]['draggable'] === 'yes' }"   >
+            <span v-if="hoggarinput.hogarDataOptions[props.cle]['draggable'] === 'yes'"
+             class="material-icons">
+                 arrow_upward
+            </span>
+            <span v-if="hoggarinput.hogarDataOptions[props.cle]['draggable'] === 'yes'"
+            class="material-icons">
+                 arrow_downward
+            </span>
+           
+          </div>
+          
+          <div class="text-right">
+            <span v-if="hoggarinput.hogarDataOptions[props.cle]['removeLine'] === 'yes'"
+             class="material-icons text-red-500 cursor-pointer" @click="deleteLine(index)">
+              delete
+            </span>
+          </div>
+        </div>
+
+        <!-- Grille dynamique ici -->
+        <div
+          class="grid gap-4 mb-4"
+         :class="'grid-cols-' + hoggarinput.hogarDataOptions[props.cle]['grid']"
+        >
+          <div
+            
+            v-for="(value, index2) in Object.values(item).filter(v => v && v.type !== 'Hidden')"
+            :key="index2" 
+
+           
+          >
+            <InputText
+              v-if="value['type'] === 'Text'"
+              :cle="props.cle"
+              :cle2="index"
+              :cle3="value['field']"
+            />
+
+            <InputDate
+              v-if="value['type'] === 'Date'"
+              :cle="props.cle"
+              :cle2="index"
+              :cle3="value['field']"
+            />
+
+             <InputNumber
+              v-if="value['type'] === 'Number'"
+              :cle="props.cle"
+              :cle2="index"
+              :cle3="value['field']"
+            />
+
+             <CheckBox
+              v-if="value['type'] === 'Checkbox'"
+              :cle="props.cle"
+              :cle2="index"
+              :cle3="value['field']"
+            />
+
+             <CheckBoxMultiple
+              v-if="value['type'] === 'CheckboxList'"
+              :cle="props.cle"
+              :cle2="index"
+              :cle3="value['field']"
+            />
+
+
+            <Textarea
+              v-if="value['type'] === 'Textarea'"
+              :cle="props.cle"
+              :cle2="index"
+              :cle3="value['field']"
+            />
+            
+
+            <InputSelect
+              v-if="value['type'] === 'Select'"
+              :cle="props.cle"
+              :cle2="index"
+              :cle3="value['field']"
+            />
+
+             <InputRadio
+              v-if="value['type'] === 'Radio'"
+              :cle="props.cle"
+              :cle2="index"
+              :cle3="value['field']"
+            />
+
+            <Editeur
+              v-if="value['type'] === 'Quill'"
+              :cle="props.cle"
+              :cle2="index"
+              :cle3="value['field']"
+            />
+
+
+          </div>
+        </div>
+      </div>
+
+      <div v-if="hoggarinput.hogarDataOptions[props.cle]['addLine'] === 'yes'"
+       class="text-center border border-gray-500 rounded-[4px] p-2 mt-[5px]"
+        @click="addLine()">
+        Add {{ props.cle }}
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput'
+import InputText from './InputText.vue'
+import InputDate from './InputDate.vue'
+import InputNumber from './InputNumber.vue'
+import CheckBox from './CheckBox.vue'
+import Textarea from './Textarea.vue'
+import InputSelect from './InputSelect.vue'
+import InputRadio from './InputRadio.vue'
+import CheckBoxMultiple from './CheckBoxMultiple.vue'
+import Editeur from './Editeur.vue'
+import { usePage } from '@inertiajs/vue3'
+
+const props = defineProps({
+  cle: {
+    type: String,
+    required: true
+  }
+})
+
+const hoggarinput = HoggarInput()
+const page = usePage()
+
+
+console.log(hoggarinput.hogarDataValues['ville'],hoggarinput.repeaterLines['ville'],
+  page.props.hogarInputs.hogarRepeaterFields['ville']
+)
+
+
+// 👉 Ajouter une ligne répétable
+function addLine() {
+
+  if (hoggarinput.hogarDataOptions[props.cle]['maxLine']  != 'inifinite') {
+
+       if (hoggarinput.hogarDataOptions[props.cle]['maxLine'] <= 
+           hoggarinput.repeaterLines[props.cle].length ) {
+           const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+          notyf.error('The maximum lines is: ' + hoggarinput.hogarDataOptions[props.cle]['maxLine']); 
+         return 
+       }
+
+     
+   }
+
+  const key = props.cle;
+  const index = hoggarinput.hogarDataValues[key]?.length || 0;
+  
+  hoggarinput.resetError()
+
+  if (!hoggarinput.hogarDataValues[key]) hoggarinput.hogarDataValues[key] = [];
+  if (!hoggarinput.repeaterLines[key]) hoggarinput.repeaterLines[key] = [];
+
+  hoggarinput.hogarDataValues[key][index] = [];
+  hoggarinput.repeaterLines[key][index] = [];
+
+  Object.entries(page.props.hogarInputs.hogarRepeaterFields[key]).forEach(([subKey, config]) => {
+    hoggarinput.hogarDataValues[key][index][subKey] = config.value || '';
+    hoggarinput.repeaterLines[key][index][subKey] = config;
+  });
+}
+
+// 👉 Supprimer une ligne
+function deleteLine(index) {
+
+  if (hoggarinput.hogarDataOptions[props.cle]['minLine'] >= 
+           hoggarinput.repeaterLines[props.cle].length ) {
+          const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+          notyf.error('The minimum lines is: ' + hoggarinput.hogarDataOptions[props.cle]['minLine']);
+         return 
+       }
+
+  const key = props.cle;
+  hoggarinput.hogarDataValues[key].splice(index, 1);
+  hoggarinput.repeaterLines[key].splice(index, 1);
+   hoggarinput.resetError()
+}
+
+// 👉 Drag & Drop
+let dragIndex = null;
+
+function onDragStart(index) {
+  dragIndex = index;
+}
+
+function onDrop(dropIndex) {
+   hoggarinput.resetError()
+  const key = props.cle;
+  if (dragIndex === null || dragIndex === dropIndex) return;
+
+  // Échanger les lignes dans les deux structures
+  const tempValues = hoggarinput.hogarDataValues[key][dragIndex];
+  const tempLines = hoggarinput.repeaterLines[key][dragIndex];
+
+  hoggarinput.hogarDataValues[key][dragIndex] = hoggarinput.hogarDataValues[key][dropIndex];
+  hoggarinput.repeaterLines[key][dragIndex] = hoggarinput.repeaterLines[key][dropIndex];
+
+  hoggarinput.hogarDataValues[key][dropIndex] = tempValues;
+  hoggarinput.repeaterLines[key][dropIndex] = tempLines;
+
+  dragIndex = null;
+}
+</script>

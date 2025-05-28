@@ -1,0 +1,117 @@
+<template>
+  <div class="w-full mb-5">
+    <div>
+      <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+    </div>
+
+    <div class="w-[100%] flex items-center justify-center">
+      <label class="w-[100%]">
+        <input type="file" ref="fileInputRef" @change="handleFileSelection" accept="audio/*" hidden />
+        <div class="flex w-[100%] h-[50px] px-2 flex-col bg-[blue] rounded-full shadow text-[white] text-[14px] font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
+          Choose Audio
+        </div>
+      </label>
+    </div>
+
+    <!-- Display Selected File Name -->
+    <div v-if="hoggarinput.hogarDataValues[props.cle]?.name &&
+     !hoggarinput.hogarDataValues[props.cle]?.type.startsWith('audio')
+     && !hoggarinput.hogarDataValues[props.cle]?.type.startsWith('image') 
+     && !hoggarinput.hogarDataValues[props.cle]?.type.startsWith('video')
+     "
+    
+    class="mt-2 text-gray-700 text-sm">
+      <span class="font-semibold">{{ hoggarinput.hogarDataValues[props.cle].name }}  </span>
+    </div>
+
+    <div v-if="hoggarinput.tempUrls[props.cle] &&
+     hoggarinput.hogarDataValues[props.cle]?.type.startsWith('audio')" 
+    class="flex justify-center mt-2">
+       <audio controls class="w-[250px]" :src="hoggarinput.tempUrls[props.cle]" type="audio/mpeg">
+        Your browser does not support the audio element.
+     </audio>
+   </div>
+
+   <div v-if="hoggarinput.tempUrls[props.cle] &&
+     hoggarinput.hogarDataValues[props.cle]?.type.startsWith('image')"
+     class="mt-3 flex justify-center">
+        <img :src="hoggarinput.tempUrls[props.cle]" alt="Selected Image" class="w-32 h-32 object-cover rounded-lg shadow" />
+   </div>
+
+   <div v-if="hoggarinput.tempUrls[props.cle] &&
+     hoggarinput.hogarDataValues[props.cle]?.type.startsWith('video')" 
+   class="mt-3">
+        <video controls :src="hoggarinput.tempUrls[props.cle]" type="video/mp4"
+          class="w-full h-auto rounded-md">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+   
+
+    <!-- Progress Bar -->
+    <div v-if="uploadProgress > 0" class="relative w-full h-2 bg-gray-300 rounded mt-2">
+      <div
+        class="absolute top-0 left-0 h-full bg-blue-500 rounded transition-all duration-300"
+        :style="{ width: uploadProgress + '%' }"
+      ></div>
+    </div>
+
+    <div v-if="uploadProgress > 0" class="text-sm text-gray-600 mt-1">
+      Uploading: {{ uploadProgress }}%
+    </div>
+
+    <div v-if="hoggarinput.errors[props.cle]" class="text-red-500 text-sm mt-1">
+      {{ hoggarinput.errors[props.cle] }}
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, watch, onMounted } from 'vue';
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
+
+const props = defineProps({
+  cle: {
+    type: String,
+    required: true,
+  },
+  progress: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const hoggarinput = HoggarInput();
+const uploadProgress = ref(0);
+const fileInputRef = ref(null);
+
+
+// Watch for progress updates from Creator.vue
+watch(() => props.progress, (newProgress) => {
+  uploadProgress.value = newProgress;
+});
+
+const handleFileSelection = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    hoggarinput.hogarDataValues[props.cle] = file;
+    hoggarinput.tempUrls[props.cle] = URL.createObjectURL(file)
+  } else {
+    hoggarinput.hogarDataValues[props.cle] = '';
+    hoggarinput.tempUrls[props.cle] = '' ;
+  }
+};
+
+// Watch for resetDatas() being triggered
+watch(() => hoggarinput.hogarDataValues[props.cle], (newValue) => {
+  if (newValue == '') {
+    fileInputRef.value.value = '';
+  }
+});
+
+onMounted(() => {
+  if (fileInputRef.value) {
+    fileInputRef.value.value = ''; // Ensure input is empty on mount
+  }
+});
+</script>

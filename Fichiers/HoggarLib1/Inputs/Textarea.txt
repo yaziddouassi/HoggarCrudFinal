@@ -1,0 +1,33 @@
+<template>
+    <div class="w-full mb-[5px]">
+      <div>
+        <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+      </div>
+  
+      <div>
+        <textarea
+          class="w-full bg-[#E8E8E8] border-[darkblue] border-[1px]"
+          :rows="hoggarinput.hogarDataOptions[props.cle].rows"
+          v-model="hoggarinput.hogarDataValues[props.cle]"
+        ></textarea>
+      </div>
+  
+      <div v-if="hoggarinput.errors[props.cle]" class="text-[red]">
+        {{ hoggarinput.errors[props.cle] }}
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
+  
+  const props = defineProps({
+    cle: {
+      type: String,
+      required: true,
+    },
+  });
+  
+  const hoggarinput = HoggarInput();
+  </script>
+

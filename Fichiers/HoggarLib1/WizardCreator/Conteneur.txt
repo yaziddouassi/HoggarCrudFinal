@@ -1,0 +1,118 @@
+<template>
+    <div class="max-w-[700px] m-auto grid grid-cols-1  p-[10px] pt-[0px] gap-[10px]">
+      <div 
+        v-for="(item, index) in hoggarinput.hogarDataFields"
+        :key="index" >
+        
+          <Editeur  v-if="hoggarinput.hogarDataTypes[index] === 'Quill'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)" :cle="index" />
+          
+          <InputText v-if="hoggarinput.hogarDataTypes[index] === 'Text'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <Password v-if="hoggarinput.hogarDataTypes[index] === 'Password'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <Textarea v-if="hoggarinput.hogarDataTypes[index] === 'Textarea'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <CheckBox v-if="hoggarinput.hogarDataTypes[index] === 'Checkbox'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" /> 
+
+          <CheckBoxMultiple v-if="hoggarinput.hogarDataTypes[index] === 'CheckboxList'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" /> 
+           
+           <InputRadio v-if="hoggarinput.hogarDataTypes[index] === 'Radio'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+          
+           <InputSelect v-if="hoggarinput.hogarDataTypes[index] === 'Select'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <InputNumber v-if="hoggarinput.hogarDataTypes[index] === 'Number'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <InputDate v-if="hoggarinput.hogarDataTypes[index] === 'Date'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <InputFile v-if="hoggarinput.hogarDataTypes[index] === 'File'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+        
+           <InputImage v-if="hoggarinput.hogarDataTypes[index] === 'Image'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <InputVideo v-if="hoggarinput.hogarDataTypes[index] === 'Video'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+
+           <InputAudio v-if="hoggarinput.hogarDataTypes[index] === 'Audio'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <MultipleFile v-if="hoggarinput.hogarDataTypes[index] === 'MultipleFile'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+          
+           <MultipleAudio v-if="hoggarinput.hogarDataTypes[index] === 'MultipleAudio'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+          
+           <MultipleImage v-if="hoggarinput.hogarDataTypes[index] === 'MultipleImage'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <MultipleVideo v-if="hoggarinput.hogarDataTypes[index] === 'MultipleVideo'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+           <Repeater v-if="hoggarinput.hogarDataTypes[index] === 'Repeater'
+          && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
+           :cle="index" />
+
+
+      </div>
+    </div>
+  </template>
+
+<script setup>
+import InputText from '../Inputs/InputText.vue';
+import Password from '../Inputs/Password.vue';
+import InputSelect from '../Inputs/InputSelect.vue';
+import InputRadio from '../Inputs/InputRadio.vue';
+import InputNumber from '../Inputs/InputNumber.vue';
+import InputDate from '../Inputs/InputDate.vue';
+import CheckBoxMultiple from '../Inputs/CheckBoxMultiple.vue';
+import CheckBox from '../Inputs/CheckBox.vue';
+import Editeur from '../Inputs/Editeur.vue';
+import InputFile from '../Inputs/InputFile.vue';
+import InputImage from '../Inputs/InputImage.vue';
+import InputVideo from '../Inputs/InputVideo.vue';
+import InputAudio from '../Inputs/InputAudio.vue';
+import MultipleFile from '../Inputs/MultipleFile.vue';
+import MultipleAudio from '../Inputs/MultipleAudio.vue';
+import MultipleImage from '../Inputs/MultipleImage.vue';
+import MultipleVideo from '../Inputs/MultipleVideo.vue';
+import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
+import Textarea from '../Inputs/Textarea.vue';
+import Repeater from '../Repeater/Repeater.vue';
+
+
+const hoggarinput = HoggarInput();
+  
+
+</script>
+
+<style lang="css" scoped>
+
+</style>

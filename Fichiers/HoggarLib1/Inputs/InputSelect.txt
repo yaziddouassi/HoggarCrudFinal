@@ -1,0 +1,39 @@
+<template>
+    <div class="w-full mb-[5px]">
+      <div>
+        <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+      </div>
+  
+      <div>
+        <select
+          class="w-full bg-[#E8E8E8] h-[50px] border-[darkblue] border-[1px]"
+          v-model="hoggarinput.hogarDataValues[props.cle]"
+        >
+          <option value="">-- Sélectionner --</option>
+          <option
+            v-for="(option,index) in hoggarinput.hogarDataOptions[props.cle].contents"
+            :key="option"
+            :value="option">
+            {{ option }}
+          {{ hoggarinput.hogarDataOptions[props.cle].labels[index] }}
+          </option>
+        </select>
+      </div>
+  
+      <div v-if="hoggarinput.errors[props.cle]" class="text-[red]">
+        {{ hoggarinput.errors[props.cle] }}
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput'
+  
+  const props = defineProps({
+    cle: {
+      type: String,
+    },
+  })
+  
+  const hoggarinput = HoggarInput()
+  </script>

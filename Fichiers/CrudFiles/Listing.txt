@@ -1,0 +1,149 @@
+<template>
+  <div class="min-[800px]:flex w-full  min-w-[900px] text-black">
+    <Sidebarre />
+    <div class="min-h-[100vh] w-full min-w-[900px] overflow-x-auto bg-[#DFDFDF]">
+      <Navbarre/>
+      <div>
+        <ListeTop />
+      </div>
+
+      <div class="p-[5px]">
+        <FilterListTop/>
+      </div>
+
+      <div class="p-[5px]" v-show="hoggarinfo.show">
+        <FilterList/>
+      </div>
+
+      <div class="overflow-x-auto p-[10px] pt-[15px]">
+        <table class="min-w-full bg-[#DDD] text-center  border ">
+          <thead>
+            <tr class="border-[darkblue]   border-b-[0px] border-t-[0px] text-[darkblue]">
+              <th class="py-[40px] px-[10px]  font-medium"></th>
+              <th class="py-3 px-[10px]  font-medium">Id</th>
+              <th class="py-3 px-[10px]  font-medium">Name</th>
+              <th class="py-3 px-[10px]  font-medium ">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody v-if="items.data.length">
+            <tr v-for="item in items.data" :key="item.id"
+              class="border-b even:bg-[#ddd] odd:bg-[#e4e4e4]">
+              <td class="min-w-[40px]"> 
+      
+
+                <span v-if="!hoggarlisting.actionIds.includes(item.id)"
+                 @click="hoggarlisting.AddActionIds(item.id)"
+                 class="w-4 h-4 inline-block">
+                    <Svg1 />
+                </span>
+
+                <span v-if="hoggarlisting.actionIds.includes(item.id)"
+                 @click="hoggarlisting.RemoveActionIds(item.id)"
+                class="inline-block">
+                  <Svg2 />
+                  </span>
+
+              </td>
+              <td class="py-3 px-4">{{item.id}}</td>
+              <td class="py-3 px-4">{{item.name}}</td>
+              <td class="py-3 px-4 max-w-[300px] flex justify-center gap-2">
+                <BtnUpdate  :ide="item.id" />
+                <BtnDelete  :ide="item.id" />
+                <Custom1 :record="item" :cle="'custom1'" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+
+
+      <div>
+        <Paginator :pagination="items" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import Sidebarre from '@/HoggarLibs/Sidebarre.vue'
+import FilterList from '@/HoggarLibs/Listing/FilterList.vue'
+import FilterListTop from '@/HoggarLibs/Listing/FilterListTop.vue'
+import BtnUpdate from '@/HoggarLibs/Listing/BtnUpdate.vue'
+import BtnDelete from '@/HoggarLibs/Listing/BtnDelete.vue'
+import Custom1 from './Customs/Custom1.vue'
+import Navbarre from '@/HoggarLibs/Navbarre.vue'
+import { usePage } from '@inertiajs/vue3'
+import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo'
+import ListeTop from '@/HoggarLibs/Listing/ListeTop.vue'
+import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting'
+import Paginator from '@/HoggarLibs/Paginator.vue'
+import Svg1 from '@/HoggarLibs/Listing/Svg1.vue'
+import Svg2 from '@/HoggarLibs/Listing/Svg2.vue'
+
+const props = defineProps({
+  routes: {
+    type: Object,
+    required: true
+  },
+  user: {
+    type: Object,
+    required: true
+  },
+  items: {
+    type: Object,
+    required: true
+  },
+  hogarSettings: {
+    type: Object,
+    required: true
+  },
+  allFilters: {
+    type: Object,
+    required: true
+  },
+  customFilters: {
+    type: Object,
+    required: true
+  },
+  sessionFilter: {
+    type: Object,
+    required: true
+  },
+  groupActions: {
+    type: Object,
+    required: true
+  },
+  hogarDataUrlCheckRecord : {
+    type: String,
+    required: true
+  },
+  customs: {
+    type: Object,
+    required: true
+  },
+})
+
+
+const page = usePage()
+const hoggarinfo = HoggarInfo()
+const hoggarlisting = HoggarListing()
+
+
+hoggarlisting.setSettings(props.hogarSettings)
+hoggarinfo.setRoutes(props.routes)
+
+hoggarlisting.groupActions = props.groupActions
+
+
+hoggarinfo.allFilters = props.allFilters
+hoggarinfo.customFilters = props.customFilters
+hoggarinfo.sessionFilter = props.sessionFilter
+hoggarinfo.show = false
+
+</script>
+
+<style scoped>
+/* Add styles if needed */
+</style>

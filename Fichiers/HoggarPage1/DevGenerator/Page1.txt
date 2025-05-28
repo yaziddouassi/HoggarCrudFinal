@@ -1,0 +1,134 @@
+<template>
+    <div class="min-[800px]:flex w-full text-black">
+      <Sidebarre/>
+        <div class="min-h-[100vh] w-full overflow-x-auto  bg-[#D5D5D5]">
+          <Navbarre/>
+          
+          <div class="text-center h-[60px] pt-[10px] bg-[#DFDFDF] text-[darkblue] font-bold text-[28px]">
+            Crud-generator
+          </div>
+
+          <div class="max-w-[400px] m-auto p-[10px] pt-[40px]">
+              <div class="m-auto p-[10px] bg-[#DFDFDF]">   
+                 
+                <div class="text-center">
+                    <span class="text-[20px]">Create Crud:</span>
+                </div>
+
+                <form @submit.prevent="submit">
+
+                 <div>
+                    <label for="">Model</label>
+                  </div>
+                 <div >
+                      <select class="w-full" v-model="form.model">
+                         <option value="">Choose Models</option>
+                         <option v-for="item in props.listModels" :key="item" :value="item">
+                           {{ item }}
+                         </option>
+                      </select>
+                 </div>
+                 <div class="text-[red]" v-if="form.errors.model">
+                      {{ form.errors.model }}
+                  </div>
+
+
+                 <div class="pt-[5px]">
+                    <label for="">Middleware:</label>
+                  </div>
+                 <div>
+                      <select class="w-full" v-model="form.middleware">
+                         <option value="">Choose Models:</option>
+                         <option v-for="item in props.middlewareList" :key="item" :value="item">
+                           {{ item }}
+                         </option>
+                      </select>
+                 </div>
+
+                 <div class="text-[red]" v-if="form.errors.middleware">
+                      {{ form.errors.middleware }}
+                  </div> 
+
+                  <div class="pt-[15px] text-center">
+                    <button type="submit"
+                    class="bg-[blue] text-[24px] w-[150px] text-white p-[7px] rounded-[3px]">
+                        ENTER</button>
+                </div>
+
+                </form>
+
+
+              </div>
+          </div> 
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import Sidebarre from '@/HoggarLibs/Sidebarre.vue';
+  import Navbarre from '@/HoggarLibs/Navbarre.vue'
+  import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
+  import { useForm } from '@inertiajs/vue3';
+
+  const props = defineProps({
+    routes: {
+    type: Object,
+    required: true
+  }, 
+  middlewareList: {
+    type: Object,
+    required: true
+  },
+  user: {
+    type: Object,
+    required: true
+  },
+  listModels: {
+    type: Object,
+    required: true
+  },
+});
+
+const hoggarinfo = HoggarInfo();
+hoggarinfo.setRoutes(props.routes)
+
+const form = useForm({
+  model : '',
+  middleware : '',
+})
+
+function submit() {
+  const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
+
+  form.post('/admin/crud-generator/create', {
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: () => {
+      notyf.success('Crud created');
+      hoggarinfo.setRoutes(props.routes);
+    },
+    onError: (errors) => {
+     // if (form.hasErrors) return;
+
+      if (form.errors.message) {
+          notyf.error(form.errors.message);
+      } 
+
+     
+    }
+  });
+}
+
+  </script>
+  
+  <style lang="css" scoped>
+  
+  </style>
