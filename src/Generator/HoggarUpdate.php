@@ -127,6 +127,32 @@ class HoggarUpdate extends Controller
 
     public function addRepeater($a) {
 
+         if($a['addLine'] === true) {
+        $a['addLine'] = 'yes';
+        }
+
+        elseif($a['addLine'] !== true) {
+        $a['addLine'] = 'no';
+        }
+
+        if($a['draggable'] === true) {
+        $a['draggable'] = 'yes';
+        }
+
+        elseif($a['draggable'] !== true) {
+        $a['draggable'] = 'no';
+        }
+
+        if($a['removeLine'] === true) {
+        $a['removeLine'] = 'yes';
+        }
+
+        elseif($a['removeLine'] !== true) {
+        $a['removeLine'] = 'no';
+        }
+
+
+
         $this->tabFields[$a['field']] = $a['field'] ;
         $this->tabLabels[$a['field']] = ucfirst($a['field']);
         $this->tabTypes[$a['field']] = 'Repeater';
