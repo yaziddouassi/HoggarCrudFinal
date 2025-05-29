@@ -74,13 +74,13 @@ import BtnUpdate from '@/HoggarLibs/Listing/BtnUpdate.vue'
 import BtnDelete from '@/HoggarLibs/Listing/BtnDelete.vue'
 import Custom1 from './Customs/Custom1.vue'
 import Navbarre from '@/HoggarLibs/Navbarre.vue'
-import { usePage } from '@inertiajs/vue3'
 import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo'
 import ListeTop from '@/HoggarLibs/Listing/ListeTop.vue'
 import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting'
 import Paginator from '@/HoggarLibs/Paginator.vue'
 import Svg1 from '@/HoggarLibs/Listing/Svg1.vue'
 import Svg2 from '@/HoggarLibs/Listing/Svg2.vue'
+import {listingService} from '@/HoggarLibs/Service/listingService'
 
 const props = defineProps({
   routes: {
@@ -125,22 +125,14 @@ const props = defineProps({
   },
 })
 
-
-const page = usePage()
 const hoggarinfo = HoggarInfo()
 const hoggarlisting = HoggarListing()
 
-console.log(props.hogarDataUrlCheckRecord,props.customUrl1)
-hoggarlisting.setSettings(props.hogarSettings)
-hoggarinfo.setRoutes(props.routes)
+const { setSettings } = listingService()
 
-hoggarlisting.groupActions = props.groupActions
+setSettings()
 
 
-hoggarinfo.allFilters = props.allFilters
-hoggarinfo.customFilters = props.customFilters
-hoggarinfo.sessionFilter = props.sessionFilter
-hoggarinfo.show = false
 
 </script>
 

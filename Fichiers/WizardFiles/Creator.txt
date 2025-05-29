@@ -57,10 +57,8 @@ import Conteneur from '@/HoggarLibs/WizardCreator/Conteneur.vue';
 import FormTop from '@/HoggarLibs/WizardCreator/FormTop.vue';
 import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
 import { WizardCreate } from '@/HoggarLibs/stores/wizardcreate';
-import { router } from '@inertiajs/vue3';
-import { HoggarInfo } from '@/HoggarLibs/stores/hoggarinfo';
 import WizardStep from '@/HoggarLibs/WizardCreator/WizardStep.vue';
-import { HoggarListing } from '@/HoggarLibs/stores/hoggarlisting'
+import { wizardCreateService } from '@/HoggarLibs/Service/wizardCreateService';
 
 const props = defineProps({
   routes: {
@@ -98,160 +96,14 @@ const props = defineProps({
 
 });
 
-const hoggarinfo = HoggarInfo();
-hoggarinfo.setRoutes(props.routes)
+
 const hoggarinput = HoggarInput();
-const wizardcreate = WizardCreate()
-const hoggarlisting = HoggarListing()
-hoggarlisting.resetActionIds()
-// Initialize form values
-hoggarinput.hogarDataUrlStorage = props.hogarInputs.hogarDataUrlStorage;
-hoggarinput.hogarDataDefaultValues = props.hogarInputs.hogarDataDefaultValues;
-hoggarinput.hogarDataValues = props.hogarInputs.hogarDataValues;
-hoggarinput.hogarDataFields = props.hogarInputs.hogarDataFields;
-hoggarinput.hogarDataTypes = props.hogarInputs.hogarDataTypes;
-hoggarinput.hogarDataOptions = props.hogarInputs.hogarDataOptions;
-hoggarinput.hogarDataLabels = props.hogarInputs.hogarDataLabels;
-hoggarinput.hogarDataNullables = props.hogarInputs.hogarDataNullables;
-hoggarinput.hogarNoDatabases = props.hogarInputs.hogarNoDatabases;
-hoggarinput.wizardForm = props.wizardForm
-hoggarinput.wizardLabel = props.wizardLabel
-hoggarinput.wizardStop = props.wizardStop
-hoggarinput.wizardCount = props.wizardCount
-hoggarinput.wizardCurrent = 1
+const wizardcreate = WizardCreate();
+const { setSettings ,submit ,reculer  } = wizardCreateService()
 
-hoggarinput.setRepeaterLines(props.hogarInputs.hogarRepeaters,props.hogarInputs.hogarRepeaterFields);
-
-hoggarinput.initTempUrls();
-
-wizardcreate.setSettings(props.hogarSettings);
-
-let currentRoute = hoggarinfo.routes.find(item => item.model === props.hogarSettings.hogarModelClassName)?.route;
-if(currentRoute == undefined) {
-  currentRoute = props.hogarSettings.hogarDataRouteListe
-}
-
-function cleanQuillContent(html) {
-  if (typeof html !== 'string') return html;
-  return html.replace(/<p>\s*<\/p>/g, '').replace(/<p><br><\/p>/g, '').trim();
-}
-
-function reculer() {
-  hoggarinput.wizardCurrent =  hoggarinput.wizardCurrent - 1
-}
+setSettings()
 
 
-function nextValidate() {
-  hoggarinput.wizardCurrent =  hoggarinput.wizardCurrent + 1
-}
 
-function afterCreate1() {
-  hoggarinput.wizardCurrent = 1 ;
-  const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
-  notyf.success('Record created');
-  router.get(currentRoute);
-}
-
-function afterCreate2() {
-  hoggarinput.wizardCurrent = 1 ;
-  const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
-  notyf.success('Record created Other');
-  hoggarinput.resetDatas();
-  hoggarinput.setRepeaterLines(props.hogarInputs.hogarRepeaters,props.hogarInputs.hogarRepeaterFields);
-  hoggarinput.resetError();
-}
-
-// Function to prepare and submit form data
-function insert(action) {
- 
- 
-
-  const formData = new FormData();
-
-  if (action == 'next') {
-    formData.append('saveActive', 'no');
-  }
-  if (action != 'next') {
-    formData.append('saveActive', 'yes');
-  }
-  
-  formData.append('wizardStep',hoggarinput.wizardCurrent);
-
-  Object.keys(hoggarinput.hogarDataValues).forEach((key) => {
-    const value = hoggarinput.hogarDataValues[key];
-
-    const tab1 = ['MultipleFile','MultipleImage','MultipleVideo','MultipleAudio'];
-    if (tab1.includes(hoggarinput.hogarDataTypes[key])) {
-     
-    if(!value || value.length === 0) {
-      formData.append(key, '');
-    }
-      
-    else if (Array.isArray(value)) {
-      value.forEach((file, index) => {
-        formData.append(`${key}[]`, file);
-      });
-    }
-    }
-
-    const tab2 = ['File','Image','Video','Audio'];
-    if(tab2.includes(hoggarinput.hogarDataTypes[key])) {
-      formData.append(key, value);
-    }
-
-    const tab3 = ['Text','Date','Hidden','Select','Number','Radio','Checkbox','CheckboxList','Password','Textarea'];
-    if(tab3.includes(hoggarinput.hogarDataTypes[key])) {
-      formData.append(key, value);
-    }
-
-     const tab4 = ['Quill'];
-    if(tab4.includes(hoggarinput.hogarDataTypes[key])) {
-      formData.append(key, cleanQuillContent(value || ''));
-    }
-
-
-    if (hoggarinput.hogarDataTypes[key] === 'Repeater' && Array.isArray(value)) {
-  value.forEach((item, i) => {
-    Object.entries(item).forEach(([subKey, subValue]) => {
-
-
-      if(hoggarinput.repeaterLines[key][i][subKey]['type'] == 'Quill') {
-          subValue  = cleanQuillContent(subValue || '')
-      }
-
-      formData.append(`${key}[${i}][${subKey}]`, subValue);
-    });
-  });
-}
-
-    
-
-  });
-
-  
-  router.post(wizardcreate.settings.hogarValidationUrl, formData, {
-    forceFormData: true,
-    onError: (errors) => {
-      hoggarinput.setError(errors);
-      console.error('Validation Errors:', hoggarinput.errors);
-    },
-    onSuccess: () => {
-      if (action === 'creer') {
-        afterCreate1();
-      } else if (action === 'other') {
-        afterCreate2();
-      }
-     else if (action === 'next') {
-       nextValidate();
-       hoggarinput.resetError();
-      }
-    }
-  });
-}
-
-// Submit function
-function submit(action) {
-  insert(action);
-}
 
 </script>
