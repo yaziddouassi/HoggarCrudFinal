@@ -8,7 +8,8 @@
   
       <div>
         <select
-          class="w-full bg-[#E8E8E8] h-[50px] border-[darkblue] border-[1px]"
+          class="w-full bg-[#E8E8E8] h-[50px] border-[darkblue] border-[1px]
+          text-center"
           v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
         >
           <option value="">-- Select --</option>

@@ -25,6 +25,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Hoggarcrud\Hoggar\Generator\WizardCreate;
 use Illuminate\Database\Eloquent\Collection;
+use Hoggarcrud\Hoggar\Fields\TextInput;
+use Hoggarcrud\Hoggar\Fields\Number;
 
 class CreatorController extends WizardCreate
 {
@@ -47,8 +49,12 @@ class CreatorController extends WizardCreate
     
     public function initField()
     {
-        \$this->addField('Text',['field' => 'name']);
-        \$this->addField('Number',['field' => 'age','min' => '' ,'max' => '','step' => '']);
+
+        \$this->form([
+             TextInput::make('name'),
+             Number::make('age'),
+         ]); 
+        
     }
 
     public function store(Request \$request)
@@ -129,6 +135,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Hoggarcrud\Hoggar\Generator\HoggarUpdate;
 use Illuminate\Database\Eloquent\Collection;
+use Hoggarcrud\Hoggar\Fields\TextInput;
+use Hoggarcrud\Hoggar\Fields\Number;
 
 class UpdatorController extends HoggarUpdate
 {
@@ -148,8 +156,10 @@ class UpdatorController extends HoggarUpdate
 
     public function initField()
     {   
-        \$this->addField('Text',['field' => 'name']);
-        \$this->addField('Number',['field' => 'age','min' => '' ,'max' => '','step' => '']);
+         \$this->form([
+             TextInput::make('name'),
+             Number::make('age'),
+         ]); 
     }
 
 

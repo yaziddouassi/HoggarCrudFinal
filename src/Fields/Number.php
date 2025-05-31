@@ -1,0 +1,107 @@
+<?php
+namespace Hoggarcrud\Hoggar\Fields;
+
+class Number
+{
+    protected string $field;
+    protected string $label;
+    protected string $type = 'Number';
+    protected array $options = [];
+    protected bool $noDatabase = false;
+    protected $default = '';
+    
+    public static function make(string $field): self
+    {
+        $instance = new self();
+        $instance->field = $field;
+        $instance->label = ucfirst($field);
+        $instance->options['field'] = $field;
+        $instance->options['min'] = 'inifinite';
+        $instance->options['max'] = 'inifinite';
+        $instance->options['step'] = 1;
+        return $instance;
+    }
+
+    public function label(string $label): self
+    {
+        $this->label = $label;
+        return $this;
+    }
+
+    public function value($value): self
+    {
+        $this->default = $value;
+        return $this;
+    }
+
+    public function min($value): self
+    {
+        $this->options['min'] = $value;
+        return $this;
+    }
+
+    public function max($value): self
+    {
+        $this->options['max'] = $value;
+        return $this;
+    }
+
+     public function step($value): self
+    {
+        $this->options['step'] = $value;
+        return $this;
+    }
+    
+    public function notInDatabase(): self
+    {
+        $this->noDatabase = true;
+        return $this;
+    }
+
+    public function registerTo($generator): void
+    {
+        $generator->tabFields[$this->field] = $this->field;
+        $generator->tabLabels[$this->field] = $this->label;
+        $generator->tabTypes[$this->field] = $this->type;
+        $generator->tabOptions[$this->field] = $this->options;
+        $generator->tabValues[$this->field] = $this->default;
+        $generator->tabDefaultValues[$this->field] = $this->default;
+
+        if ($this->noDatabase) {
+            $generator->tabNodatabases[$this->field] = $this->field;
+        }
+    }
+
+
+     public function updateTo($generator): void
+    {
+        $this->registerTo($generator);
+   }
+
+   
+   public function repeteurTo($generator,$champs): void
+    {
+        $b = [];
+        $b['type'] = $this->type ;
+        $b['field'] = $this->field ;
+        $b['label'] = $this->label ;
+        $b['value'] = $this->default ;
+        $b['min'] = $this->options['min'];
+        $b['max'] = $this->options['max'];
+        $b['step'] = $this->options['step'];
+
+        $generator->tabRepeaterFields[$champs][$b['field']] = $b ;
+      
+  
+    }
+
+
+    public function repeteurToUpdate($generator,$champs): void
+    {
+      $this->repeteurTo($generator,$champs);
+  
+    } 
+
+
+
+}

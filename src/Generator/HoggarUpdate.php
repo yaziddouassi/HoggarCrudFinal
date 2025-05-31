@@ -105,7 +105,8 @@ class HoggarUpdate extends Controller
 
     }
 
-    public function setFieldValue($a,$b) {
+    
+public function setFieldValue($a,$b) {
 
         if (in_array($a, $this->tabFields)) {
             $this->tabValues[$a] = $b;
@@ -124,62 +125,20 @@ class HoggarUpdate extends Controller
         }
 
     }
+   
 
-    public function addRepeater($a) {
+   public function form(array $fields): void
+{
 
-         if($a['addLine'] === true) {
-        $a['addLine'] = 'yes';
-        }
+    foreach ($fields as $field) {
 
-        elseif($a['addLine'] !== true) {
-        $a['addLine'] = 'no';
-        }
-
-        if($a['draggable'] === true) {
-        $a['draggable'] = 'yes';
-        }
-
-        elseif($a['draggable'] !== true) {
-        $a['draggable'] = 'no';
-        }
-
-        if($a['removeLine'] === true) {
-        $a['removeLine'] = 'yes';
-        }
-
-        elseif($a['removeLine'] !== true) {
-        $a['removeLine'] = 'no';
-        }
-
-
-
-        $this->tabFields[$a['field']] = $a['field'] ;
-        $this->tabLabels[$a['field']] = ucfirst($a['field']);
-        $this->tabTypes[$a['field']] = 'Repeater';
-        $this->tabOptions[$a['field']] = $a;
-        $this->tabRepeaters[$a['field']] = $a;
+        $field->updateTo($this); 
+     
     }
 
-
-    public function repeaterField($a,$b) {
-
-       $this->tabRepeaterFields[$a][$b['field']] = $b ;
-
-    }
+}
 
 
-    public function setFieldNodatabase($a) {
-
-           $this->tabNodatabases[$a] = $a;
-
-    }
-
-
-    public function setFieldNotNullable($a) {
-        
-           $this->tabNullables[$a] = $a;
-
-    }
 
    
     public function updateRecord(Request $request)

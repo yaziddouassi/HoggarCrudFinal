@@ -31,6 +31,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Hoggarcrud\Hoggar\Generator\HoggarCreate;
 use Illuminate\Database\Eloquent\Collection;
+use Hoggarcrud\Hoggar\Fields\TextInput;
 
 class CreatorController extends HoggarCreate
 {
@@ -45,7 +46,10 @@ class CreatorController extends HoggarCreate
 
     public function initField()
     {
-        \$this->addField('Text',['field' => 'name']);
+
+         \$this->form([
+             TextInput::make('name'),
+         ]); 
     }
 
     public function store(Request \$request)
@@ -98,6 +102,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Hoggarcrud\Hoggar\Generator\HoggarUpdate;
 use Illuminate\Database\Eloquent\Collection;
+use Hoggarcrud\Hoggar\Fields\TextInput;
 
 class UpdatorController extends HoggarUpdate
 {
@@ -113,7 +118,9 @@ class UpdatorController extends HoggarUpdate
 
     public function initField()
     {   
-        \$this->addField('Text',['field' => 'name']);
+         \$this->form([
+             TextInput::make('name'),
+         ]); 
     }
 
 

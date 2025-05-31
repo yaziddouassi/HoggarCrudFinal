@@ -67,131 +67,19 @@ class HoggarCreate extends Controller
     }
 
 
+    public function form(array $fields): void
+{
 
+    foreach ($fields as $field) {
 
-    public function addField($a,$b) {
-        $this->tabFields[$b['field']] = $b['field'] ;
-        $this->tabLabels[$b['field']] = ucfirst($b['field']);
-        $this->tabTypes[$b['field']] = $a;
-        $this->tabOptions[$b['field']] = $b;
-
-        if (in_array($a, $this->arrayTypes1)) {
-            $this->tabValues[$b['field']] = '';
-            $this->tabDefaultValues[$b['field']] = '';
-        }
-
-        if (in_array($a, $this->arrayTypes2)) {
-            $this->tabValues[$b['field']] = '';
-            $this->tabDefaultValues[$b['field']] = '';
-        }
-
-        if (in_array($a, $this->arrayTypes3)) {
-            $this->tabValues[$b['field']] = '';
-            $this->tabDefaultValues[$b['field']] = '';
-        }
-
-        if (in_array($a, $this->arrayTypes5)) {
-            $this->tabValues[$b['field']] = [];
-            $this->tabDefaultValues[$b['field']] = [];
-        }
-
-        if (in_array($a, $this->arrayTypes6)) {
-            $this->tabValues[$b['field']] = [];
-            $this->tabDefaultValues[$b['field']] = [];
-        }
-
-        if (in_array($a, $this->arrayTypes7)) {
-            $this->tabValues[$b['field']] = false;
-            $this->tabDefaultValues[$b['field']] = false;
-        }
-
-        if (in_array($a, $this->arrayTypes8)) {
-            $this->tabValues[$b['field']] = '';
-            $this->tabDefaultValues[$b['field']] = '';
-        }
-
-    }
-
-    public function setFieldValue($a,$b) {
-
-        if (in_array($a, $this->tabFields)) {
-            $this->tabValues[$a] = $b;
-           $this->tabDefaultValues[$a] = $b;
-        }
-
-    }
-
-
-
-    public function setFieldLabel($a,$b) {
-
-        if (in_array($a, $this->tabFields)) {
-            $this->tabLabels[$a] = $b;
-         
-        }
-
-    }
-
-
-    public function addRepeater($a) {
-
-         if($a['addLine'] === true) {
-        $a['addLine'] = 'yes';
-        }
-
-        elseif($a['addLine'] !== true) {
-        $a['addLine'] = 'no';
-        }
-
-        if($a['draggable'] === true) {
-        $a['draggable'] = 'yes';
-        }
-
-        elseif($a['draggable'] !== true) {
-        $a['draggable'] = 'no';
-        }
-
-        if($a['removeLine'] === true) {
-        $a['removeLine'] = 'yes';
-        }
-
-        elseif($a['removeLine'] !== true) {
-        $a['removeLine'] = 'no';
-        }
-
-
-
-        $this->tabFields[$a['field']] = $a['field'] ;
-        $this->tabLabels[$a['field']] = ucfirst($a['field']);
-        $this->tabTypes[$a['field']] = 'Repeater';
-        $this->tabOptions[$a['field']] = $a;
-        $this->tabRepeaters[$a['field']] = $a;
-    }
-
-
-    public function repeaterField($a,$b) {
-
-       $this->tabRepeaterFields[$a][$b['field']] = $b ;
-
-    }
-
-
-
-    public function setFieldNodatabase($a) {
-
-           $this->tabNodatabases[$a] = $a;
-
-    }
-
-
-    public function setFieldNullable($a) {
-        
-           $this->tabNullables[$a] = $a;
-
-    }
-
-   
+         $field->registerTo($this);   
  
+    }
+
+
+}
+
+
     public function createRecord(Request $request)
     {
         foreach ($request->all() as $key => $value) {
@@ -275,14 +163,6 @@ class HoggarCreate extends Controller
     // ✅ On encode seulement à la fin
     $this->hogarRecord->$key = json_encode($cleanedRepeater);
 }
-
-
-
-
-
-
-
-
 
 
 
