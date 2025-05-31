@@ -15,7 +15,6 @@
             v-for="(option,index) in hoggarinput.hogarDataOptions[props.cle].contents"
             :key="option"
             :value="option">
-            {{ option }}
           {{ hoggarinput.hogarDataOptions[props.cle].labels[index] }}
           </option>
         </select>

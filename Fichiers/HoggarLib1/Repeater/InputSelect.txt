@@ -17,7 +17,6 @@
             v-for="(option,index) in hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['contents']"
             :key="option"
             :value="option">
-            {{ option }}
             {{ hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['labels'][index] }}
           </option>
         </select>
