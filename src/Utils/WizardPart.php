@@ -59,10 +59,6 @@ class CreatorController extends WizardCreate
 
     public function store(Request \$request)
     {  
-        
-
-        \$this->hogarRecord = new  \$this->hogarModelClass;
-
 
         if (\$request->wizardStep == 1) {
             \$request->validate(['name' => ['required']]);
@@ -72,12 +68,13 @@ class CreatorController extends WizardCreate
             \$request->validate(['age' => ['required']]);
         }
 
+        \$this->hogarRecord = new  \$this->hogarModelClass; 
+
         if (\$request->saveActive == 'yes') {
             \$this->createRecord( \$request);
             \$this->hogarRecord->save();
         }
         
-       
         
     }
 
@@ -153,8 +150,6 @@ class UpdatorController extends HoggarUpdate
 
     public function store(Request \$request)
      {
-
-       \$this->hogarRecord = \$this->hogarModelClass::find(\$request->id);
         
         if (\$request->wizardStep == 1) {
             \$request->validate(['name' => ['required']]);
@@ -163,6 +158,8 @@ class UpdatorController extends HoggarUpdate
         if (\$request->wizardStep == 2) {
             \$request->validate(['age' => ['required']]);
         }
+
+        \$this->hogarRecord = \$this->hogarModelClass::find(\$request->id);
 
         if (\$request->saveActive == 'yes' && \$this->hogarRecord) {
             \$this->updateRecord(\$request);
