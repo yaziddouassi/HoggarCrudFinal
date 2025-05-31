@@ -36,7 +36,8 @@
   
   <script setup>
   import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput'
-  
+  import { watch } from 'vue'
+
   const props = defineProps({
     cle: {
       type: String,
@@ -50,4 +51,18 @@
   })
   
   const hoggarinput = HoggarInput()
+
+watch(
+  () => hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3],
+  (newValue) => {
+    const options = hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['contents'] || []
+    if (!options.includes(newValue)) {
+      hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = ''
+    }
+  },
+  { immediate: true }
+)
+
+
+
   </script>

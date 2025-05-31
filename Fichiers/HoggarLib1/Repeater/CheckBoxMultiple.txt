@@ -63,6 +63,12 @@ const labels = computed(() =>
   hoggarinput.repeaterLines?.[props.cle]?.[props.cle2]?.[props.cle3]?.labels || []
 )
 
+function tab1InclutTab2(tab1, tab2) {
+  return tab2.every(item => tab1.includes(item))
+}
+
+
+
 // 🛠️ Corrige les données mal castées
 onMounted(() => {
   const currentValue = hoggarinput.hogarDataValues?.[props.cle]?.[props.cle2]?.[props.cle3]
@@ -79,12 +85,23 @@ onMounted(() => {
 })
 
 // 🧼 Vide si string vide
+
 watch(
-  () => hoggarinput.hogarDataValues?.[props.cle]?.[props.cle2]?.[props.cle3],
+  () => hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3],
   (newValue) => {
-    if (newValue === '') {
+    const allowed = hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]?.contents || []
+
+    // S'il y a des éléments dans la valeur qui ne sont pas valides, on réinitialise
+    const isArray = Array.isArray(newValue)
+    const isValid = isArray && newValue.every(item => allowed.includes(item))
+
+    if (!isValid) {
       hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = []
     }
-  }
+  },
+  { immediate: true }
 )
+
+
+
 </script>

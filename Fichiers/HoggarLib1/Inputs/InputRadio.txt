@@ -32,7 +32,7 @@
   
   <script setup>
   import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput'
-  
+  import { watch } from 'vue'
   const props = defineProps({
     cle: {
       type: String,
@@ -40,4 +40,18 @@
   })
   
   const hoggarinput = HoggarInput()
+
+watch(
+  () => hoggarinput.hogarDataValues[props.cle],
+  (newValue) => {
+    const options = hoggarinput.hogarDataOptions[props.cle]?.contents || []
+    if (!options.includes(newValue)) {
+      hoggarinput.hogarDataValues[props.cle] = ''
+    }
+  },
+  { immediate: true }
+)
+
+
+
   </script>

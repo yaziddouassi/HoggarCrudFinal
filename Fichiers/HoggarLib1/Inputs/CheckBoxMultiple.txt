@@ -32,7 +32,7 @@
 
 <script setup>
 import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput'
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 
 const props = defineProps({
   cle: {
@@ -46,22 +46,41 @@ const hoggarinput = HoggarInput()
 const options = hoggarinput.hogarDataOptions[props.cle]?.contents || []
 const labels = hoggarinput.hogarDataOptions[props.cle]?.labels || []
 
-// 🛠️ Corrige les données mal castées (ex: string JSON au lieu de tableau)
+function tab1InclutTab2(tab1, tab2) {
+  return tab2.every(item => tab1.includes(item))
+}
+
+// Nettoyage de la valeur au montage (ex: string JSON → tableau)
 onMounted(() => {
   const currentValue = hoggarinput.hogarDataValues[props.cle]
   if (typeof currentValue === 'string') {
     try {
       const parsed = JSON.parse(currentValue)
-
       if (Array.isArray(parsed)) {
         hoggarinput.hogarDataValues[props.cle] = parsed
-        
+      } else {
+        hoggarinput.hogarDataValues[props.cle] = []
       }
     } catch {
       hoggarinput.hogarDataValues[props.cle] = []
     }
   }
-
- 
 })
+
+// Watch pour valider que toutes les valeurs sont valides
+watch(
+  () => hoggarinput.hogarDataValues[props.cle],
+  (newValue) => {
+    const allowed = hoggarinput.hogarDataOptions[props.cle]?.contents || []
+
+    // S'il y a des éléments dans la valeur qui ne sont pas valides, on réinitialise
+    const isArray = Array.isArray(newValue)
+    const isValid = isArray && newValue.every(item => allowed.includes(item))
+
+    if (!isValid) {
+      hoggarinput.hogarDataValues[props.cle] = []
+    }
+  },
+  { immediate: true }
+)
 </script>

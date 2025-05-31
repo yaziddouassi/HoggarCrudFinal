@@ -61,33 +61,21 @@ class CreatorController extends WizardCreate
     {  
         
 
-        \$this->hogarRecord = new \$this->hogarModelClass;
+        \$this->hogarRecord = new  \$this->hogarModelClass;
+
 
         if (\$request->wizardStep == 1) {
-                 \$request->validate([
-                     'name' => ['required'],
-                  ]);
-
-            if (\$request->saveActive == 'yes') {
-                \$this->createRecord(\$request);
-                \$this->hogarRecord->save() ; 
-            }
+            \$request->validate(['name' => ['required']]);
         }
-       
 
-       
         if (\$request->wizardStep == 2) {
-            
-            \$request->validate([
-                'age' => ['required'],
-             ]);
+            \$request->validate(['age' => ['required']]);
+        }
 
-             if (\$request->saveActive == 'yes') {
-                 \$this->createRecord(\$request);
-                  \$this->hogarRecord->save() ; 
-             }
-          }
-  
+        if (\$request->saveActive == 'yes') {
+            \$this->createRecord( \$request);
+            \$this->hogarRecord->save();
+        }
         
        
         
@@ -166,38 +154,21 @@ class UpdatorController extends HoggarUpdate
     public function store(Request \$request)
      {
 
+       \$this->hogarRecord = \$this->hogarModelClass::find(\$request->id);
         
         if (\$request->wizardStep == 1) {
-                 \$request->validate([
-                     'name' => ['required'],
-                  ]);
-
-            if (\$request->saveActive == 'yes') {
-                \$this->hogarRecord = \$this->hogarModelClass::find(\$request->id);
-                if(\$this->hogarRecord) {
-                    \$this->updateRecord(\$request);
-            \$this->hogarRecord->save() ;
-                }
-                 
-            }
+            \$request->validate(['name' => ['required']]);
         }
-       
 
         if (\$request->wizardStep == 2) {
-             \$request->validate([
-               'age' => ['required'],
-             ]);
+            \$request->validate(['age' => ['required']]);
+        }
 
-          if (\$request->saveActive == 'yes') {
-                \$this->hogarRecord = \$this->hogarModelClass::find(\$request->id);
-                if(\$this->hogarRecord) {
-                    \$this->updateRecord(\$request);
-                    \$this->hogarRecord->save() ;
-                }
-    
-               }
-          }
-  
+        if (\$request->saveActive == 'yes' && \$this->hogarRecord) {
+            \$this->updateRecord(\$request);
+            \$this->hogarRecord->save();
+        }
+       
 
      }
 
