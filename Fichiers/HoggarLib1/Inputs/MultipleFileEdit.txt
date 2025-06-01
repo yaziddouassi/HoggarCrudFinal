@@ -1,7 +1,7 @@
 <template>
   <div class="w-full mb-5">
     <div>
-      <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+      <span class="font-bold">{{ hoggarinput.hoggarDataLabels[props.cle] }}</span>
     </div>
 
 
@@ -17,7 +17,7 @@
 
     <div v-if="!hoggarinput.existingFiles[props.cle].length &&
       !hoggarinput.tempUrlTabs[props.cle].length &&
-      Object.values(hoggarinput.hogarDataNullables).includes(props.cle)
+      Object.values(hoggarinput.hoggarDataNullables).includes(props.cle)
       "
      class="text-[red]">
  
@@ -42,7 +42,7 @@
     <div v-if="audioExtensions.
       some(ext => file?.toLowerCase().endsWith(ext))" 
     class="flex justify-center mt-2">
-       <audio controls class="w-[250px]" :src="hoggarinput.hogarDataUrlStorage+ file" type="audio/mpeg">
+       <audio controls class="w-[250px]" :src="hoggarinput.hoggarDataUrlStorage+ file" type="audio/mpeg">
         Your browser does not support the audio element.
      </audio>
    </div>
@@ -50,13 +50,13 @@
    <div v-if="imageExtensions.
       some(ext => file?.toLowerCase().endsWith(ext))"
      class="mt-3 flex justify-center">
-        <img :src="hoggarinput.hogarDataUrlStorage+file" alt="Selected Image" class="w-32 h-32 object-cover rounded-lg shadow" />
+        <img :src="hoggarinput.hoggarDataUrlStorage+file" alt="Selected Image" class="w-32 h-32 object-cover rounded-lg shadow" />
    </div>
 
    <div v-if="videoExtensions.
       some(ext => file?.toLowerCase().endsWith(ext))" 
    class="mt-3">
-        <video controls :src="hoggarinput.hogarDataUrlStorage+ file" type="video/mp4"
+        <video controls :src="hoggarinput.hoggarDataUrlStorage+ file" type="video/mp4"
           class="w-full h-auto rounded-md">
           Your browser does not support the video tag.
         </video>
@@ -132,19 +132,19 @@ const removedFiles = ref([]);
 // Formats de fichiers acceptés
 const acceptedFormats = 'image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt';
 
-console.log(hoggarinput.hogarDataNullables)
+console.log(hoggarinput.hoggarDataNullables)
 
 onMounted(() => {
-  if (hoggarinput.hogarRecordInput[props.cle]) {
-    hoggarinput.existingFiles[props.cle] = JSON.parse(hoggarinput.hogarRecordInput[props.cle] || '[]');
+  if (hoggarinput.hoggarRecordInput[props.cle]) {
+    hoggarinput.existingFiles[props.cle] = JSON.parse(hoggarinput.hoggarRecordInput[props.cle] || '[]');
   }
 
 });
 
 
 // Vérification si la clé contient bien un tableau
-if (!Array.isArray(hoggarinput.hogarDataValues[props.cle])) {
-  hoggarinput.hogarDataValues[props.cle] = [];
+if (!Array.isArray(hoggarinput.hoggarDataValues[props.cle])) {
+  hoggarinput.hoggarDataValues[props.cle] = [];
 }
 
 
@@ -165,14 +165,14 @@ const handleFileSelection = (event) => {
   const files = Array.from(event.target.files);
 
   files.forEach((file) => {
-    if (!hoggarinput.hogarDataValues[props.cle].some(existingFile => existingFile.name === file.name)) {
+    if (!hoggarinput.hoggarDataValues[props.cle].some(existingFile => existingFile.name === file.name)) {
       const preview = { file, url: URL.createObjectURL(file) };
       hoggarinput.tempUrlTabs[props.cle].push(preview);
-      hoggarinput.hogarDataValues[props.cle].push(file);
+      hoggarinput.hoggarDataValues[props.cle].push(file);
     }
   });
 
-  console.log("Fichiers sélectionnés :", hoggarinput.hogarDataValues[props.cle]);
+  console.log("Fichiers sélectionnés :", hoggarinput.hoggarDataValues[props.cle]);
 };
 
 
@@ -182,10 +182,10 @@ const removeExistingFile = (filePath) => {
     hoggarinput.existingFiles[props.cle].splice(index, 1);
     hoggarinput.removedFiles[props.cle].push(filePath);
 
-    let recordInputArray = JSON.parse(hoggarinput.hogarRecordInput[props.cle] || '[]');
+    let recordInputArray = JSON.parse(hoggarinput.hoggarRecordInput[props.cle] || '[]');
     recordInputArray = recordInputArray.filter(file => file !== filePath);
-    hoggarinput.hogarRecordInput[props.cle] = JSON.stringify(recordInputArray);
-    console.log(hoggarinput.hogarRecordInput[props.cle]);
+    hoggarinput.hoggarRecordInput[props.cle] = JSON.stringify(recordInputArray);
+    console.log(hoggarinput.hoggarRecordInput[props.cle]);
   }
 };
 
@@ -194,11 +194,11 @@ const removeExistingFile = (filePath) => {
 const removeFile = (index) => {
   URL.revokeObjectURL(hoggarinput.tempUrlTabs[props.cle][index].url);
   hoggarinput.tempUrlTabs[props.cle].splice(index, 1);
-  hoggarinput.hogarDataValues[props.cle].splice(index, 1);
+  hoggarinput.hoggarDataValues[props.cle].splice(index, 1);
 };
 
 // Réinitialisation automatique si les données sont vidées
-watch(() => hoggarinput.hogarDataValues[props.cle], (newValue) => {
+watch(() => hoggarinput.hoggarDataValues[props.cle], (newValue) => {
   if (Array.isArray(newValue) && newValue.length === 0) {
      hoggarinput.tempUrlTabs[props.cle]= [];
     if (fileInputRef.value) {

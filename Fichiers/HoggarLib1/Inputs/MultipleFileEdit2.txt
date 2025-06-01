@@ -1,7 +1,7 @@
 <template>
   <div class="w-full mb-5">
     <div>
-      <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+      <span class="font-bold">{{ hoggarinput.hoggarDataLabels[props.cle] }}</span>
     </div>
 
     <!-- Fichiers existants -->
@@ -9,17 +9,17 @@
       <div v-for="(file, index) in existingFiles" :key="file" class="relative">
         
         <!-- Affichage en fonction du type de fichier -->
-        <img v-if="isImage(file)" :src="hoggarinput.hogarDataUrlStorage + file" class="w-[250px] h-auto rounded-lg" />
+        <img v-if="isImage(file)" :src="hoggarinput.hoggarDataUrlStorage + file" class="w-[250px] h-auto rounded-lg" />
         
         <audio v-else-if="isAudio(file)" controls class="w-[250px]">
-          <source :src="hoggarinput.hogarDataUrlStorage + file" type="audio/mpeg" />
+          <source :src="hoggarinput.hoggarDataUrlStorage + file" type="audio/mpeg" />
         </audio>
 
         <video v-else-if="isVideo(file)" controls class="w-[250px]">
-          <source :src="hoggarinput.hogarDataUrlStorage + file" type="video/mp4" />
+          <source :src="hoggarinput.hoggarDataUrlStorage + file" type="video/mp4" />
         </video>
 
-        <a v-else :href="hoggarinput.hogarDataUrlStorage + file" target="_blank" class="text-blue-500">
+        <a v-else :href="hoggarinput.hoggarDataUrlStorage + file" target="_blank" class="text-blue-500">
           {{ file }}
         </a>
 
@@ -94,8 +94,8 @@ const removedFiles = ref([]);
 
 // Charger les fichiers existants
 onMounted(() => {
-  if (hoggarinput.hogarRecordInput[props.cle]) {
-    existingFiles.value = JSON.parse(hoggarinput.hogarRecordInput[props.cle] || '[]');
+  if (hoggarinput.hoggarRecordInput[props.cle]) {
+    existingFiles.value = JSON.parse(hoggarinput.hoggarRecordInput[props.cle] || '[]');
   }
 });
 
@@ -106,10 +106,10 @@ const handleFileSelection = (event) => {
   files.forEach((file) => {
     const preview = { file, url: URL.createObjectURL(file) };
     filePreviews.value.push(preview);
-    hoggarinput.hogarDataValues[props.cle].push(file);
+    hoggarinput.hoggarDataValues[props.cle].push(file);
   });
 
-  console.log("Nouveaux fichiers uploadés:", hoggarinput.hogarDataValues[props.cle]);
+  console.log("Nouveaux fichiers uploadés:", hoggarinput.hoggarDataValues[props.cle]);
 };
 
 // Supprimer un fichier existant
@@ -119,9 +119,9 @@ const removeExistingFile = (filePath) => {
     existingFiles.value.splice(index, 1);
     removedFiles.value.push(filePath);
 
-    let recordInputArray = JSON.parse(hoggarinput.hogarRecordInput[props.cle] || '[]');
+    let recordInputArray = JSON.parse(hoggarinput.hoggarRecordInput[props.cle] || '[]');
     recordInputArray = recordInputArray.filter(file => file !== filePath);
-    hoggarinput.hogarRecordInput[props.cle] = JSON.stringify(recordInputArray);
+    hoggarinput.hoggarRecordInput[props.cle] = JSON.stringify(recordInputArray);
   }
 };
 
@@ -129,12 +129,12 @@ const removeExistingFile = (filePath) => {
 const removeNewFile = (index) => {
   URL.revokeObjectURL(filePreviews.value[index].url);
   filePreviews.value.splice(index, 1);
-  hoggarinput.hogarDataValues[props.cle].splice(index, 1);
+  hoggarinput.hoggarDataValues[props.cle].splice(index, 1);
 };
 
 // Observer les fichiers supprimés et mettre à jour le formulaire
 watch(removedFiles, (newVal) => {
-  hoggarinput.hogarDataValues[`${props.cle}_removed`] = newVal;
+  hoggarinput.hoggarDataValues[`${props.cle}_removed`] = newVal;
 });
 
 // Nettoyer les URLs des objets pour éviter les fuites mémoire

@@ -44,11 +44,11 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  hogarInputs: {
+  hoggarInputs: {
     type: Object,
     required: true
   },
-  hogarSettings: {
+  hoggarSettings: {
     type: Object,
     required: true
   },

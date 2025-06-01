@@ -2,7 +2,7 @@
   <div class="w-full mb-[5px]">
     <div>
       <span class="font-bold">
-        {{ hoggarinput.hogarDataLabels[props.cle] }}
+        {{ hoggarinput.hoggarDataLabels[props.cle] }}
       </span>
     </div>
 
@@ -16,7 +16,7 @@
           type="checkbox"
           class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
           :value="option"
-          v-model="hoggarinput.hogarDataValues[props.cle]"
+          v-model="hoggarinput.hoggarDataValues[props.cle]"
         />
         <label class="text-sm">
           {{ labels[index] }}
@@ -43,8 +43,8 @@ const props = defineProps({
 
 const hoggarinput = HoggarInput()
 
-const options = hoggarinput.hogarDataOptions[props.cle]?.contents || []
-const labels = hoggarinput.hogarDataOptions[props.cle]?.labels || []
+const options = hoggarinput.hoggarDataOptions[props.cle]?.contents || []
+const labels = hoggarinput.hoggarDataOptions[props.cle]?.labels || []
 
 function tab1InclutTab2(tab1, tab2) {
   return tab2.every(item => tab1.includes(item))
@@ -52,33 +52,33 @@ function tab1InclutTab2(tab1, tab2) {
 
 // Nettoyage de la valeur au montage (ex: string JSON → tableau)
 onMounted(() => {
-  const currentValue = hoggarinput.hogarDataValues[props.cle]
+  const currentValue = hoggarinput.hoggarDataValues[props.cle]
   if (typeof currentValue === 'string') {
     try {
       const parsed = JSON.parse(currentValue)
       if (Array.isArray(parsed)) {
-        hoggarinput.hogarDataValues[props.cle] = parsed
+        hoggarinput.hoggarDataValues[props.cle] = parsed
       } else {
-        hoggarinput.hogarDataValues[props.cle] = []
+        hoggarinput.hoggarDataValues[props.cle] = []
       }
     } catch {
-      hoggarinput.hogarDataValues[props.cle] = []
+      hoggarinput.hoggarDataValues[props.cle] = []
     }
   }
 })
 
 // Watch pour valider que toutes les valeurs sont valides
 watch(
-  () => hoggarinput.hogarDataValues[props.cle],
+  () => hoggarinput.hoggarDataValues[props.cle],
   (newValue) => {
-    const allowed = hoggarinput.hogarDataOptions[props.cle]?.contents || []
+    const allowed = hoggarinput.hoggarDataOptions[props.cle]?.contents || []
 
     // S'il y a des éléments dans la valeur qui ne sont pas valides, on réinitialise
     const isArray = Array.isArray(newValue)
     const isValid = isArray && newValue.every(item => allowed.includes(item))
 
     if (!isValid) {
-      hoggarinput.hogarDataValues[props.cle] = []
+      hoggarinput.hoggarDataValues[props.cle] = []
     }
   },
   { immediate: true }

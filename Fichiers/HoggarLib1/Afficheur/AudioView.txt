@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-           <audio controls :src="page.props.hogarSettings.hogarDataUrlStorage+props.path" type="audio/mpeg">
+           <audio controls :src="page.props.hoggarSettings.hoggarDataUrlStorage+props.path" type="audio/mpeg">
            </audio>
     </div>
 </template>
@@ -17,7 +17,6 @@ const props = defineProps({
 });
 
 const page = usePage()
-console.log(page.props.hogarSettings.hogarDataUrlStorage)
 
 </script>
 

@@ -1,18 +1,18 @@
 <template>
     <div class="w-full mb-[5px]">
       <div>
-        <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+        <span class="font-bold">{{ hoggarinput.hoggarDataLabels[props.cle] }}</span>
       </div>
   
       <div>
         <input
           class="w-full bg-[#E8E8E8] h-[50px] border-[darkblue] border-[1px]"
           type="date"
-          v-model="hoggarinput.hogarDataValues[props.cle]"
-          :min="hoggarinput.hogarDataOptions[props.cle].min !== 'infinite' ? 
-                hoggarinput.hogarDataOptions[props.cle].min : null"
-          :max="hoggarinput.hogarDataOptions[props.cle].max !== 'infinite' ? 
-                hoggarinput.hogarDataOptions[props.cle].max : null"
+          v-model="hoggarinput.hoggarDataValues[props.cle]"
+          :min="hoggarinput.hoggarDataOptions[props.cle].min !== 'infinite' ? 
+                hoggarinput.hoggarDataOptions[props.cle].min : null"
+          :max="hoggarinput.hoggarDataOptions[props.cle].max !== 'infinite' ? 
+                hoggarinput.hoggarDataOptions[props.cle].max : null"
         >
       </div>
   

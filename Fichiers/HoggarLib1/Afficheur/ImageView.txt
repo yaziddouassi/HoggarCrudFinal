@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-          <img :src="page.props.hogarSettings.hogarDataUrlStorage+props.path" 
+          <img :src="page.props.hoggarSettings.hoggarDataUrlStorage+props.path" 
            :width="props.width"  />
     </div>
 </template>
@@ -20,7 +20,6 @@ const props = defineProps({
 });
 
 const page = usePage()
-console.log(page.props.hogarSettings.hogarDataUrlStorage)
 
 </script>
 

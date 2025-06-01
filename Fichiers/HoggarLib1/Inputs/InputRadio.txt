@@ -1,12 +1,12 @@
 <template>
     <div class="w-full mb-[5px]">
       <div>
-        <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+        <span class="font-bold">{{ hoggarinput.hoggarDataLabels[props.cle] }}</span>
       </div>
   
       <div class="space-y-2">
         <div
-          v-for="(option, index) in hoggarinput.hogarDataOptions[props.cle].contents"
+          v-for="(option, index) in hoggarinput.hoggarDataOptions[props.cle].contents"
           :key="option"
           class="flex items-center gap-2"
         >
@@ -15,11 +15,11 @@
             :id="`${props.cle}-${index}`"
             :name="props.cle"
             :value="option"
-            v-model="hoggarinput.hogarDataValues[props.cle]"
+            v-model="hoggarinput.hoggarDataValues[props.cle]"
             class="accent-darkblue"
           />
           <label :for="`${props.cle}-${index}`">
-            {{ hoggarinput.hogarDataOptions[props.cle].labels[index] }}
+            {{ hoggarinput.hoggarDataOptions[props.cle].labels[index] }}
           </label>
         </div>
       </div>
@@ -42,11 +42,11 @@
   const hoggarinput = HoggarInput()
 
 watch(
-  () => hoggarinput.hogarDataValues[props.cle],
+  () => hoggarinput.hoggarDataValues[props.cle],
   (newValue) => {
-    const options = hoggarinput.hogarDataOptions[props.cle]?.contents || []
+    const options = hoggarinput.hoggarDataOptions[props.cle]?.contents || []
     if (!options.includes(newValue)) {
-      hoggarinput.hogarDataValues[props.cle] = ''
+      hoggarinput.hoggarDataValues[props.cle] = ''
     }
   },
   { immediate: true }

@@ -1,7 +1,7 @@
 <template>
   <div class="w-full mb-5">
     <div>
-      <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+      <span class="font-bold">{{ hoggarinput.hoggarDataLabels[props.cle] }}</span>
     </div>
 
     <div class="w-full flex items-center justify-center">
@@ -67,8 +67,8 @@ const filePreviews = ref([]);
 const acceptedFormats = 'image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt';
 
 // Vérification si la clé contient bien un tableau
-if (!Array.isArray(hoggarinput.hogarDataValues[props.cle])) {
-  hoggarinput.hogarDataValues[props.cle] = [];
+if (!Array.isArray(hoggarinput.hoggarDataValues[props.cle])) {
+  hoggarinput.hoggarDataValues[props.cle] = [];
 }
 
 // Détecte le type de fichier pour l'affichage
@@ -81,25 +81,25 @@ const handleFileSelection = (event) => {
   const files = Array.from(event.target.files);
 
   files.forEach((file) => {
-    if (!hoggarinput.hogarDataValues[props.cle].some(existingFile => existingFile.name === file.name)) {
+    if (!hoggarinput.hoggarDataValues[props.cle].some(existingFile => existingFile.name === file.name)) {
       const preview = { file, url: URL.createObjectURL(file) };
       hoggarinput.tempUrlTabs[props.cle].push(preview);
-      hoggarinput.hogarDataValues[props.cle].push(file);
+      hoggarinput.hoggarDataValues[props.cle].push(file);
     }
   });
 
-  console.log("Fichiers sélectionnés :", hoggarinput.hogarDataValues[props.cle]);
+  console.log("Fichiers sélectionnés :", hoggarinput.hoggarDataValues[props.cle]);
 };
 
 // Suppression d'un fichier
 const removeFile = (index) => {
   URL.revokeObjectURL(hoggarinput.tempUrlTabs[props.cle][index].url);
   hoggarinput.tempUrlTabs[props.cle].splice(index, 1);
-  hoggarinput.hogarDataValues[props.cle].splice(index, 1);
+  hoggarinput.hoggarDataValues[props.cle].splice(index, 1);
 };
 
 // Réinitialisation automatique si les données sont vidées
-watch(() => hoggarinput.hogarDataValues[props.cle], (newValue) => {
+watch(() => hoggarinput.hoggarDataValues[props.cle], (newValue) => {
   if (Array.isArray(newValue) && newValue.length === 0) {
      hoggarinput.tempUrlTabs[props.cle]= [];
     if (fileInputRef.value) {

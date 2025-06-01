@@ -1,7 +1,7 @@
 <template>
   <div class="w-full mb-5">
     <div>
-      <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+      <span class="font-bold">{{ hoggarinput.hoggarDataLabels[props.cle] }}</span>
     </div>
 
     <div class="w-[100%] flex items-center justify-center">
@@ -15,32 +15,32 @@
 
 
 
-    <div v-if="!hoggarinput.hogarDataValues[props.cle]">
+    <div v-if="!hoggarinput.hoggarDataValues[props.cle]">
     <!-- Display Selected File Name -->
     <div v-if="!UnionExtensions.
-      some(ext => hoggarinput.hogarRecordInput[props.cle]?.toLowerCase().endsWith(ext))"
+      some(ext => hoggarinput.hoggarRecordInput[props.cle]?.toLowerCase().endsWith(ext))"
     class="mt-2 text-gray-700 text-sm">
-      <span class="font-semibold">{{hoggarinput.hogarRecordInput[props.cle] }}  </span>
+      <span class="font-semibold">{{hoggarinput.hoggarRecordInput[props.cle] }}  </span>
     </div>
 
     <div v-if="audioExtensions.
-      some(ext => hoggarinput.hogarRecordInput[props.cle]?.toLowerCase().endsWith(ext))" 
+      some(ext => hoggarinput.hoggarRecordInput[props.cle]?.toLowerCase().endsWith(ext))" 
     class="flex justify-center mt-2">
-       <audio controls class="w-[250px]" :src="hoggarinput.hogarDataUrlStorage+hoggarinput.hogarRecordInput[props.cle]" type="audio/mpeg">
+       <audio controls class="w-[250px]" :src="hoggarinput.hoggarDataUrlStorage+hoggarinput.hoggarRecordInput[props.cle]" type="audio/mpeg">
         Your browser does not support the audio element.
      </audio>
    </div>
 
    <div v-if="imageExtensions.
-      some(ext => hoggarinput.hogarRecordInput[props.cle]?.toLowerCase().endsWith(ext))"
+      some(ext => hoggarinput.hoggarRecordInput[props.cle]?.toLowerCase().endsWith(ext))"
      class="mt-3 flex justify-center">
-        <img :src="hoggarinput.hogarDataUrlStorage+hoggarinput.hogarRecordInput[props.cle]" alt="Selected Image" class="w-32 h-32 object-cover rounded-lg shadow" />
+        <img :src="hoggarinput.hoggarDataUrlStorage+hoggarinput.hoggarRecordInput[props.cle]" alt="Selected Image" class="w-32 h-32 object-cover rounded-lg shadow" />
    </div>
 
    <div v-if="videoExtensions.
-      some(ext => hoggarinput.hogarRecordInput[props.cle]?.toLowerCase().endsWith(ext))" 
+      some(ext => hoggarinput.hoggarRecordInput[props.cle]?.toLowerCase().endsWith(ext))" 
    class="mt-3">
-        <video controls :src="hoggarinput.hogarDataUrlStorage+hoggarinput.hogarRecordInput[props.cle]" type="video/mp4"
+        <video controls :src="hoggarinput.hoggarDataUrlStorage+hoggarinput.hoggarRecordInput[props.cle]" type="video/mp4"
           class="w-full h-auto rounded-md">
           Your browser does not support the video tag.
         </video>
@@ -55,18 +55,18 @@
 
 
     <!-- Display Selected File Name -->
-    <div v-if="hoggarinput.hogarDataValues[props.cle]?.name &&
-     !hoggarinput.hogarDataValues[props.cle]?.type.startsWith('audio')
-     && !hoggarinput.hogarDataValues[props.cle]?.type.startsWith('image') 
-     && !hoggarinput.hogarDataValues[props.cle]?.type.startsWith('video')
+    <div v-if="hoggarinput.hoggarDataValues[props.cle]?.name &&
+     !hoggarinput.hoggarDataValues[props.cle]?.type.startsWith('audio')
+     && !hoggarinput.hoggarDataValues[props.cle]?.type.startsWith('image') 
+     && !hoggarinput.hoggarDataValues[props.cle]?.type.startsWith('video')
      "
     
     class="mt-2 text-gray-700 text-sm">
-      <span class="font-semibold">{{ hoggarinput.hogarDataValues[props.cle].name }}  </span>
+      <span class="font-semibold">{{ hoggarinput.hoggarDataValues[props.cle].name }}  </span>
     </div>
 
     <div v-if="hoggarinput.tempUrls[props.cle] &&
-     hoggarinput.hogarDataValues[props.cle]?.type.startsWith('audio')" 
+     hoggarinput.hoggarDataValues[props.cle]?.type.startsWith('audio')" 
     class="flex justify-center mt-2">
        <audio controls class="w-[250px]" :src="hoggarinput.tempUrls[props.cle]" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -74,13 +74,13 @@
    </div>
 
    <div v-if="hoggarinput.tempUrls[props.cle] &&
-     hoggarinput.hogarDataValues[props.cle]?.type.startsWith('image')"
+     hoggarinput.hoggarDataValues[props.cle]?.type.startsWith('image')"
      class="mt-3 flex justify-center">
         <img :src="hoggarinput.tempUrls[props.cle]" alt="Selected Image" class="w-32 h-32 object-cover rounded-lg shadow" />
    </div>
 
    <div v-if="hoggarinput.tempUrls[props.cle] &&
-     hoggarinput.hogarDataValues[props.cle]?.type.startsWith('video')" 
+     hoggarinput.hoggarDataValues[props.cle]?.type.startsWith('video')" 
    class="mt-3">
         <video controls :src="hoggarinput.tempUrls[props.cle]" type="video/mp4"
           class="w-full h-auto rounded-md">
@@ -142,16 +142,16 @@ watch(() => props.progress, (newProgress) => {
 const handleFileSelection = (event) => {
   const file = event.target.files[0];
   if (file) {
-    hoggarinput.hogarDataValues[props.cle] = file;
+    hoggarinput.hoggarDataValues[props.cle] = file;
     hoggarinput.tempUrls[props.cle] = URL.createObjectURL(file)
   } else {
-    hoggarinput.hogarDataValues[props.cle] = '';
+    hoggarinput.hoggarDataValues[props.cle] = '';
     hoggarinput.tempUrls[props.cle] = '' ;
   }
 };
 
 // Watch for resetDatas() being triggered
-watch(() => hoggarinput.hogarDataValues[props.cle], (newValue) => {
+watch(() => hoggarinput.hoggarDataValues[props.cle], (newValue) => {
   if (newValue == '') {
     fileInputRef.value.value = '';
   }

@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center">
-           <video controls :src="page.props.hogarSettings.hogarDataUrlStorage+props.path" type="video/mp4"
+           <video controls :src="page.props.hoggarSettings.hoggarDataUrlStorage+props.path" type="video/mp4"
            :width="props.width">
            </video>
     </div>
@@ -21,7 +21,6 @@ const props = defineProps({
 });
 
 const page = usePage()
-console.log(page.props.hogarSettings.hogarDataUrlStorage)
 
 </script>
 

@@ -1,14 +1,14 @@
 <template>
     <div class="w-full mb-[5px]">
       <div>
-        <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+        <span class="font-bold">{{ hoggarinput.hoggarDataLabels[props.cle] }}</span>
       </div>
   
       <div>
         <textarea
           class="w-full bg-[#E8E8E8] border-[darkblue] border-[1px]"
-          :rows="hoggarinput.hogarDataOptions[props.cle].rows"
-          v-model="hoggarinput.hogarDataValues[props.cle]"
+          :rows="hoggarinput.hoggarDataOptions[props.cle].rows"
+          v-model="hoggarinput.hoggarDataValues[props.cle]"
         ></textarea>
       </div>
   

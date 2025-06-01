@@ -1,13 +1,13 @@
 <template>
     <div class="w-full mb-[5px]">
       <div>
-        <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+        <span class="font-bold">{{ hoggarinput.hoggarDataLabels[props.cle] }}</span>
       </div>
   
       <div class="flex items-center gap-2">
         <input
           type="checkbox"
-          v-model="hoggarinput.hogarDataValues[props.cle]"
+          v-model="hoggarinput.hoggarDataValues[props.cle]"
           class="w-5 h-5"
         />
         
@@ -20,7 +20,6 @@
   </template>
   
   <script setup>
-  import { watch } from 'vue'
   import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput'
   
   const props = defineProps({

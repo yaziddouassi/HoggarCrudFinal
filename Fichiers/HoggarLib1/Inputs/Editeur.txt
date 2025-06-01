@@ -2,7 +2,7 @@
   <div class="space-y-2">
     <!-- Label -->
     <div>
-      <span class="font-bold">{{ hoggarinput.hogarDataLabels[props.cle] }}</span>
+      <span class="font-bold">{{ hoggarinput.hoggarDataLabels[props.cle] }}</span>
     </div>
 
     <!-- Éditeur Quill -->
@@ -32,7 +32,7 @@ const props = defineProps({
 
 const hoggarinput = HoggarInput();
 const editorContainer = ref(null);
-const content = ref(hoggarinput.hogarDataValues[props.cle]);
+const content = ref(hoggarinput.hoggarDataValues[props.cle]);
 let quill = null;
 
 // Couleurs personnalisées
@@ -105,13 +105,13 @@ onMounted(() => {
   quill.on("text-change", () => {
     const html = quill.root.innerHTML.trim();
     content.value = html === "<p><br></p>" ? "" : html;
-    hoggarinput.hogarDataValues[props.cle] = content.value;
+    hoggarinput.hoggarDataValues[props.cle] = content.value;
     adjustEditorHeight();
   });
 });
 
 watch(
-  () => hoggarinput.hogarDataValues[props.cle],
+  () => hoggarinput.hoggarDataValues[props.cle],
   (newValue) => {
     if (quill && newValue !== quill.root.innerHTML) {
       content.value = newValue;
