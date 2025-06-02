@@ -9,7 +9,7 @@
           v-model="myInput"
           @change="replaceQuery"
           class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg
-           focus:outline-none focus:ring-2 focus:ring-blue-500"
+           focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
         >
           <option value="">-- Select --</option>
           <option
@@ -65,9 +65,9 @@
   
     if (myInput.value !== '') {
       if (isValue) {
-        hoggar[hoggarlisting.settings.hogarModelClassName][props.cle] = myInput.value
+        hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle] = myInput.value
       } else {
-        delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+        delete hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle]
       }
   
       localStorage.setItem('hoggar', JSON.stringify(hoggar))
@@ -85,7 +85,7 @@
       })
   
     } else {
-      delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+      delete hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle]
       localStorage.setItem('hoggar', JSON.stringify(hoggar))
       hoggarinfo.setRoutes(page.props.routes)
   
@@ -107,7 +107,7 @@
     const isValue = Object.values(hoggarinfo.sessionFilter).includes(props.cle)
   
     myInput.value = ''
-    delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+    delete hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle]
     localStorage.setItem('hoggar', JSON.stringify(hoggar))
     hoggarinfo.setRoutes(page.props.routes)
   

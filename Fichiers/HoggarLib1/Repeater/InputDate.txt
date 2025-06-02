@@ -9,7 +9,7 @@
         <input
           class="w-full bg-[#E8E8E8] h-[42px] border-[darkblue] border-[1px]"
           type="date"
-          v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
+          v-model="hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3]"
           :min="hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['min'] !== 'infinite' ? 
                 hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['min'] : null"
           :max="hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['max'] !== 'infinite' ? 

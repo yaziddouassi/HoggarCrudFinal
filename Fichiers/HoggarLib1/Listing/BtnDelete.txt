@@ -31,7 +31,7 @@ function deleteRecord() {
          id:  props.ide,
      })
     
-    form.post(Page.props.hogarSettings.urlDelete, {
+    form.post(Page.props.hoggarSettings.urlDelete, {
      preserveScroll: true,
      preserveState: true,
      onSuccess: () => {

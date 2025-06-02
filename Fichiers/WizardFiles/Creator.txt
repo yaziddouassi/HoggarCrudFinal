@@ -34,9 +34,9 @@
               Next
             </button>
             
-            <button v-if="(wizardcreate.settings.hogarShowOther === true
+            <button v-if="(wizardcreate.settings.hoggarShowOther === true
              && hoggarinput.wizardCurrent == hoggarinput.wizardCount) ||
-             (wizardcreate.settings.hogarShowOther === true
+             (wizardcreate.settings.hoggarShowOther === true
              && hoggarinput.wizardStop.includes(hoggarinput.wizardCurrent))"
              type="button" @click="submit('other')" class="border-[1px] border-black w-[140px] text-black p-[9px] rounded-[2px]">
               Create Other
@@ -69,11 +69,11 @@ const props = defineProps({
     type: Object,
     required: true
   }, 
-  hogarInputs: {
+  hoggarInputs: {
     type: Object,
     required: true
   },
-  hogarSettings: {
+  hoggarSettings: {
     type: Object,
     required: true
   },

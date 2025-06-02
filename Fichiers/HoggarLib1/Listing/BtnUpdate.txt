@@ -1,6 +1,6 @@
 <template>
     <div>
-      <Link :href="page.props.hogarSettings.hogarDataRouteListe+'/update/'+props.ide" @click="hoggarinput.resetError()">
+      <Link :href="page.props.hoggarSettings.hoggarDataRouteListe+'/update/'+props.ide" @click="hoggarinput.resetError()">
       <button class="bg-[blue] text-white p-2 rounded-[3px] h-[40px] flex items-center justify-center ">
         <span class="material-icons text-[20px] leading-none">
           edit

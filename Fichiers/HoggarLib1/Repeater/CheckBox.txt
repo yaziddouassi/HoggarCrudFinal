@@ -7,7 +7,7 @@
       <div class="flex items-center gap-2">
         <input
           type="checkbox"
-          v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
+          v-model="hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3]"
           class="w-5 h-5"
         />
         

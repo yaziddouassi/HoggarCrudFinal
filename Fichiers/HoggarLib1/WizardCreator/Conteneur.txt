@@ -1,82 +1,82 @@
 <template>
     <div class="max-w-[700px] m-auto grid grid-cols-1  p-[10px] pt-[0px] gap-[10px]">
       <div 
-        v-for="(item, index) in hoggarinput.hogarDataFields"
+        v-for="(item, index) in hoggarinput.hoggarDataFields"
         :key="index" >
         
-          <Editeur  v-if="hoggarinput.hogarDataTypes[index] === 'Quill'
+          <Editeur  v-if="hoggarinput.hoggarDataTypes[index] === 'Quill'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)" :cle="index" />
           
-          <InputText v-if="hoggarinput.hogarDataTypes[index] === 'Text'
+          <InputText v-if="hoggarinput.hoggarDataTypes[index] === 'Text'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <Password v-if="hoggarinput.hogarDataTypes[index] === 'Password'
+           <Password v-if="hoggarinput.hoggarDataTypes[index] === 'Password'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <Textarea v-if="hoggarinput.hogarDataTypes[index] === 'Textarea'
+           <Textarea v-if="hoggarinput.hoggarDataTypes[index] === 'Textarea'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <CheckBox v-if="hoggarinput.hogarDataTypes[index] === 'Checkbox'
+           <CheckBox v-if="hoggarinput.hoggarDataTypes[index] === 'Checkbox'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" /> 
 
-          <CheckBoxMultiple v-if="hoggarinput.hogarDataTypes[index] === 'CheckboxList'
+          <CheckBoxMultiple v-if="hoggarinput.hoggarDataTypes[index] === 'CheckboxList'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" /> 
            
-           <InputRadio v-if="hoggarinput.hogarDataTypes[index] === 'Radio'
+           <InputRadio v-if="hoggarinput.hoggarDataTypes[index] === 'Radio'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
           
-           <InputSelect v-if="hoggarinput.hogarDataTypes[index] === 'Select'
+           <InputSelect v-if="hoggarinput.hoggarDataTypes[index] === 'Select'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <InputNumber v-if="hoggarinput.hogarDataTypes[index] === 'Number'
+           <InputNumber v-if="hoggarinput.hoggarDataTypes[index] === 'Number'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <InputDate v-if="hoggarinput.hogarDataTypes[index] === 'Date'
+           <InputDate v-if="hoggarinput.hoggarDataTypes[index] === 'Date'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <InputFile v-if="hoggarinput.hogarDataTypes[index] === 'File'
+           <InputFile v-if="hoggarinput.hoggarDataTypes[index] === 'File'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
         
-           <InputImage v-if="hoggarinput.hogarDataTypes[index] === 'Image'
+           <InputImage v-if="hoggarinput.hoggarDataTypes[index] === 'Image'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <InputVideo v-if="hoggarinput.hogarDataTypes[index] === 'Video'
+           <InputVideo v-if="hoggarinput.hoggarDataTypes[index] === 'Video'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
 
-           <InputAudio v-if="hoggarinput.hogarDataTypes[index] === 'Audio'
+           <InputAudio v-if="hoggarinput.hoggarDataTypes[index] === 'Audio'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <MultipleFile v-if="hoggarinput.hogarDataTypes[index] === 'MultipleFile'
+           <MultipleFile v-if="hoggarinput.hoggarDataTypes[index] === 'MultipleFile'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
           
-           <MultipleAudio v-if="hoggarinput.hogarDataTypes[index] === 'MultipleAudio'
+           <MultipleAudio v-if="hoggarinput.hoggarDataTypes[index] === 'MultipleAudio'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
           
-           <MultipleImage v-if="hoggarinput.hogarDataTypes[index] === 'MultipleImage'
+           <MultipleImage v-if="hoggarinput.hoggarDataTypes[index] === 'MultipleImage'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <MultipleVideo v-if="hoggarinput.hogarDataTypes[index] === 'MultipleVideo'
+           <MultipleVideo v-if="hoggarinput.hoggarDataTypes[index] === 'MultipleVideo'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 
-           <Repeater v-if="hoggarinput.hogarDataTypes[index] === 'Repeater'
+           <Repeater v-if="hoggarinput.hoggarDataTypes[index] === 'Repeater'
           && hoggarinput.wizardForm[hoggarinput.wizardCurrent].includes(index)"
            :cle="index" />
 

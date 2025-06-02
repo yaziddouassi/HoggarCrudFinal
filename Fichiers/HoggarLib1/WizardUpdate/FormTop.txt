@@ -1,7 +1,7 @@
 <template>
     <div class="flex w-full justify-between p-[5px]">
             <div> 
-              <Link :href="wizardupdate.settings.hogarDataUrlCreate" @click="hoggarinput.resetError()">
+              <Link :href="wizardupdate.settings.hoggarDataUrlCreate" @click="hoggarinput.resetError()">
                 <button class="bg-[darkblue] w-[100px] text-white p-[9px] rounded-[2px]">
                 New
                </button>
@@ -10,14 +10,14 @@
             <div>
               <Link :href="currentRoute" >
             <button class="bg-[black] min-w-[100px] text-white p-[9px] rounded-[2px]">
-              {{ wizardupdate.settings.hogarDataModelLabel }}
+              {{ wizardupdate.settings.hoggarDataModelLabel }}
               </button>
             </Link>
             </div>
         </div>
 
         <div class="p-[10px] text-[#000044] text-[24px] font-bold">
-         {{ wizardupdate.settings.hogarDataModelTitle }}
+         {{ wizardupdate.settings.hoggarDataModelTitle }}
          <span class="text-[darkblue]">>></span> 
         </div>
 </template>
@@ -35,9 +35,9 @@ const hoggarinfo = HoggarInfo();
 const hoggarinput = HoggarInput();
 const page = usePage()
 
-let currentRoute = hoggarinfo.routes.find(item => item.model === page.props.hogarSettings.hogarModelClassName)?.route;
+let currentRoute = hoggarinfo.routes.find(item => item.model === page.props.hoggarSettings.hoggarModelClassName)?.route;
 if(currentRoute == undefined) {
-  currentRoute = page.props.hogarSettings.hogarDataRouteListe
+  currentRoute = page.props.hoggarSettings.hoggarDataRouteListe
 }
 </script>
 

@@ -15,7 +15,7 @@
             </button>
             &nbsp;
             
-            <button v-if="hoggarcreate.settings.hogarShowOther === true"
+            <button v-if="hoggarcreate.settings.hoggarShowOther === true"
              type="button" @click="submit('other')" class="border-[1px] border-black w-[140px] text-black p-[9px] rounded-[2px]">
               Create Other
             </button>

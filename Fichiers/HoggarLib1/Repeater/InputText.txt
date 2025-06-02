@@ -7,7 +7,7 @@
      <div>
         <input class="w-full  bg-[#E8E8E8] h-[42px]
       border-[darkblue] border-[1px] "
-         type="text" v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]">
+         type="text" v-model="hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3]">
      </div>
     
 

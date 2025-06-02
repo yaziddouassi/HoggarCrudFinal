@@ -10,7 +10,7 @@ export function listingService() {
    const hoggarinfo = HoggarInfo()
    const hoggarlisting = HoggarListing()
 
-   hoggarlisting.setSettings(page.props.hogarSettings)
+   hoggarlisting.setSettings(page.props.hoggarSettings)
    hoggarinfo.setRoutes(page.props.routes)
 
    hoggarlisting.groupActions = page.props.groupActions

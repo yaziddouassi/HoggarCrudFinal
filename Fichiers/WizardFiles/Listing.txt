@@ -95,7 +95,7 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  hogarSettings: {
+  hoggarSettings: {
     type: Object,
     required: true
   },
@@ -115,7 +115,7 @@ const props = defineProps({
     type: Object,
     required: true
   },
-  hogarDataUrlCheckRecord : {
+  hoggarDataUrlCheckRecord : {
     type: String,
     required: true
   },

@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Hash;
 class HoggarUpdate extends Controller
 {
 
-    public $hogarSettings = [] ;
-    public $hogarInputs = [] ;
+    public $hoggarSettings = [] ;
+    public $hoggarInputs = [] ;
     public $tabFields = [];
     public $tabLabels = [];
     public $tabTypes = [];
@@ -30,35 +30,35 @@ class HoggarUpdate extends Controller
     public $arrayTypes7 = ['Checkbox'];
     public $arrayTypes8 = ['Password'];
     public $arrayTypes9 = ['Repeater'];
-    public $hogarRecord = null;
+    public $hoggarRecord = null;
    
     function __construct() {
         
-        $this->hogarSettings['hogarDataModelLabel'] =  $this->hogarDataModelLabel ;
-        $this->hogarSettings['hogarDataModelTitle'] =  $this->hogarDataModelTitle ;
-        $this->hogarSettings['hogarDataRouteListe'] =  $this->hogarDataRouteListe ;
-        $this->hogarSettings['hogarDataUrlCreate'] =  $this->hogarDataUrlCreate ;
-        $this->hogarSettings['hogarModelClass'] =  $this->hogarModelClass ;
-        $this->hogarSettings['hogarModelClassName'] =  $this->hogarModelClassName ;
-        $this->hogarSettings['hogarValidationUrl']=  $this->hogarValidationUrl ;
+        $this->hoggarSettings['hoggarDataModelLabel'] =  $this->hoggarDataModelLabel ;
+        $this->hoggarSettings['hoggarDataModelTitle'] =  $this->hoggarDataModelTitle ;
+        $this->hoggarSettings['hoggarDataRouteListe'] =  $this->hoggarDataRouteListe ;
+        $this->hoggarSettings['hoggarDataUrlCreate'] =   $this->hoggarDataUrlCreate ;
+        $this->hoggarSettings['hoggarModelClass']    =   $this->hoggarModelClass ;
+        $this->hoggarSettings['hoggarModelClassName'] =  $this->hoggarModelClassName ;
+        $this->hoggarSettings['hoggarValidationUrl']=    $this->hoggarValidationUrl ;
         $this->initField();
        
-        $this->initHogarInputs();
+        $this->initHoggarInputs();
     }
 
-    public function initHogarInputs() {
+    public function initHoggarInputs() {
 
-        $this->hogarInputs['hogarDataUrlStorage'] =  config('hoggar.urlstorage');
-        $this->hogarInputs['hogarDataFields'] = $this->tabFields ;
-        $this->hogarInputs['hogarDataLabels'] = $this->tabLabels ;
-        $this->hogarInputs['hogarDataTypes'] = $this->tabTypes ;
-        $this->hogarInputs['hogarDataValues'] = $this->tabValues ;
-        $this->hogarInputs['hogarDataDefaultValues'] = $this->tabDefaultValues ;
-        $this->hogarInputs['hogarDataOptions'] = $this->tabOptions ;
-        $this->hogarInputs['hogarDataNullables'] = $this->tabNullables ;
-        $this->hogarInputs['hogarNoDatabases'] = $this->tabNodatabases ;
-        $this->hogarInputs['hogarRepeaters'] = $this->tabRepeaters ;
-        $this->hogarInputs['hogarRepeaterFields'] = $this->tabRepeaterFields ;
+        $this->hoggarInputs['hoggarDataUrlStorage'] =  config('hoggar.urlstorage');
+        $this->hoggarInputs['hoggarDataFields'] = $this->tabFields ;
+        $this->hoggarInputs['hoggarDataLabels'] = $this->tabLabels ;
+        $this->hoggarInputs['hoggarDataTypes'] = $this->tabTypes ;
+        $this->hoggarInputs['hoggarDataValues'] = $this->tabValues ;
+        $this->hoggarInputs['hoggarDataDefaultValues'] = $this->tabDefaultValues ;
+        $this->hoggarInputs['hoggarDataOptions'] = $this->tabOptions ;
+        $this->hoggarInputs['hoggarDataNullables'] = $this->tabNullables ;
+        $this->hoggarInputs['hoggarNoDatabases'] = $this->tabNodatabases ;
+        $this->hoggarInputs['hoggarRepeaters'] = $this->tabRepeaters ;
+        $this->hoggarInputs['hoggarRepeaterFields'] = $this->tabRepeaterFields ;
     }
 
 
@@ -159,7 +159,7 @@ public function setFieldValue($a,$b) {
                             $file->storeAs('uploads', $uniqueName, 'public');
                             $path = 'uploads/' . $uniqueName ;
                             
-                            $this->hogarRecord->$key = $path;
+                            $this->hoggarRecord->$key = $path;
                             
                         }
                     }
@@ -179,16 +179,16 @@ public function setFieldValue($a,$b) {
                     }
                  }
                  
-                $this->hogarRecord->$key = json_encode($tab1) ;
+                $this->hoggarRecord->$key = json_encode($tab1) ;
                    
                 } elseif (in_array($this->tabTypes[$key], $this->arrayTypes1)) {
-                    $this->hogarRecord->$key = $value;
+                    $this->hoggarRecord->$key = $value;
                 }
                 elseif (in_array($this->tabTypes[$key], $this->arrayTypes2)) {
-                    $this->hogarRecord->$key = $value;
+                    $this->hoggarRecord->$key = $value;
                 }
                 elseif (in_array($this->tabTypes[$key], $this->arrayTypes6)) {
-                    $this->hogarRecord->$key = is_array($value) ? json_encode($value) : json_encode(explode(',', $value));
+                    $this->hoggarRecord->$key = is_array($value) ? json_encode($value) : json_encode(explode(',', $value));
                 }
                 elseif (in_array($this->tabTypes[$key], $this->arrayTypes7)) {
                 
@@ -198,12 +198,12 @@ public function setFieldValue($a,$b) {
                      if($value == 'false') {
                         $value2 = false;
                      } 
-                     $this->hogarRecord->$key = $value2;    
+                     $this->hoggarRecord->$key = $value2;    
                }
 
                elseif (in_array($this->tabTypes[$key], $this->arrayTypes8)) {
                 if($value) {
-                  $this->hogarRecord->$key = Hash::make($value);
+                  $this->hoggarRecord->$key = Hash::make($value);
                 }
              }
 
@@ -234,7 +234,7 @@ elseif (in_array($this->tabTypes[$key], $this->arrayTypes9)) {
     }
 
     // ✅ On encode seulement à la fin
-    $this->hogarRecord->$key = json_encode($cleanedRepeater);
+    $this->hoggarRecord->$key = json_encode($cleanedRepeater);
 }
 
 
@@ -260,8 +260,8 @@ elseif (in_array($this->tabTypes[$key], $this->arrayTypes9)) {
     public function initFieldAgain() {
 
         $this->addField('Hidden',['field' => 'id']);
-        $this->setFieldValue('id',$this->hogarRecordInput->id);
-        $this->initHogarInputs();
+        $this->setFieldValue('id',$this->hoggarRecordInput->id);
+        $this->initHoggarInputs();
 
        foreach ($this->tabFields as $cle => $value) {
         if (!array_key_exists($cle,$this->tabNodatabases)) { 
@@ -270,52 +270,52 @@ elseif (in_array($this->tabTypes[$key], $this->arrayTypes9)) {
 
                     $this->tabValues[$cle] = '';
                     $this->tabDefaultValues[$cle] = '';
-                    $this->initHogarInputs();
+                    $this->initHoggarInputs();
                 }  
 
                 else if (in_array($this->tabTypes[$cle], $this->arrayTypes5))  {
 
                     $this->tabValues[$cle] = [];
                     $this->tabDefaultValues[$cle] = [];
-                    $this->initHogarInputs();
+                    $this->initHoggarInputs();
 
                 }
                 else if (in_array($this->tabTypes[$cle], $this->arrayTypes1))  {
 
-                    $this->tabValues[$cle] = $this->hogarRecordInput[$cle];
-                    $this->tabDefaultValues[$cle] = $this->hogarRecordInput[$cle];
-                    $this->initHogarInputs();
+                    $this->tabValues[$cle] = $this->hoggarRecordInput[$cle];
+                    $this->tabDefaultValues[$cle] = $this->hoggarRecordInput[$cle];
+                    $this->initHoggarInputs();
 
                 }
             
                 else if (in_array($this->tabTypes[$cle], $this->arrayTypes2))  {
 
-                    $this->tabValues[$cle] = $this->hogarRecordInput[$cle];
-                    $this->tabDefaultValues[$cle] = $this->hogarRecordInput[$cle];
-                    $this->initHogarInputs();
+                    $this->tabValues[$cle] = $this->hoggarRecordInput[$cle];
+                    $this->tabDefaultValues[$cle] = $this->hoggarRecordInput[$cle];
+                    $this->initHoggarInputs();
 
                 }
 
                 else if (in_array($this->tabTypes[$cle], $this->arrayTypes6))  {
 
-                    $this->tabValues[$cle] = $this->hogarRecordInput[$cle];
-                    $this->tabDefaultValues[$cle] = $this->hogarRecordInput[$cle];
-                    $this->initHogarInputs();
+                    $this->tabValues[$cle] = $this->hoggarRecordInput[$cle];
+                    $this->tabDefaultValues[$cle] = $this->hoggarRecordInput[$cle];
+                    $this->initHoggarInputs();
 
                 }
 
                 else if (in_array($this->tabTypes[$cle], $this->arrayTypes7))  {
 
-                    $this->tabValues[$cle] = $this->hogarRecordInput[$cle];
-                    $this->tabDefaultValues[$cle] = $this->hogarRecordInput[$cle];
-                    $this->initHogarInputs();
+                    $this->tabValues[$cle] = $this->hoggarRecordInput[$cle];
+                    $this->tabDefaultValues[$cle] = $this->hoggarRecordInput[$cle];
+                    $this->initHoggarInputs();
 
                 }
 
 
                  
 else if (in_array($this->tabTypes[$cle], $this->arrayTypes9)) {
-    $raw = json_decode($this->hogarRecordInput[$cle], true); // les repeaters sont souvent en JSON
+    $raw = json_decode($this->hoggarRecordInput[$cle], true); // les repeaters sont souvent en JSON
     $structured = [];
 
     if (is_array($raw)) {
@@ -332,7 +332,7 @@ else if (in_array($this->tabTypes[$cle], $this->arrayTypes9)) {
     }
 
     $this->tabValues[$cle] = $structured;
-    $this->initHogarInputs();
+    $this->initHoggarInputs();
 }
 
 

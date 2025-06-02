@@ -2,7 +2,7 @@
   <div class="w-full mb-[5px]">
     <div>
       <span class="font-bold">
-        {{ hoggarinput.hogarDataLabels[props.cle] }}
+        {{ hoggarinput.hoggarDataLabels[props.cle] }}
       </span>
     </div>
 
@@ -16,19 +16,19 @@
         v-for="(item, index) in hoggarinput.repeaterLines[props.cle]"
         :key="index"
         class="border border-gray-500 rounded-lg p-1.5 mb-[10px]"
-        :draggable="hoggarinput.hogarDataOptions[props.cle]['draggable'] === 'yes'"
+        :draggable="hoggarinput.hoggarDataOptions[props.cle]['draggable'] === 'yes'"
         @dragstart="onDragStart(index)"
         @dragover.prevent
         @drop="onDrop(index)"
       > 
         <div class="grid grid-cols-2 mb-2">
           <div class="text-left text-gray-600"
-              :class="{ 'cursor-grab': hoggarinput.hogarDataOptions[props.cle]['draggable'] === 'yes' }"   >
-            <span v-if="hoggarinput.hogarDataOptions[props.cle]['draggable'] === 'yes'"
+              :class="{ 'cursor-grab': hoggarinput.hoggarDataOptions[props.cle]['draggable'] === 'yes' }"   >
+            <span v-if="hoggarinput.hoggarDataOptions[props.cle]['draggable'] === 'yes'"
              class="material-icons">
                  arrow_upward
             </span>
-            <span v-if="hoggarinput.hogarDataOptions[props.cle]['draggable'] === 'yes'"
+            <span v-if="hoggarinput.hoggarDataOptions[props.cle]['draggable'] === 'yes'"
             class="material-icons">
                  arrow_downward
             </span>
@@ -36,7 +36,7 @@
           </div>
           
           <div class="text-right">
-            <span v-if="hoggarinput.hogarDataOptions[props.cle]['removeLine'] === 'yes'"
+            <span v-if="hoggarinput.hoggarDataOptions[props.cle]['removeLine'] === 'yes'"
              class="material-icons text-red-500 cursor-pointer" @click="deleteLine(index)">
               delete
             </span>
@@ -46,7 +46,7 @@
         <!-- Grille dynamique ici -->
         <div
           class="grid gap-4 mb-4"
-         :class="'grid-cols-' + hoggarinput.hogarDataOptions[props.cle]['grid']"
+         :class="'grid-cols-' + hoggarinput.hoggarDataOptions[props.cle]['grid']"
         >
           <div
             
@@ -125,7 +125,7 @@
         </div>
       </div>
 
-      <div v-if="hoggarinput.hogarDataOptions[props.cle]['addLine'] === 'yes'"
+      <div v-if="hoggarinput.hoggarDataOptions[props.cle]['addLine'] === 'yes'"
        class="text-center border border-gray-500 rounded-[4px] p-2 mt-[5px]"
         @click="addLine()">
         Add {{ props.cle }}
@@ -158,20 +158,20 @@ const hoggarinput = HoggarInput()
 const page = usePage()
 
 
-console.log(hoggarinput.hogarDataValues['ville'],hoggarinput.repeaterLines['ville'],
-  page.props.hogarInputs.hogarRepeaterFields['ville']
+console.log(hoggarinput.hoggarDataValues['ville'],hoggarinput.repeaterLines['ville'],
+  page.props.hogarInputs.hoggarRepeaterFields['ville']
 )
 
 
 // 👉 Ajouter une ligne répétable
 function addLine() {
 
-  if (hoggarinput.hogarDataOptions[props.cle]['maxLine']  != 'inifinite') {
+  if (hoggarinput.hoggarDataOptions[props.cle]['maxLine']  != 'inifinite') {
 
-       if (hoggarinput.hogarDataOptions[props.cle]['maxLine'] <= 
+       if (hoggarinput.hoggarDataOptions[props.cle]['maxLine'] <= 
            hoggarinput.repeaterLines[props.cle].length ) {
            const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
-          notyf.error('The maximum lines is: ' + hoggarinput.hogarDataOptions[props.cle]['maxLine']); 
+          notyf.error('The maximum lines is: ' + hoggarinput.hoggarDataOptions[props.cle]['maxLine']); 
          return 
        }
 
@@ -179,18 +179,18 @@ function addLine() {
    }
 
   const key = props.cle;
-  const index = hoggarinput.hogarDataValues[key]?.length || 0;
+  const index = hoggarinput.hoggarDataValues[key]?.length || 0;
   
   hoggarinput.resetError()
 
-  if (!hoggarinput.hogarDataValues[key]) hoggarinput.hogarDataValues[key] = [];
+  if (!hoggarinput.hoggarDataValues[key]) hoggarinput.hoggarDataValues[key] = [];
   if (!hoggarinput.repeaterLines[key]) hoggarinput.repeaterLines[key] = [];
 
-  hoggarinput.hogarDataValues[key][index] = [];
+  hoggarinput.hoggarDataValues[key][index] = [];
   hoggarinput.repeaterLines[key][index] = [];
 
-  Object.entries(page.props.hogarInputs.hogarRepeaterFields[key]).forEach(([subKey, config]) => {
-    hoggarinput.hogarDataValues[key][index][subKey] = config.value || '';
+  Object.entries(page.props.hoggarInputs.hoggarRepeaterFields[key]).forEach(([subKey, config]) => {
+    hoggarinput.hoggarDataValues[key][index][subKey] = config.value || '';
     hoggarinput.repeaterLines[key][index][subKey] = config;
   });
 }
@@ -198,15 +198,15 @@ function addLine() {
 // 👉 Supprimer une ligne
 function deleteLine(index) {
 
-  if (hoggarinput.hogarDataOptions[props.cle]['minLine'] >= 
+  if (hoggarinput.hoggarDataOptions[props.cle]['minLine'] >= 
            hoggarinput.repeaterLines[props.cle].length ) {
           const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
-          notyf.error('The minimum lines is: ' + hoggarinput.hogarDataOptions[props.cle]['minLine']);
+          notyf.error('The minimum lines is: ' + hoggarinput.hoggarDataOptions[props.cle]['minLine']);
          return 
        }
 
   const key = props.cle;
-  hoggarinput.hogarDataValues[key].splice(index, 1);
+  hoggarinput.hoggarDataValues[key].splice(index, 1);
   hoggarinput.repeaterLines[key].splice(index, 1);
    hoggarinput.resetError()
 }
@@ -224,13 +224,13 @@ function onDrop(dropIndex) {
   if (dragIndex === null || dragIndex === dropIndex) return;
 
   // Échanger les lignes dans les deux structures
-  const tempValues = hoggarinput.hogarDataValues[key][dragIndex];
+  const tempValues = hoggarinput.hoggarDataValues[key][dragIndex];
   const tempLines = hoggarinput.repeaterLines[key][dragIndex];
 
-  hoggarinput.hogarDataValues[key][dragIndex] = hoggarinput.hogarDataValues[key][dropIndex];
+  hoggarinput.hoggarDataValues[key][dragIndex] = hoggarinput.hoggarDataValues[key][dropIndex];
   hoggarinput.repeaterLines[key][dragIndex] = hoggarinput.repeaterLines[key][dropIndex];
 
-  hoggarinput.hogarDataValues[key][dropIndex] = tempValues;
+  hoggarinput.hoggarDataValues[key][dropIndex] = tempValues;
   hoggarinput.repeaterLines[key][dropIndex] = tempLines;
 
   dragIndex = null;

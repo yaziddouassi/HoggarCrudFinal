@@ -92,13 +92,13 @@ function ouvrir2() {
 function rezetFilter() {
 
   const hoggar = JSON.parse(localStorage.getItem('hoggar'))
-  hoggar[hoggarlisting.settings.hogarModelClassName] = {}
+  hoggar[hoggarlisting.settings.hoggarModelClassName] = {}
   hoggarlisting.actionIds = []
   localStorage.setItem('hoggar', JSON.stringify(hoggar))
 
   hoggarinfo.setRoutes(page.props.routes)
 
-  router.visit(hoggarlisting.settings.hogarDataRouteListe, {
+  router.visit(hoggarlisting.settings.hoggarDataRouteListe, {
     method: 'get',
     preserveState: false,
   })

@@ -22,25 +22,25 @@ export function creationService() {
    hoggarinfo.setRoutes(page.props.routes)
    hoggarlisting.resetActionIds()
 // Initialize form values
-hoggarinput.hogarDataUrlStorage = page.props.hogarInputs.hogarDataUrlStorage;
-hoggarinput.hogarDataDefaultValues = page.props.hogarInputs.hogarDataDefaultValues;
-hoggarinput.hogarDataValues = page.props.hogarInputs.hogarDataValues;
-hoggarinput.hogarDataFields = page.props.hogarInputs.hogarDataFields;
-hoggarinput.hogarDataTypes = page.props.hogarInputs.hogarDataTypes;
-hoggarinput.hogarDataOptions = page.props.hogarInputs.hogarDataOptions;
-hoggarinput.hogarDataLabels = page.props.hogarInputs.hogarDataLabels;
-hoggarinput.hogarDataNullables = page.props.hogarInputs.hogarDataNullables;
-hoggarinput.hogarNoDatabases = page.props.hogarInputs.hogarNoDatabases;
+hoggarinput.hoggarDataUrlStorage = page.props.hoggarInputs.hoggarDataUrlStorage;
+hoggarinput.hoggarDataDefaultValues = page.props.hoggarInputs.hoggarDataDefaultValues;
+hoggarinput.hoggarDataValues = page.props.hoggarInputs.hoggarDataValues;
+hoggarinput.hoggarDataFields = page.props.hoggarInputs.hoggarDataFields;
+hoggarinput.hoggarDataTypes = page.props.hoggarInputs.hoggarDataTypes;
+hoggarinput.hoggarDataOptions = page.props.hoggarInputs.hoggarDataOptions;
+hoggarinput.hoggarDataLabels = page.props.hoggarInputs.hoggarDataLabels;
+hoggarinput.hoggarDataNullables = page.props.hoggarInputs.hoggarDataNullables;
+hoggarinput.hoggarNoDatabases = page.props.hoggarInputs.hoggarNoDatabases;
 
-hoggarinput.setRepeaterLines(page.props.hogarInputs.hogarRepeaters,
-                            page.props.hogarInputs.hogarRepeaterFields);
+hoggarinput.setRepeaterLines(page.props.hoggarInputs.hoggarRepeaters,
+                            page.props.hoggarInputs.hoggarRepeaterFields);
 
 hoggarinput.initTempUrls();
-hoggarcreate.setSettings(page.props.hogarSettings);
+hoggarcreate.setSettings(page.props.hoggarSettings);
 
-let currentRoute = hoggarinfo.routes.find(item => item.model === page.props.hogarSettings.hogarModelClassName)?.route;
+let currentRoute = hoggarinfo.routes.find(item => item.model === page.props.hoggarSettings.hoggarModelClassName)?.route;
 if(currentRoute == undefined) {
-  currentRoute = page.props.hogarSettings.hogarDataRouteListe
+  currentRoute = page.props.hoggarSettings.hoggarDataRouteListe
 }
    
     console.log(page.props)
@@ -57,9 +57,9 @@ function afterCreate1() {
   const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
   notyf.success('Record created');
 
-  let currentRoute = hoggarinfo.routes.find(item => item.model === page.props.hogarSettings.hogarModelClassName)?.route;
+  let currentRoute = hoggarinfo.routes.find(item => item.model === page.props.hoggarSettings.hoggarModelClassName)?.route;
     if(currentRoute == undefined) {
-      currentRoute = page.props.hogarSettings.hogarDataRouteListe
+      currentRoute = page.props.hoggarSettings.hoggarDataRouteListe
     }
   router.get(currentRoute);
 }
@@ -68,7 +68,7 @@ function afterCreate2() {
   const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
   notyf.success('Record created Other');
   hoggarinput.resetDatas();
-  hoggarinput.setRepeaterLines(page.props.hogarInputs.hogarRepeaters,page.props.hogarInputs.hogarRepeaterFields);
+  hoggarinput.setRepeaterLines(page.props.hoggarInputs.hoggarRepeaters,page.props.hoggarInputs.hoggarRepeaterFields);
   hoggarinput.resetError();
 }
 
@@ -80,11 +80,11 @@ function insert(action) {
 
   const formData = new FormData();
 
-  Object.keys(hoggarinput.hogarDataValues).forEach((key) => {
-    const value = hoggarinput.hogarDataValues[key];
+  Object.keys(hoggarinput.hoggarDataValues).forEach((key) => {
+    const value = hoggarinput.hoggarDataValues[key];
 
     const tab1 = ['MultipleFile','MultipleImage','MultipleVideo','MultipleAudio'];
-    if (tab1.includes(hoggarinput.hogarDataTypes[key])) {
+    if (tab1.includes(hoggarinput.hoggarDataTypes[key])) {
      
     if(!value || value.length === 0) {
       formData.append(key, '');
@@ -98,22 +98,22 @@ function insert(action) {
     }
 
     const tab2 = ['File','Image','Video','Audio'];
-    if(tab2.includes(hoggarinput.hogarDataTypes[key])) {
+    if(tab2.includes(hoggarinput.hoggarDataTypes[key])) {
       formData.append(key, value);
     }
 
     const tab3 = ['Text','Date','Hidden','Select','Number','Radio','Checkbox','CheckboxList','Password','Textarea'];
-    if(tab3.includes(hoggarinput.hogarDataTypes[key])) {
+    if(tab3.includes(hoggarinput.hoggarDataTypes[key])) {
       formData.append(key, value);
     }
 
      const tab4 = ['Quill'];
-    if(tab4.includes(hoggarinput.hogarDataTypes[key])) {
+    if(tab4.includes(hoggarinput.hoggarDataTypes[key])) {
       formData.append(key, cleanQuillContent(value || ''));
     }
 
 
-    if (hoggarinput.hogarDataTypes[key] === 'Repeater' && Array.isArray(value)) {
+    if (hoggarinput.hoggarDataTypes[key] === 'Repeater' && Array.isArray(value)) {
   value.forEach((item, i) => {
     Object.entries(item).forEach(([subKey, subValue]) => {
 
@@ -132,7 +132,7 @@ function insert(action) {
   });
 
  
-  router.post(hoggarcreate.settings.hogarValidationUrl, formData, {
+  router.post(hoggarcreate.settings.hoggarValidationUrl, formData, {
     forceFormData: true,
     onError: (errors) => {
       hoggarinput.setError(errors);

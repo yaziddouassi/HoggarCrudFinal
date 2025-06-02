@@ -5,16 +5,16 @@ export const HoggarInput = defineStore('counter', {
   state: () => ({
     errors: {}, 
     nom: 'hello wesh',
-    hogarRecordInput: {},
-    hogarDataUrlStorage: '',
-    hogarDataDefaultValues: {},
-    hogarDataLabels: {},
-    hogarDataValues: {},
-    hogarDataFields: {},
-    hogarDataTypes: {},
-    hogarDataOptions: {},
-    hogarDataNullables: {},
-    hogarNoDatabases: {},
+    hoggarRecordInput: {},
+    hoggarDataUrlStorage: '',
+    hoggarDataDefaultValues: {},
+    hoggarDataLabels: {},
+    hoggarDataValues: {},
+    hoggarDataFields: {},
+    hoggarDataTypes: {},
+    hoggarDataOptions: {},
+    hoggarDataNullables: {},
+    hoggarNoDatabases: {},
     tempUrls: {},
     tempUrlTabs: {},
     existingFiles: {},
@@ -48,12 +48,12 @@ export const HoggarInput = defineStore('counter', {
 setRepeaterLines(a, b) {
   Object.entries(a).forEach(([key, value]) => {
 
-   if (!this.hogarDataValues[key]) {
-      this.hogarDataValues[key] = [];
+   if (!this.hoggarDataValues[key]) {
+      this.hoggarDataValues[key] = [];
     }
 
-    if (this.hogarDataValues[key]) {
-      this.hogarDataValues[key] = [];
+    if (this.hoggarDataValues[key]) {
+      this.hoggarDataValues[key] = [];
     }
 
     if (!this.repeaterLines[key]) {
@@ -91,8 +91,8 @@ setRepeaterLines(a, b) {
     // Générer les lignes avec un ID unique et les ajouter avec push
     for (let i = 0; i < a[key]['numberOflines']; i++) {
 
-      if (!this.hogarDataValues[key][i]) {
-      this.hogarDataValues[key][i] = [] ;
+      if (!this.hoggarDataValues[key][i]) {
+      this.hoggarDataValues[key][i] = [] ;
     } 
 
      if (!this.repeaterLines[key][i]) {
@@ -100,7 +100,7 @@ setRepeaterLines(a, b) {
     }
 
       Object.entries(b[key]).forEach(([key2, value2]) => {
-        this.hogarDataValues[key][i][key2] = value2['value']
+        this.hoggarDataValues[key][i][key2] = value2['value']
         this.repeaterLines[key][i][key2] = value2
      
         
@@ -123,16 +123,16 @@ setRepeaterLines2(repeaters, values, repeaterFields) {
 
     // Initialise les structures
     this.repeaterLines[key] = []
-    this.hogarDataValues[key] = []
+    this.hoggarDataValues[key] = []
     this.repeaterOrders[key] = Object.keys(fields)
 
     lignes.forEach((ligne, index) => {
       this.repeaterLines[key][index] = {}
-      this.hogarDataValues[key][index] = {}
+      this.hoggarDataValues[key][index] = {}
 
       Object.entries(fields).forEach(([champ, configChamp]) => {
         const valeur = ligne[champ] ?? ''
-        this.hogarDataValues[key][index][champ] = valeur
+        this.hoggarDataValues[key][index][champ] = valeur
         this.repeaterLines[key][index][champ] = {
           ...configChamp,
           value: valeur
@@ -207,12 +207,12 @@ addRepeaterLine(a,b) {
 
 
     resetDatas() {
-      Object.entries(this.hogarDataDefaultValues).forEach(([key, value]) => {
+      Object.entries(this.hoggarDataDefaultValues).forEach(([key, value]) => {
         // 🛠 Corrige les valeurs de type checkbox multiple (string JSON → tableau JS)
-        if (this.hogarDataTypes[key] === 'CheckBoxMultiple') {
-          this.hogarDataValues[key] = this.parseArray(value)
+        if (this.hoggarDataTypes[key] === 'CheckBoxMultiple') {
+          this.hoggarDataValues[key] = this.parseArray(value)
         } else {
-          this.hogarDataValues[key] = value
+          this.hoggarDataValues[key] = value
         }
 
         this.tempUrls[key] = null
@@ -223,7 +223,7 @@ addRepeaterLine(a,b) {
     },
 
     initTempUrls() {
-      Object.entries(this.hogarDataDefaultValues).forEach(([key, value]) => {
+      Object.entries(this.hoggarDataDefaultValues).forEach(([key, value]) => {
         this.tempUrls[key] = null
         this.tempUrlTabs[key] = []
         this.existingFiles[key] = []

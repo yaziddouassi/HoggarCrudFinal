@@ -31,15 +31,15 @@ use Hoggarcrud\Hoggar\Fields\Number;
 class CreatorController extends WizardCreate
 {
     
-    public   \$hogarDataModelLabel = '$b' ;
-    public   \$hogarDataModelTitle = 'Create $b' ;
-    public   \$hogarDataRouteListe = '/admin/$c';
-    public   \$hogarModelClass = 'App\Models\\$a';
-    public   \$hogarModelClassName = '$a';
-    public   \$hogarDataUrlCreate = '/admin/$c/create' ;
-    public   \$hogarValidationUrl = '/admin/$c/create/validation' ;
+    public   \$hoggarDataModelLabel = '$b' ;
+    public   \$hoggarDataModelTitle = 'Create $b' ;
+    public   \$hoggarDataRouteListe = '/admin/$c';
+    public   \$hoggarModelClass = 'App\Models\\$a';
+    public   \$hoggarModelClassName = '$a';
+    public   \$hoggarDataUrlCreate = '/admin/$c/create' ;
+    public   \$hoggarValidationUrl = '/admin/$c/create/validation' ;
 
-    public   \$hogarShowOther = true ;
+    public   \$hoggarShowOther = true ;
     public   \$wizardCount = 2 ;
     public   \$wizardForm = [1 => ['name'], 2 => ['age']];
     public   \$wizardLabel = [1 => 'first', 2 => 'second'];
@@ -68,11 +68,11 @@ class CreatorController extends WizardCreate
             \$request->validate(['age' => ['required']]);
         }
 
-        \$this->hogarRecord = new  \$this->hogarModelClass; 
+        \$this->hoggarRecord = new  \$this->hoggarModelClass; 
 
         if (\$request->saveActive == 'yes') {
             \$this->createRecord( \$request);
-            \$this->hogarRecord->save();
+            \$this->hoggarRecord->save();
         }
         
         
@@ -85,8 +85,8 @@ class CreatorController extends WizardCreate
         return Inertia::render('HoggarPages/Crud/$a/Creator', [
             'routes' =>  \Hoggarcrud\Hoggar\Models\Hoggarcrud::where('active',true)->get(),
             'user' => Auth::user(),
-            'hogarInputs'  => \$this->hogarInputs ,
-            'hogarSettings'  => \$this->hogarSettings,
+            'hoggarInputs'  => \$this->hoggarInputs ,
+            'hoggarSettings'  => \$this->hoggarSettings,
             'wizardForm' => \$this->wizardForm,
             'wizardLabel' => \$this->wizardLabel,
             'wizardCount' => \$this->wizardCount,
@@ -126,13 +126,13 @@ use Hoggarcrud\Hoggar\Fields\Number;
 class UpdatorController extends HoggarUpdate
 {
 
-    public   \$hogarDataModelLabel = '$b' ;
-    public   \$hogarDataModelTitle = 'Update $b' ;
-    public   \$hogarDataRouteListe = '/admin/$c';
-    public   \$hogarModelClass = 'App\Models\\$a';
-    public   \$hogarModelClassName = '$a';
-    public   \$hogarDataUrlCreate = '/admin/$c/create' ;
-    public   \$hogarValidationUrl = '/admin/$c/updator/validation' ;
+    public   \$hoggarDataModelLabel = '$b' ;
+    public   \$hoggarDataModelTitle = 'Update $b' ;
+    public   \$hoggarDataRouteListe = '/admin/$c';
+    public   \$hoggarModelClass = 'App\Models\\$a';
+    public   \$hoggarModelClassName = '$a';
+    public   \$hoggarDataUrlCreate = '/admin/$c/create' ;
+    public   \$hoggarValidationUrl = '/admin/$c/updator/validation' ;
 
     public   \$wizardCount = 2 ;
     public   \$wizardForm = [1 => ['name'], 2 => ['age']];
@@ -159,11 +159,11 @@ class UpdatorController extends HoggarUpdate
             \$request->validate(['age' => ['required']]);
         }
 
-        \$this->hogarRecord = \$this->hogarModelClass::find(\$request->id);
+        \$this->hoggarRecord = \$this->hoggarModelClass::find(\$request->id);
 
-        if (\$request->saveActive == 'yes' && \$this->hogarRecord) {
+        if (\$request->saveActive == 'yes' && \$this->hoggarRecord) {
             \$this->updateRecord(\$request);
-            \$this->hogarRecord->save();
+            \$this->hoggarRecord->save();
         }
        
 
@@ -172,14 +172,14 @@ class UpdatorController extends HoggarUpdate
 
      public function checkRecord(Request \$request)
 {
-    \$Record = \$this->hogarModelClass::find(\$request->id);
+    \$Record = \$this->hoggarModelClass::find(\$request->id);
     
     if (\$Record === null) {
-        return redirect(\$this->hogarDataRouteListe);
+        return redirect(\$this->hoggarDataRouteListe);
     }
 
-    \$this->hogarRecordInput = new Collection();
-    \$this->hogarRecordInput = \$Record;
+    \$this->hoggarRecordInput = new Collection();
+    \$this->hoggarRecordInput = \$Record;
 
     return null; // Return null to indicate no redirection needed
 }
@@ -199,9 +199,9 @@ public function index(Request \$request)
     return Inertia::render('HoggarPages/Crud/$a/Updator', [
         'routes' =>  \Hoggarcrud\Hoggar\Models\Hoggarcrud::where('active',true)->get(), 
         'user' => Auth::user(),
-        'hogarRecordInput' => \$this->hogarRecordInput,
-        'hogarInputs'  => \$this->hogarInputs ,
-        'hogarSettings'  => \$this->hogarSettings,
+        'hoggarRecordInput' => \$this->hoggarRecordInput,
+        'hoggarInputs'  => \$this->hoggarInputs ,
+        'hoggarSettings'  => \$this->hoggarSettings,
         'wizardForm' => \$this->wizardForm,
         'wizardLabel' => \$this->wizardLabel,
         'wizardCount' => \$this->wizardCount,
@@ -239,13 +239,13 @@ use Illuminate\Database\Eloquent\Collection;
 class ListingController extends Listing
 {
   
-    public   \$hogarDataModelLabel = '$b' ;
-    public   \$hogarDataModelTitle = 'Create $b' ;
-    public   \$hogarDataRouteListe = '/admin/$c';
-    public   \$hogarModelClass = 'App\Models\\$a';
-    public   \$hogarModelClassName = '$a';
-    public   \$hogarDataUrlCreate = '/admin/$c/create' ;
-    public   \$hogarDataUrlCheckRecord = '/admin/$c/CheckRecord' ;
+    public   \$hoggarDataModelLabel = '$b' ;
+    public   \$hoggarDataModelTitle = 'Create $b' ;
+    public   \$hoggarDataRouteListe = '/admin/$c';
+    public   \$hoggarModelClass = 'App\Models\\$a';
+    public   \$hoggarModelClassName = '$a';
+    public   \$hoggarDataUrlCreate = '/admin/$c/create' ;
+    public   \$hoggarDataUrlCheckRecord = '/admin/$c/CheckRecord' ;
     public   \$urlDelete = '/admin/$c/delete';
     public   \$paginationPerPageList = [1,2,3,4] ;
     public   \$orderByFieldList = ['id'] ;
@@ -285,7 +285,7 @@ class ListingController extends Listing
     public function action1(Request \$request)
         {  
 
-        \$this->hogarModelClass::whereIn('id',\$request->actionIds )->update([
+        \$this->hoggarModelClass::whereIn('id',\$request->actionIds )->update([
                 'name' => 'Fiat',
             ]);
 
@@ -294,7 +294,7 @@ class ListingController extends Listing
   
         public function checkRecord(Request \$request)
         {  
-            \$record = \$this->hogarModelClass::find(\$request->id) ;
+            \$record = \$this->hoggarModelClass::find(\$request->id) ;
 
             if (!\$record) {
                 return response()->json([
@@ -319,14 +319,14 @@ class ListingController extends Listing
                 'name' => ['required'],
             ]);
 
-            \$this->hogarModelClass::where('id',\$request->id )->update([
+            \$this->hoggarModelClass::where('id',\$request->id )->update([
                 'name' => \$request->name,
             ]);
         } 
 
     public function delete(Request \$request)
         {  
-            \$this->hogarModelClass::destroy(\$request->id );
+            \$this->hoggarModelClass::destroy(\$request->id );
         } 
 
 
@@ -339,12 +339,12 @@ class ListingController extends Listing
             'items' => \$this->tables,
             'user' => Auth::user(),
             'routes' =>  \Hoggarcrud\Hoggar\Models\Hoggarcrud::where('active',true)->get(),
-            'hogarSettings'  => \$this->hogarSettings,
+            'hoggarSettings'  => \$this->hoggarSettings,
             'allFilters' => \$this->allFilters,
             'customFilters' => \$this->customFilters,
             'sessionFilter' => \$this->sessionFilter,
             'groupActions' =>  \$this->groupActions ,
-            'hogarDataUrlCheckRecord' => \$this->hogarDataUrlCheckRecord,
+            'hoggarDataUrlCheckRecord' => \$this->hoggarDataUrlCheckRecord,
             'customs' => \$this->customs,
         ]);
     }

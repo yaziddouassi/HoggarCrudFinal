@@ -16,7 +16,7 @@
           type="checkbox"
           class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
           :value="option"
-          v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
+          v-model="hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3]"
         />
         <label class="text-sm">
           {{ labels[index] }}
@@ -71,15 +71,15 @@ function tab1InclutTab2(tab1, tab2) {
 
 // 🛠️ Corrige les données mal castées
 onMounted(() => {
-  const currentValue = hoggarinput.hogarDataValues?.[props.cle]?.[props.cle2]?.[props.cle3]
+  const currentValue = hoggarinput.hoggarDataValues?.[props.cle]?.[props.cle2]?.[props.cle3]
   if (typeof currentValue === 'string') {
     try {
       const parsed = JSON.parse(currentValue)
       if (Array.isArray(parsed)) {
-        hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = parsed
+        hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3] = parsed
       }
     } catch {
-      hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = []
+      hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3] = []
     }
   }
 })
@@ -87,7 +87,7 @@ onMounted(() => {
 // 🧼 Vide si string vide
 
 watch(
-  () => hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3],
+  () => hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3],
   (newValue) => {
     const allowed = hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]?.contents || []
 
@@ -96,7 +96,7 @@ watch(
     const isValid = isArray && newValue.every(item => allowed.includes(item))
 
     if (!isValid) {
-      hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = []
+      hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3] = []
     }
   },
   { immediate: true }

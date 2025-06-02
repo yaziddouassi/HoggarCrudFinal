@@ -28,9 +28,9 @@
     <!-- Boutons -->
     <div class="flex gap-[5px]">
       <button class="bg-[black] pr-[16px] pl-[16px] p-[8px] text-white h-[44px]">
-        {{ hoggarlisting.settings.hogarDataModelLabel }}
+        {{ hoggarlisting.settings.hoggarDataModelLabel }}
       </button>
-      <Link :href="hoggarlisting.settings.hogarDataUrlCreate" @click="hoggarinput.resetError()" class="block">
+      <Link :href="hoggarlisting.settings.hoggarDataUrlCreate" @click="hoggarinput.resetError()" class="block">
         <button class="bg-[blue] pr-[16px] pl-[16px] p-[8px] text-white h-[44px]">
           New
         </button>
@@ -82,7 +82,7 @@ if(search.value != '') {
 
    if(isValue) {
 
-       hoggar[hoggarlisting.settings.hogarModelClassName].search = search.value
+       hoggar[hoggarlisting.settings.hoggarModelClassName].search = search.value
        localStorage.setItem('hoggar', JSON.stringify(hoggar))
        hoggarinfo.setRoutes(page.props.routes)
   
@@ -90,7 +90,7 @@ if(search.value != '') {
 
      else if(!isValue) {
 
-      delete  hoggar[hoggarlisting.settings.hogarModelClassName].search 
+      delete  hoggar[hoggarlisting.settings.hoggarModelClassName].search 
           localStorage.setItem('hoggar', JSON.stringify(hoggar))
           hoggarinfo.setRoutes(page.props.routes)
 
@@ -112,7 +112,7 @@ if(search.value != '') {
 
 else if(search.value == '') {
 
-          delete  hoggar[hoggarlisting.settings.hogarModelClassName].search 
+          delete  hoggar[hoggarlisting.settings.hoggarModelClassName].search 
           localStorage.setItem('hoggar', JSON.stringify(hoggar))
           hoggarinfo.setRoutes(page.props.routes)
 
@@ -142,7 +142,7 @@ function rezetInput() {
   const isValue = Object.values(hoggarinfo.sessionFilter).includes('search');
 
   search.value = ''
-  delete  hoggar[hoggarlisting.settings.hogarModelClassName].search 
+  delete  hoggar[hoggarlisting.settings.hoggarModelClassName].search 
           localStorage.setItem('hoggar', JSON.stringify(hoggar))
           hoggarinfo.setRoutes(page.props.routes)
 

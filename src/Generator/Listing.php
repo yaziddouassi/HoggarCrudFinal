@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class Listing extends Controller
 {
-      public $hogarSettings = [] ;
+    public $hoggarSettings = [] ;
     public $allFilters = ['search' => 'search', 'paginationPerPage' => 'paginationPerPage',
      'orderByField' => 'orderByField', 'orderDirection' => 'orderDirection'];
     public $customFilters = [] ;
@@ -23,17 +23,17 @@ class Listing extends Controller
     public $customs = [] ;
    
     function __construct() {
-        $this->hogarSettings['hogarDataUrlStorage'] =  config('hoggar.urlstorage');
-        $this->hogarSettings['hogarDataModelLabel'] =  $this->hogarDataModelLabel ;
-        $this->hogarSettings['hogarDataModelTitle'] =  $this->hogarDataModelTitle ;
-        $this->hogarSettings['hogarDataRouteListe'] =  $this->hogarDataRouteListe ;
-        $this->hogarSettings['hogarDataUrlCreate'] =  $this->hogarDataUrlCreate ;
-        $this->hogarSettings['hogarModelClass'] =  $this->hogarModelClass ;
-        $this->hogarSettings['hogarModelClassName'] =  $this->hogarModelClassName ;
-        $this->hogarSettings['paginationPerPageList'] =  $this->paginationPerPageList ;
-        $this->hogarSettings['orderByFieldList'] =  $this->orderByFieldList ;
-        $this->hogarSettings['orderDirectionList'] =  $this->orderDirectionList ;
-        $this->hogarSettings['urlDelete'] =  $this->urlDelete ;
+        $this->hoggarSettings['hoggarDataUrlStorage'] =  config('hoggar.urlstorage');
+        $this->hoggarSettings['hoggarDataModelLabel'] =  $this->hoggarDataModelLabel ;
+        $this->hoggarSettings['hoggarDataModelTitle'] =  $this->hoggarDataModelTitle ;
+        $this->hoggarSettings['hoggarDataRouteListe'] =  $this->hoggarDataRouteListe ;
+        $this->hoggarSettings['hoggarDataUrlCreate'] =  $this->hoggarDataUrlCreate ;
+        $this->hoggarSettings['hoggarModelClass'] =  $this->hoggarModelClass ;
+        $this->hoggarSettings['hoggarModelClassName'] =  $this->hoggarModelClassName ;
+        $this->hoggarSettings['paginationPerPageList'] =  $this->paginationPerPageList ;
+        $this->hoggarSettings['orderByFieldList'] =  $this->orderByFieldList ;
+        $this->hoggarSettings['orderDirectionList'] =  $this->orderDirectionList ;
+        $this->hoggarSettings['urlDelete'] =  $this->urlDelete ;
         
     }
 
@@ -89,7 +89,7 @@ class Listing extends Controller
         $this->customFilters['Labels'] =  $this->tabFilterLabels ;
         $this->customFilters['Types'] =  $this->tabFilterTypes ;
         $this->customFilters['Options'] =  $this->tabFilterOptions;
-        $this->queryFilter = $this->hogarModelClass::select('*');
+        $this->queryFilter = $this->hoggarModelClass::select('*');
         $this->initQuery($request);
        
     

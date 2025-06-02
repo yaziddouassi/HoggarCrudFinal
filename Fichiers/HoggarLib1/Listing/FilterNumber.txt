@@ -83,12 +83,12 @@ function replaceQuery() {
 
     if (hasValue) {
       if (isValue) {
-        hoggar[hoggarlisting.settings.hogarModelClassName][props.cle] = myInput.value
+        hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle] = myInput.value
       } else {
-        delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+        delete hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle]
       }
     } else {
-      delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+      delete hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle]
     }
 
     localStorage.setItem('hoggar', JSON.stringify(hoggar))
@@ -116,7 +116,7 @@ function rezetInput() {
   const hoggar = JSON.parse(localStorage.getItem('hoggar'))
 
   myInput.value = null
-  delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+  delete hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle]
 
   localStorage.setItem('hoggar', JSON.stringify(hoggar))
   hoggarinfo.setRoutes(page.props.routes)

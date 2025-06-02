@@ -17,7 +17,7 @@
             :id="`${props.cle}-${props.cle2}-${props.cle3}-${index}`"
             :name="`${props.cle}-${props.cle2}-${props.cle3}-${index}`"
             :value="option"
-            v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
+            v-model="hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3]"
             class="accent-darkblue"
           />
           <label :for="`${props.cle}-${props.cle2}-${props.cle3}-${index}`">
@@ -53,11 +53,11 @@
   const hoggarinput = HoggarInput()
 
 watch(
-  () => hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3],
+  () => hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3],
   (newValue) => {
     const options = hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['contents'] || []
     if (!options.includes(newValue)) {
-      hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = ''
+      hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3] = ''
     }
   },
   { immediate: true }

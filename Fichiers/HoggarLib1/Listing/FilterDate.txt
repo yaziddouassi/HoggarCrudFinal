@@ -75,9 +75,9 @@
   
     if (myInput.value !== '') {
       if (isValue) {
-        hoggar[hoggarlisting.settings.hogarModelClassName][props.cle] = myInput.value
+        hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle] = myInput.value
       } else {
-        delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+        delete hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle]
       }
   
       localStorage.setItem('hoggar', JSON.stringify(hoggar))
@@ -95,7 +95,7 @@
       })
   
     } else {
-      delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+      delete hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle]
       localStorage.setItem('hoggar', JSON.stringify(hoggar))
       hoggarinfo.setRoutes(page.props.routes)
   
@@ -117,7 +117,7 @@
     const isValue = Object.values(hoggarinfo.sessionFilter).includes(props.cle)
   
     myInput.value = ''
-    delete hoggar[hoggarlisting.settings.hogarModelClassName][props.cle]
+    delete hoggar[hoggarlisting.settings.hoggarModelClassName][props.cle]
     localStorage.setItem('hoggar', JSON.stringify(hoggar))
     hoggarinfo.setRoutes(page.props.routes)
   

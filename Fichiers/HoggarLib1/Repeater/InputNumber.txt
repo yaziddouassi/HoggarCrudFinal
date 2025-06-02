@@ -9,7 +9,7 @@
         <input
           class="w-full bg-[#E8E8E8] h-[42px] border-[darkblue] border-[1px]"
           type="number"
-          v-model.number="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
+          v-model.number="hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3]"
           
            :step="hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['step']"
            :min="hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['min'] !== 'infinite' ? 

@@ -42,7 +42,7 @@ const props = defineProps({
 
 const hoggarinput = HoggarInput();
 const editorContainer = ref(null);
-const content = ref(hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]);
+const content = ref(hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3]);
 let quill = null;
 
 // Couleurs personnalisées
@@ -115,13 +115,13 @@ onMounted(() => {
   quill.on("text-change", () => {
     const html = quill.root.innerHTML.trim();
     content.value = html === "<p><br></p>" ? "" : html;
-    hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = content.value;
+    hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3] = content.value;
     adjustEditorHeight();
   });
 });
 
 watch(
-  () => hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3],
+  () => hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3],
   (newValue) => {
     if (quill && newValue !== quill.root.innerHTML) {
       content.value = newValue;

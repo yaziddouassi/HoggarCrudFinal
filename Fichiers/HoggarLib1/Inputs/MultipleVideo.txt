@@ -68,7 +68,7 @@ const acceptedFormats = 'image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt
 
 // Vérification si la clé contient bien un tableau
 if (!Array.isArray(hoggarinput.hoggarDataValues[props.cle])) {
-  hoggarinput.hogarDataValues[props.cle] = [];
+  hoggarinput.hoggarDataValues[props.cle] = [];
 }
 
 // Détecte le type de fichier pour l'affichage

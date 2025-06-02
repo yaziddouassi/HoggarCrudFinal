@@ -10,7 +10,7 @@
         <select
           class="w-full bg-[#E8E8E8] h-[50px] border-[darkblue] border-[1px]
           text-center"
-          v-model="hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3]"
+          v-model="hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3]"
         >
           <option value="">-- Select --</option>
           <option
@@ -53,11 +53,11 @@
 
 
 watch(
-  () => hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3],
+  () => hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3],
   (newValue) => {
     const options = hoggarinput.repeaterLines[props.cle][props.cle2][props.cle3]['contents'] || []
     if (!options.includes(newValue)) {
-      hoggarinput.hogarDataValues[props.cle][props.cle2][props.cle3] = ''
+      hoggarinput.hoggarDataValues[props.cle][props.cle2][props.cle3] = ''
     }
   },
   { immediate: true }

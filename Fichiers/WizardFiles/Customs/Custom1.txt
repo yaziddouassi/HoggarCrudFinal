@@ -98,7 +98,7 @@ const loading = ref(true);
 
 const fetchRecord = async () => {
   try {
-    const url = Page.props.hogarDataUrlCheckRecord;
+    const url = Page.props.hoggarDataUrlCheckRecord;
 
     const response = await fetch(url, {
       method: 'POST',
