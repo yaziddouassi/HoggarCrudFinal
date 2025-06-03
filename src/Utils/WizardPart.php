@@ -235,6 +235,9 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Hoggarcrud\Hoggar\Generator\Listing;
 use Illuminate\Database\Eloquent\Collection;
+use Hoggarcrud\Hoggar\Filters\FilterText;
+use Hoggarcrud\Hoggar\Actions\Action ;
+use Hoggarcrud\Hoggar\Customs\CustomAction ;
 
 class ListingController extends Listing
 {
@@ -255,7 +258,9 @@ class ListingController extends Listing
 
     public function customFilterList(Request \$request)
         {
-            \$this->addFilter('Text',['field' => 'name']);
+            \$this->filterList([
+                FilterText::make('name'),
+            ]);
             
         }
 
@@ -268,19 +273,18 @@ class ListingController extends Listing
     
     public function initAction(Request \$request)
         {
-            \$this->addAction('action1',
-            ['label'=> 'Ajouter','icon' => 'description','class' => 'text-[red]',
-            'url' => '/admin/$c/action1',
-            'confirmation' => 'voulez-vous Ajouter ces records' ,
-            'message' => 'records ajouter' ]);
+           \$this->ActionList([
+               Action::make('action1')
+                 ->params([
+                    'label' => 'Ajouter',
+                    'icon' => 'description',
+                    'class' => 'text-[red]',
+                    'url' => '/admin/$c/action1',
+                    'confirmation' => 'voulez-vous Ajouter ces records',
+                    'message' => 'records ajoutés'
+                 ])
+            ]);
         }
-
-
-    public function initCustom(Request \$request)
-        {
-            \$this->addCustom('custom1','/admin/$c/custom1');
-        }
-
 
     public function action1(Request \$request)
         {  
@@ -290,6 +294,28 @@ class ListingController extends Listing
             ]);
 
         }
+
+
+    public function initCustom(Request \$request)
+        {
+            \$this->CustomActionList([
+                CustomAction::make('custom1')
+                    ->url('/admin/$c/custom1') 
+            ]);
+        }
+
+
+     public function custom1(Request \$request)
+        {  
+
+            \$request->validate([
+                'name' => ['required'],
+            ]);
+
+            \$this->hoggarModelClass::where('id',\$request->id )->update([
+                'name' => \$request->name,
+            ]);
+        } 
     
   
         public function checkRecord(Request \$request)
@@ -312,17 +338,7 @@ class ListingController extends Listing
 
         }    
         
-    public function custom1(Request \$request)
-        {  
-
-            \$request->validate([
-                'name' => ['required'],
-            ]);
-
-            \$this->hoggarModelClass::where('id',\$request->id )->update([
-                'name' => \$request->name,
-            ]);
-        } 
+   
 
     public function delete(Request \$request)
         {  

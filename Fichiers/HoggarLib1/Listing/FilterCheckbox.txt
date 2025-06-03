@@ -1,4 +1,4 @@
-<template>
+<template> 
   <div>
     <div>
       {{ capitalizeFirstLetter(props.cle) }}
@@ -12,12 +12,10 @@
         @change="replaceQuery"
         class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
       />
-      <label :for="props.cle" class="text-sm text-gray-700">
-        Activer le filtre
-      </label>
+      
+      <span> &nbsp; &nbsp;  &nbsp; </span>
 
       <button
-        v-if="myInput"
         @click="rezetInput"
         type="button"
         class="text-gray-400 hover:text-gray-600"
@@ -64,7 +62,6 @@ if (params.has(props.cle)) {
 }
 
 function replaceQuery() {
-
   hoggarlisting.actionIds = []
   hoggarinfo.show2 = false
 
@@ -100,8 +97,7 @@ function replaceQuery() {
     const params = new URLSearchParams(url.search)
 
     params.delete('page')
-    // 👇 Nouvelle ligne : garder le filtre même à false
-    params.set(props.cle, false)
+    params.set(props.cle, false) // Optionnel si tu veux laisser `false`
 
     router.visit(`${url.pathname}?${params.toString()}`, {
       method: 'get',
@@ -121,7 +117,7 @@ function rezetInput() {
   const params = new URLSearchParams(url.search)
 
   params.delete('page')
-  params.set(props.cle, false) // 👈 même ici, garder la clé avec false
+  params.delete(props.cle) // 👈 Supprimer complètement le paramètre de l’URL
 
   router.visit(`${url.pathname}?${params.toString()}`, {
     method: 'get',

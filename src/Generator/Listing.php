@@ -37,6 +37,46 @@ class Listing extends Controller
         
     }
 
+
+
+
+      public function filterList(array $fields): void
+      {
+
+        foreach ($fields as $field) {
+
+            $field->registerTo($this);   
+ 
+       }
+
+     }
+
+
+      public function ActionList(array $fields): void
+      {
+
+        foreach ($fields as $field) {
+
+            $field->registerTo($this);   
+ 
+       }
+
+     }
+
+      public function CustomActionList(array $fields): void
+      {
+
+        foreach ($fields as $field) {
+
+            $field->registerTo($this);   
+ 
+       }
+
+     }
+
+
+
+
     public function addFilter($a,$b) {
         $this->tabFilterFields[$b['field']] = $b['field'] ;
         $this->tabFilterLabels[$b['field']] = $b['field'] ;

@@ -16,7 +16,7 @@
           :key="option"
           :value="option"
         >
-          {{ hoggarinput.hoggarDataOptions[props.cle]?.labels[index] || option }}
+          {{ hoggarinput.hoggarDataOptions[props.cle]?.labels[index] }}
         </option>
       </select>
     </div>

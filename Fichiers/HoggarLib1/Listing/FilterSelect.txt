@@ -13,11 +13,11 @@
         >
           <option value="">-- Select --</option>
           <option
-            v-for="(option, index) in hoggarinfo.customFilters.Options[props.cle].Contents"
+            v-for="(option, index) in hoggarinfo.customFilters.Options[props.cle].contents"
             :key="index"
             :value="option"
           >
-            {{ hoggarinfo.customFilters.Options[props.cle].Titles[index] }}
+            {{ hoggarinfo.customFilters.Options[props.cle].titles[index] }}
           </option>
         </select>
   
