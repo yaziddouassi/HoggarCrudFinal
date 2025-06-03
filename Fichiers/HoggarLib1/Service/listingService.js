@@ -21,7 +21,6 @@ export function listingService() {
    hoggarinfo.sessionFilter = page.props.sessionFilter
    hoggarinfo.show = false
 
-    console.log(page.props)
   }
 
  

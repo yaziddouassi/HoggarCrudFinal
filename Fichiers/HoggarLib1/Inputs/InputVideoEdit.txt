@@ -20,7 +20,7 @@
     <div v-if="!UnionExtensions.
       some(ext => hoggarinput.hoggarRecordInput[props.cle]?.toLowerCase().endsWith(ext))"
     class="mt-2 text-gray-700 text-sm">
-      <span class="font-semibold">{{ hoggarinput.hogarRecordInput[props.cle] }}  </span>
+      <span class="font-semibold">{{ hoggarinput.hoggarRecordInput[props.cle] }}  </span>
     </div>
 
     <div v-if="audioExtensions.
@@ -132,7 +132,6 @@ const audioExtensions = ['.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a', '.wma'
 const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp', '.tiff', '.ico'];
 
 const UnionExtensions = [...videoExtensions,...audioExtensions,...imageExtensions];
-console.log(UnionExtensions) ;
 
 // Watch for progress updates from Creator.vue
 watch(() => props.progress, (newProgress) => {

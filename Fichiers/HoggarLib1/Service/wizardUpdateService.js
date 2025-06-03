@@ -51,7 +51,6 @@ export function wizardUpdateService() {
         currentRoute = page.props.hoggarSettings.hoggarDataRouteListe
       }
    
-    console.log(page.props)
   }
 
   function checkNullable() {
@@ -67,7 +66,6 @@ export function wizardUpdateService() {
 
       if (existing.length === 0 && temps.length === 0) {
         temoin++;
-        console.log(`Champ requis vide : ${champ}`);
       }
     }
   });

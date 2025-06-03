@@ -49,8 +49,6 @@ export function wizardCreateService() {
         currentRoute = page.props.hoggarSettings.hoggarDataRouteListe
      }
 
-   
-    console.log(page.props)
   }
 
 

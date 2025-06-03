@@ -97,7 +97,7 @@ const handleFileSelection = (event) => {
     hoggarinput.hoggarDataValues[props.cle] = file;
     hoggarinput.tempUrls[props.cle] = URL.createObjectURL(file)
   } else {
-    hoggarinput.hogarDataValues[props.cle] = '';
+    hoggarinput.hoggarDataValues[props.cle] = '';
     hoggarinput.tempUrls[props.cle] = '' ;
   }
 };

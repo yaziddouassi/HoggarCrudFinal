@@ -109,7 +109,6 @@ const handleFileSelection = (event) => {
     hoggarinput.hoggarDataValues[props.cle].push(file);
   });
 
-  console.log("Nouveaux fichiers uploadés:", hoggarinput.hoggarDataValues[props.cle]);
 };
 
 // Supprimer un fichier existant

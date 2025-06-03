@@ -47,7 +47,7 @@ const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
      })
 
   } else {
-    console.log( hoggarlisting.actionIds);
+    
   }
 }
 

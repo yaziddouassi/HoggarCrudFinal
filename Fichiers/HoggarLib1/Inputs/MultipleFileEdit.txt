@@ -132,8 +132,6 @@ const removedFiles = ref([]);
 // Formats de fichiers acceptés
 const acceptedFormats = 'image/*,audio/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.txt';
 
-console.log(hoggarinput.hoggarDataNullables)
-
 onMounted(() => {
   if (hoggarinput.hoggarRecordInput[props.cle]) {
     hoggarinput.existingFiles[props.cle] = JSON.parse(hoggarinput.hoggarRecordInput[props.cle] || '[]');
@@ -172,7 +170,6 @@ const handleFileSelection = (event) => {
     }
   });
 
-  console.log("Fichiers sélectionnés :", hoggarinput.hoggarDataValues[props.cle]);
 };
 
 
@@ -185,7 +182,6 @@ const removeExistingFile = (filePath) => {
     let recordInputArray = JSON.parse(hoggarinput.hoggarRecordInput[props.cle] || '[]');
     recordInputArray = recordInputArray.filter(file => file !== filePath);
     hoggarinput.hoggarRecordInput[props.cle] = JSON.stringify(recordInputArray);
-    console.log(hoggarinput.hoggarRecordInput[props.cle]);
   }
 };
 

@@ -21,7 +21,6 @@ const props = defineProps({
 })
 
 const Page = usePage()
-//console.log(Page.props.hogarSettings.urlDelete)
 const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
 function deleteRecord() {
 

@@ -138,7 +138,6 @@ onMounted(() => {
     hoggarinput.existingFiles[props.cle] = JSON.parse(hoggarinput.hoggarRecordInput[props.cle] || '[]');
   }
 
-  console.log(hoggarinput.existingFiles[props.cle]);
 });
 
 
@@ -153,8 +152,6 @@ const audioExtensions = ['.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a', '.wma'
 const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp', '.tiff', '.ico'];
 
 const UnionExtensions = [...videoExtensions,...audioExtensions,...imageExtensions];
-console.log(UnionExtensions) ;
-
 
 // Détecte le type de fichier pour l'affichage
 const isImage = (file) => file.type.startsWith('image/');
@@ -173,7 +170,6 @@ const handleFileSelection = (event) => {
     }
   });
 
-  console.log("Fichiers sélectionnés :", hoggarinput.hoggarDataValues[props.cle]);
 };
 
 
@@ -186,7 +182,6 @@ const removeExistingFile = (filePath) => {
     let recordInputArray = JSON.parse(hoggarinput.hoggarRecordInput[props.cle] || '[]');
     recordInputArray = recordInputArray.filter(file => file !== filePath);
     hoggarinput.hoggarRecordInput[props.cle] = JSON.stringify(recordInputArray);
-    console.log(hoggarinput.hoggarRecordInput[props.cle]);
   }
 };
 

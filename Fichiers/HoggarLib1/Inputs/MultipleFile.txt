@@ -87,7 +87,6 @@ const handleFileSelection = (event) => {
     }
   });
 
-  console.log("Fichiers sélectionnés :", hoggarinput.hoggarDataValues[props.cle]);
 };
 
 // Suppression d'un fichier

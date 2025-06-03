@@ -132,7 +132,6 @@ const audioExtensions = ['.mp3', '.wav', '.ogg', '.flac', '.aac', '.m4a', '.wma'
 const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp', '.tiff', '.ico'];
 
 const UnionExtensions = [...videoExtensions,...audioExtensions,...imageExtensions];
-console.log(UnionExtensions) ;
 
 // Watch for progress updates from Creator.vue
 watch(() => props.progress, (newProgress) => {

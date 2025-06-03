@@ -43,7 +43,6 @@ if(currentRoute == undefined) {
   currentRoute = page.props.hoggarSettings.hoggarDataRouteListe
 }
    
-    console.log(page.props)
   }
 
 

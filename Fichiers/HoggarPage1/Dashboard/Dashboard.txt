@@ -83,7 +83,6 @@
 const hoggarinfo = HoggarInfo();
 
 hoggarinfo.setRoutes(props.routes)
-console.log(hoggarinfo.routes);
 
   </script>
   

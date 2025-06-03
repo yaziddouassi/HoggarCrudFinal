@@ -46,9 +46,6 @@ if(currentRoute == undefined) {
   currentRoute = page.props.hoggarSettings.hoggarDataRouteListe
 }
 
-
-
-    console.log(page.props)
   }
 
 
@@ -67,7 +64,6 @@ function checkNullable() {
 
     if (existing.length === 0 && temps.length === 0) {
       temoin++;
-      console.log(`Champ requis vide : ${champ}`);
     }
   });
 

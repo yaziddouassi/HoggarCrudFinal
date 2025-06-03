@@ -158,11 +158,6 @@ const hoggarinput = HoggarInput()
 const page = usePage()
 
 
-console.log(hoggarinput.hoggarDataValues['ville'],hoggarinput.repeaterLines['ville'],
-  page.props.hogarInputs.hoggarRepeaterFields['ville']
-)
-
-
 // 👉 Ajouter une ligne répétable
 function addLine() {
 

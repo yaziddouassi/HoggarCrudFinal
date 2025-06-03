@@ -52,7 +52,6 @@
 import { HoggarInput } from '@/HoggarLibs/stores/hoggarinput';
 
 const hoggarinput = HoggarInput();
-console.log(hoggarinput.wizardLabel)
 
 </script>
 

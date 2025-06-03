@@ -77,7 +77,7 @@ const form = useForm({
 })
 
 function changeForm(record) {
-  form.name = record.name
+ // form.name = record.name
 }
 
 
@@ -113,7 +113,6 @@ const fetchRecord = async () => {
     });
 
     const data = await response.json();
-    console.log(data);
 
     if (data.success == false) {
       const notyf = new Notyf({ position: { x: 'right', y: 'top' } });
