@@ -5,6 +5,7 @@ namespace Hoggarcrud\Hoggar\Fields;
 class Repeater
 {
     protected string $field;
+    protected bool $noDatabase = false;
     protected int $numberOflines = 1;
     protected int $grille = 1;
     protected int $minLine = 0;
@@ -64,6 +65,12 @@ class Repeater
         return $this;
     }
 
+    public function notInDatabase(): self
+    {
+        $this->noDatabase = true;
+        return $this;
+    }
+
     // ✅ méthode `form()` qui stocke simplement les champs internes
     public function form(array $fields): self
     {
@@ -90,7 +97,12 @@ class Repeater
         $generator->tabOptions[$this->field] = $a;
         $generator->tabRepeaters[$this->field] = $a;
 
+        if ($this->noDatabase) {
+            $generator->tabNodatabases[$this->field] = $this->field;
+        }
+
         $this->generation = $generator;
+
 
         // ✅ Enregistrement des champs internes du repeater au bon moment
         foreach ($this->nestedFields as $field) {
@@ -118,6 +130,10 @@ class Repeater
         $generator->tabTypes[$this->field] = 'Repeater';
         $generator->tabOptions[$this->field] = $a;
         $generator->tabRepeaters[$this->field] = $a;
+
+        if ($this->noDatabase) {
+            $generator->tabNodatabases[$this->field] = $this->field;
+        }
 
         $this->generation = $generator;
 
