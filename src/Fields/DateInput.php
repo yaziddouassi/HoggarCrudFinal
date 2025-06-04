@@ -1,7 +1,7 @@
 <?php
 namespace Hoggarcrud\Hoggar\Fields;
 
-class Date
+class DateInput
 {
     protected string $field;
     protected string $label;

@@ -19,12 +19,6 @@ class Hidden
         return $instance;
     }
 
-    public function label(string $label): self
-    {
-        $this->label = $label;
-        return $this;
-    }
-
     public function value($value): self
     {
         $this->default = $value;
