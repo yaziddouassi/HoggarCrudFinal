@@ -80,20 +80,7 @@
       </div>
 
       <div class="p-[5px] pl-[15px] mt-[10px] bg-[#111]" v-show="open">
-        <div class="text-[20px]">
-          <Link href="/admin/crud-generator">
-            <span class="material-icons text-[16px]">auto_stories</span>
-            CRUD
-          </Link>
-        </div>
-
-        <div class="text-[20px]">
-          <Link href="/admin/wizard-generator">
-            <span class="material-icons text-[16px]">currency_rupee</span>
-            WIZARD
-          </Link>
-        </div>
-
+        
         <div class="text-[20px]">
           <Link href="/admin/route-generator">
             <span class="material-icons text-[18px]">local_car_wash</span>

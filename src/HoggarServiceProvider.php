@@ -27,6 +27,8 @@ class HoggarServiceProvider extends ServiceProvider
         $this->commands([
             \Hoggarcrud\Hoggar\Commands\HoggarCommand::class,
             \Hoggarcrud\Hoggar\Commands\CreateUser::class,
+            \Hoggarcrud\Hoggar\Commands\MakeCrudCommand::class,
+            \Hoggarcrud\Hoggar\Commands\MakeWizardCommand::class,
         ]);
     }
 }
