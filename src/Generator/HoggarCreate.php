@@ -50,7 +50,7 @@ class HoggarCreate extends Controller
 
     public function initHoggarInputs() {
 
-        $this->hoggarInputs['hoggarDataUrlStorage'] =  env('HOGGAR_STORAGE_URL');
+        $this->hoggarInputs['hoggarDataUrlStorage'] =  config('hoggar.storage_url');
         $this->hoggarInputs['hoggarDataFields'] = $this->tabFields ;
         $this->hoggarInputs['hoggarDataLabels'] = $this->tabLabels ;
         $this->hoggarInputs['hoggarDataTypes'] = $this->tabTypes ;
@@ -89,7 +89,7 @@ class HoggarCreate extends Controller
                     if ($request->hasFile($key)) {
                         $file = $request->file($key);
                         $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                        $file->storeAs('uploads', $uniqueName, env('HOGGAR_STORAGE_DISK'));
+                        $file->storeAs('uploads', $uniqueName, config('hoggar.storage_disk'));
                         $path = 'uploads/' . $uniqueName ;
                         $this->hoggarRecord->$key = $path;
                     }
@@ -99,7 +99,7 @@ class HoggarCreate extends Controller
                     if ($request->hasFile($key)) {
                         foreach ($request->file($key) as $file) {
                             $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                            $file->storeAs('uploads', $uniqueName, env('HOGGAR_STORAGE_DISK'));
+                            $file->storeAs('uploads', $uniqueName, config('hoggar.storage_disk'));
                             $path = 'uploads/' . $uniqueName ;
                             $temp[] = $path;
                         }
