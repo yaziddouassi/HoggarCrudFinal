@@ -48,7 +48,7 @@ class HoggarUpdate extends Controller
 
     public function initHoggarInputs() {
 
-        $this->hoggarInputs['hoggarDataUrlStorage'] =  config('hoggar.urlstorage');
+        $this->hoggarInputs['hoggarDataUrlStorage'] =  env('HOGGAR_STORAGE_URL');
         $this->hoggarInputs['hoggarDataFields'] = $this->tabFields ;
         $this->hoggarInputs['hoggarDataLabels'] = $this->tabLabels ;
         $this->hoggarInputs['hoggarDataTypes'] = $this->tabTypes ;
@@ -156,7 +156,7 @@ public function setFieldValue($a,$b) {
                         if ($request->hasFile($key)) {
                             $file = $request->file($key);
                             $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                            $file->storeAs('uploads', $uniqueName, 'public');
+                            $file->storeAs('uploads', $uniqueName, env('HOGGAR_STORAGE_DISK'));
                             $path = 'uploads/' . $uniqueName ;
                             
                             $this->hoggarRecord->$key = $path;
@@ -174,7 +174,7 @@ public function setFieldValue($a,$b) {
                     foreach ($value as $file) {
                       
                         $uniqueName = Str::uuid() . '.' . $file->getClientOriginalName();
-                        $path = $file->storeAs('uploads', $uniqueName, 'public');
+                        $path = $file->storeAs('uploads', $uniqueName, env('HOGGAR_STORAGE_DISK'));
                         array_push($tab1, $path);
                     }
                  }
