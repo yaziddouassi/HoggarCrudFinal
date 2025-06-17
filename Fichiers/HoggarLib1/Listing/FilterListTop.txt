@@ -26,7 +26,7 @@
           class="cursor-pointer px-4 py-2 bg-black text-white rounded-lg shadow"
           @click="rezetActionIds()"
         >
-          Reset Tabs
+          Clear Tabs
         </div>
 
         <div class="p-2 rounded" v-if="hoggarlisting.actionIds.length">
@@ -46,7 +46,7 @@
           class="border-[1px] border-black p-2 rounded cursor-pointer"
           @click="confirmRezetFilter"
         >
-          Reset Filters
+          Clear Filters
         </div>
 
         <div
