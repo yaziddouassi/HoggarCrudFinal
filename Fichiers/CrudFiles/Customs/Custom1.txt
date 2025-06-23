@@ -76,7 +76,7 @@ const form = useForm({
   name: null,
 })
 
-function changeForm(record) {
+function initForm(record) {
 //  form.name = record.name
 }
 
@@ -122,7 +122,7 @@ const fetchRecord = async () => {
     }
 
     if (data.success == true) {
-      changeForm(data.data)
+      initForm(data.data)
       show.value = true;
     }
    

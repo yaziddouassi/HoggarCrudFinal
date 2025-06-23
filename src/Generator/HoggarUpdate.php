@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Collection;
 
 class HoggarUpdate extends Controller
 {
@@ -253,6 +254,22 @@ elseif (in_array($this->tabTypes[$key], $this->arrayTypes9)) {
             }
         }
     }
+}
+
+
+
+     public function hoggarcheckRecord(Request $request)
+{
+    $Record = $this->hoggarModelClass::find($request->id);
+    
+    if ($Record === null) {
+        return redirect($this->hoggarDataRouteListe); // Return the redirection
+    }
+
+    $this->hoggarRecordInput = new Collection();
+    $this->hoggarRecordInput = $Record;
+
+    return null; // Return null to indicate no redirection needed
 }
 
 

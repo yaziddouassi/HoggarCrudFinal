@@ -172,16 +172,7 @@ class UpdatorController extends HoggarUpdate
 
      public function checkRecord(Request \$request)
 {
-    \$Record = \$this->hoggarModelClass::find(\$request->id);
-    
-    if (\$Record === null) {
-        return redirect(\$this->hoggarDataRouteListe);
-    }
-
-    \$this->hoggarRecordInput = new Collection();
-    \$this->hoggarRecordInput = \$Record;
-
-    return null; // Return null to indicate no redirection needed
+      return \$this->hoggarcheckRecord(\$request) ;
 }
 
 public function index(Request \$request)
@@ -320,22 +311,7 @@ class ListingController extends Listing
   
         public function checkRecord(Request \$request)
         {  
-            \$record = \$this->hoggarModelClass::find(\$request->id) ;
-
-            if (!\$record) {
-                return response()->json([
-                    'success' => false,
-                    'data' => [],
-                    'message' => 'Enregistrement introuvable.',
-                ], 404);
-            }
-        
-            return response()->json([
-                'success' => true,
-                'data' => \$record,
-            ]);
-
-
+           return \$this->hoggarcheckRecord(\$request);
         }    
         
    

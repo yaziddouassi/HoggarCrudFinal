@@ -96,6 +96,29 @@ class Listing extends Controller
      {
        // Méthode volontairement vide, pour être overridée par les enfants
      }
+
+
+    public function hoggarcheckRecord(Request $request)
+        {  
+            $record = $this->hoggarModelClass::find($request->id) ;
+
+            if (!$record) {
+                return response()->json([
+                    'success' => false,
+                    'data' => [],
+                    'message' => 'Enregistrement introuvable.',
+                ], 404);
+            }
+        
+            return response()->json([
+                'success' => true,
+                'data' => $record,
+            ]);
+
+
+        }    
+
+
     
     public function allInit($request) {
 
