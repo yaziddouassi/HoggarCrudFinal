@@ -1,7 +1,7 @@
 
 # 🧱 Hoggar - Laravel Inertia CRUD Generator
 
-**Hoggar** is a full-featured CRUD generator package built with Laravel + Inertia.js + Vue 3. It comes with powerful tools such as Pinia for state management, Quill.js for rich text editing, and Chart.js for data visualization.
+**Hoggar** is a full-featured CRUD generator package built with Laravel + Inertia.js + Vue 3. It comes with powerful tools such as Pinia for state management, Quill.js for rich text editing, and Chart.js for data visualization. Here is the web site https://laravel-hoggar.dev
 
 ---
 
@@ -91,15 +91,9 @@ Update your `resources/views/app.blade.php`:
 
 ---
 
-### 4. Add License Key to `.env`
 
-```env
-GUMROAD_LICENSE_KEY=your-key-here
-```
 
----
-
-### 5. Storage Configuration (example for `public` disk)
+### 4. Storage Configuration (example for `public` disk)
 
 ```env
 HOGGAR_STORAGE_DISK=public
@@ -108,7 +102,7 @@ HOGGAR_STORAGE_URL=http://127.0.0.1:8000/storage/
 
 ---
 
-### 6. Install Hoggar
+### 5. Install Hoggar
 
 ```bash
 composer require hoggarcrud/hoggar
@@ -120,7 +114,7 @@ php artisan storage:link
 
 ---
 
-### 7. Create Admin User
+### 6. Create Admin User
 
 ```bash
 php artisan make:hoggar-user

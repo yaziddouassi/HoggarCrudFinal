@@ -27,7 +27,7 @@ class HoggarCommand extends Command
     public function handle()
     {
 
-        
+ /*       
 $licenseKey = env('GUMROAD_LICENSE_KEY');
 
 // Vérifie si la clé de licence est définie
@@ -59,7 +59,7 @@ if ($uses > $maxUses) {
     $this->error('❌ Licence already used');
     return Command::FAILURE;
 }
-      
+      */
         // Continuer avec l’installation du package...
 
 
