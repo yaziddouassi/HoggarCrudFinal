@@ -15,17 +15,17 @@
      </div>
 
    <div class="text-right pt-[8px] pr-[4px]">
-      <a href="/admin/crud-generator" wire:navigate >
+      <Link href="/admin" wire:navigate >
       <button class="bg-[blue] border border-white w-[80px] rounded-[3px] p-[7px] text-[20px]">
-         CRUD
-      </button></a>&nbsp;
-      <a href="/admin/wizard-generator" wire:navigate >
+         Admin
+      </button></Link>&nbsp;
+      <Link href="/admin/route-generator" wire:navigate >
       <button class="border border-white  w-[90px] rounded-[3px] p-[7px] text-[20px]">
            <span>
-            Wizard
+            Router
          </span>  
       </button> 
-     </a>
+   </Link>
    </div>
 </div> 
 </div>
@@ -34,6 +34,7 @@
 
 <script setup>
 import { usePage } from '@inertiajs/vue3';
+import {Link} from '@inertiajs/vue3';
 
 const page = usePage()
 
